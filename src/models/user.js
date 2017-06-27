@@ -10,27 +10,130 @@ const Schema = mongoose.Schema;
 /**
  * @swagger
  * definition:
- *   User:
+ *   Period:
+ *     type: object
  *     properties:
- *       email:
- *         type: string
+ *      start:
+ *        type: string
+ *        format: date-time
+ *      finish:
+ *        type: string
+ *        format: date-time
+ *   Account:
+ *     type: object
+ *     properties:
+ *      number:
+ *        type: integer
+ *      type:
+ *        type: string
+ *        description: MASTERCARD, VISA, AMERICANEXPRESS
+ *   Experience:
+ *     type: object
+ *     properties:
+ *      company:
+ *        type: string
+ *      position:
+ *        type: string
+ *      period:
+ *        $ref: '#/definitions/Period'
+ *   Language:
+ *     type: object
+ *     properties:
+ *      name:
+ *        type: string
+ *      level:
+ *        type: integer
+ *   SocialNetwork:
+ *     type: object
+ *     properties:
+ *      name:
+ *        type: string
+ *      idToken:
+ *        type: string
+ *   Study:
+ *     type: object
+ *     properties:
+ *      institution:
+ *        type: string
+ *      degree:
+ *        type: string
+ *      period:
+ *        $ref: '#/definitions/Period'
+ *   Accounts:
+ *     type: array
+ *     items:
+ *      $ref: '#/definitions/Account'
+ *   Experiences:
+ *     type: array
+ *     items:
+ *      $ref: '#/definitions/Experience'
+ *   Education:
+ *     type: array
+ *     items:
+ *      $ref: '#/definitions/Study'
+ *   Languages:
+ *     type: array
+ *     items:
+ *      $ref: '#/definitions/Language'
+ *   SocialNetworks:
+ *     type: array
+ *     items:
+ *      $ref: '#/definitions/SocialNetwork'
+ *   PublicFields:
+ *     type: array
+ *     items:
+ *       type: string
+ *   BlockList:
+ *     type: array
+ *     items:
+ *       type: string
+ *   User:
+ *     type: object
+ *     properties:
  *       firstName:
  *         type: string
- *       password:
+ *       lastName:
+ *         type: string
+ *       email:
  *         type: string
  *       bornAt:
  *         type: string
  *         format: date-time
+ *       image:
+ *         type: string
+ *       password:
+ *         type: string
+ *       deviceToken:
+ *         type: string
+ *       accounts:
+ *         $ref: '#/definitions/Accounts'
+ *       blockList:
+ *         $ref: '#/definitions/BlockList'
+ *       experiences:
+ *         $ref: '#/definitions/Experiences'
+ *       education:
+ *         $ref: '#/definitions/Education'
+ *       languages:
+ *         $ref: '#/definitions/Languages'
+ *       socialNetworks:
+ *         $ref: '#/definitions/SocialNetworks'
+ *       publicFields:
+ *         $ref: '#/definitions/PublicFields'
  *     required:
- *       - email
  *       - firstName
+ *       - lastName
+ *       - email
  *       - password
  */
 
 const UserSchema = new Schema({
   firstName: {
     type: String,
-    required: true,
+    required: "firstName is a required field",
+  },
+  lastName: {
+    type: String,
+    required: "lastName is a required field",
   },
   email: {
     type: String,
@@ -44,14 +147,79 @@ const UserSchema = new Schema({
     sparse: true,
     trim: true,
   },
-  password: {
-    required: true,
-    type: String,
-  },
   bornAt: {
     type: Date,
     default: new Date(),
   },
+  image: {
+    type: String,
+  },
+  password: {
+    required: true,
+    type: String,
+  },
+  deviceToken: {
+    type: String,
+  },
+  location: {
+    type: String,
+  },
+  accounts: [
+    {
+      number: Number,
+      type: {
+        type: String,
+        enum: ["VISA", "MASTERCARD", "AMERICANEXPRESS"],
+      },
+    },
+  ],
+  blockList: [
+    {
+      type: String,
+      ref: "User",
+    },
+  ],
+  experiences: [
+    {
+      company: String,
+      position: String,
+      period: {
+        start: Date,
+        finish: Date,
+      },
+    },
+  ],
+  education: [
+    {
+      institution: String,
+      degree: String,
+      period: {
+        start: Date,
+        finish: Date,
+      },
+    },
+  ],
+  languages: [
+    {
+      name: String,
+      level: {
+        type: Number,
+        min: 1,
+        max: 5,
+      },
+    },
+  ],
+  socialNetworks: [
+    {
+      name: String,
+      token: String,
+    },
+  ],
+  publicFields: [
+    {
+      type: String,
+    },
+  ],
 
 }, {
   timestamps: true,
@@ -78,7 +246,6 @@ UserSchema.methods = {
 
 UserSchema.pre('save', function (next) {
   if (!this.isModified('password')) return next();
-
   this.password = crypto.createHash('md5').update(this.password).digest('hex');
   next();
 });

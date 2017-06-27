@@ -3,8 +3,6 @@ import validate from 'express-validation';
 
 import User from '../controllers/user';
 import userValidator from '../services/param_validations/user';
-import * as Post from '../controllers/post';
-import postValidator from '../services/param_validations/post';
 import { catchErrors } from '../helpers/errors';
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -24,9 +22,5 @@ router.route('/users/login')
 
 router.route('/users/me')
   .get(validate(userValidator.readByMe), catchErrors(User.validate), User.readByMe);
-
-router.route('/posts')
-  .get(validate(postValidator.readAll), catchErrors(Post.readAll))
-  .post(validate(postValidator.create), catchErrors(Post.create));
 
 export default router;
