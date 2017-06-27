@@ -19,6 +19,17 @@ const Schema = mongoose.Schema;
  *      finish:
  *        type: string
  *        format: date-time
+ *   Location:
+ *    type: object
+ *    properties:
+ *      coordinates:
+ *        type: array
+ *        items:
+ *          type: number
+ *          format: float
+ *      lastUpdate:
+ *        type: string
+ *        format: date-time
  *   Account:
  *     type: object
  *     properties:
@@ -26,7 +37,6 @@ const Schema = mongoose.Schema;
  *        type: integer
  *      type:
  *        type: string
- *        description: MASTERCARD, VISA, AMERICANEXPRESS
  *   Experience:
  *     type: object
  *     properties:
@@ -105,6 +115,8 @@ const Schema = mongoose.Schema;
  *         type: string
  *       deviceToken:
  *         type: string
+ *       location:
+ *         $ref: '#/definitions/Location'
  *       accounts:
  *         $ref: '#/definitions/Accounts'
  *       blockList:
@@ -129,11 +141,11 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   firstName: {
     type: String,
-    required: "firstName is a required field",
+    required: 'firstName is a required field',
   },
   lastName: {
     type: String,
-    required: "lastName is a required field",
+    required: 'lastName is a required field',
   },
   email: {
     type: String,
@@ -162,21 +174,25 @@ const UserSchema = new Schema({
     type: String,
   },
   location: {
-    type: String,
+    coordinates: {
+      type: [Number],
+      index: '2dsphere',
+    },
+    lastUpdate: Date,
   },
   accounts: [
     {
       number: Number,
       type: {
         type: String,
-        enum: ["VISA", "MASTERCARD", "AMERICANEXPRESS"],
+        enum: ['VISA', 'MASTERCARD', 'AMERICANEXPRESS'],
       },
     },
   ],
   blockList: [
     {
       type: String,
-      ref: "User",
+      ref: 'User',
     },
   ],
   experiences: [
@@ -245,8 +261,12 @@ UserSchema.methods = {
 };
 
 UserSchema.pre('save', function (next) {
-  if (!this.isModified('password')) return next();
-  this.password = crypto.createHash('md5').update(this.password).digest('hex');
+  if (this.isModified('password')) {
+    this.password = crypto.createHash('md5').update(this.password).digest('hex');
+  }
+  if (this.isModified('location')) {
+    this.location.lastUpdate = Date.now();
+  }
   next();
 });
 
