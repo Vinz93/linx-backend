@@ -23,3 +23,7 @@ export function upload() {
   });
   return multer({ storage }).single('file');
 }
+
+export function average(items, n) {
+  return items.reduce((acum, act) => acum + act) / n;
+}

@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 import validate from 'mongoose-validator';
 import paginate from 'mongoose-paginate';
 import uniqueValidator from 'mongoose-unique-validator';
-import fieldRemover from 'mongoose-field-remover';
 import crypto from 'crypto';
+import { average } from '../helpers/utils';
 
 const Schema = mongoose.Schema;
 
@@ -19,6 +19,25 @@ const Schema = mongoose.Schema;
  *      finish:
  *        type: string
  *        format: date-time
+ *   Rate:
+ *     type: object
+ *     properties:
+ *      rate:
+ *        type: integer
+ *      from:
+ *        type: string
+ *   Reputation:
+ *     type: object
+ *     properties:
+ *      rates:
+ *        type: array
+ *        items:
+ *          $ref: '#/definitions/Rate'
+ *      average:
+ *        type: integer
+ *        format: float
+ *      totalRates:
+ *        type: integer
  *   Location:
  *    type: object
  *    properties:
@@ -129,6 +148,8 @@ const Schema = mongoose.Schema;
  *         $ref: '#/definitions/Languages'
  *       socialNetworks:
  *         $ref: '#/definitions/SocialNetworks'
+ *       reputation:
+ *         $ref: '#/definitions/Reputation'
  *       publicFields:
  *         $ref: '#/definitions/PublicFields'
  *     required:
@@ -231,6 +252,23 @@ const UserSchema = new Schema({
       token: String,
     },
   ],
+  reputation: {
+    rates: [{
+      rate: Number,
+      from: {
+        type: String,
+        ref: 'User',
+      },
+    }],
+    average: {
+      type: Number,
+      default: 0,
+    },
+    totalRates: {
+      type: Number,
+      default: 0,
+    },
+  },
   publicFields: [
     {
       type: String,
@@ -240,7 +278,17 @@ const UserSchema = new Schema({
 }, {
   timestamps: true,
   toObject: { virtuals: true },
-  toJSON: { virtuals: true },
+  toJSON: {
+    virtuals: true,
+    transform(doc, ret) {
+      delete ret.password;
+      delete ret.__v;
+      delete ret.deviceToken;
+      delete ret.socialNetworks;
+      delete ret.reputation.rates;
+      return ret;
+    },
+  },
 });
 
 UserSchema.virtual('age').get(function () {
@@ -267,10 +315,15 @@ UserSchema.pre('save', function (next) {
   if (this.isModified('location')) {
     this.location.lastUpdate = Date.now();
   }
+  if (this.isModified('reputation.rates')) {
+    this.reputation.totalRates = this.reputation.rates.length;
+    const rates = this.reputation.rates.map(item => item.rate);
+    this.reputation.average = average(rates, this.reputation.rates.length);
+  }
   next();
 });
 
-UserSchema.plugin(fieldRemover, 'password __v');
+
 UserSchema.plugin(uniqueValidator);
 UserSchema.plugin(paginate);
 

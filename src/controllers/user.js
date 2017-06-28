@@ -116,7 +116,7 @@ const UserController = {
     if (!user) throw new APIError('User not found.', httpStatus.NOT_FOUND);
     user.set(req.body);
     await user.save();
-    res.status(httpStatus.NO_CONTENT).end();
+    res.status(httpStatus.OK).json(user);
   },
   /**
    * @swagger
