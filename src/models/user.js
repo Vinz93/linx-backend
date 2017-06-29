@@ -179,6 +179,7 @@ const UserSchema = new Schema({
     uniqueCaseInsensitive: true,
     sparse: true,
     trim: true,
+    lowercase: true,
   },
   bornAt: {
     type: Date,
@@ -193,6 +194,7 @@ const UserSchema = new Schema({
   },
   deviceToken: {
     type: String,
+    required: 'You must supply a devicetoken!',
   },
   location: {
     type: {
@@ -278,6 +280,10 @@ const UserSchema = new Schema({
       type: String,
     },
   ],
+  verified: {
+    type: Boolean,
+    default: false,
+  },
 
 }, {
   timestamps: true,
@@ -288,6 +294,7 @@ const UserSchema = new Schema({
       delete ret.password;
       delete ret.__v;
       delete ret.deviceToken;
+      delete ret.verified;
       delete ret.socialNetworks;
       delete ret.reputation.rates;
       return ret;

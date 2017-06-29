@@ -10,16 +10,18 @@ let should = chai.should();
 
 describe('User Model', () => {
   before(done => {
-    const connection = mongoose.connect('mongodb://localhost:27017/template_test');
+    const connection = mongoose.connect('mongodb://localhost:27017/linx-testing');
     User.remove({})
-      .then(() => {
+      .then(() => (
         User.create({
           email: 'unique@gmail.com',
-          firstName: 'Sr. Tester',
-          password: 'secret',
+          firstName: 'Test',
+          lastName: 'test',
+          password: 'Secret123.',
+          deviceToken: 'ouiuoiuoiu.ij',
         })
-        .then(() => done());
-      })
+      ))
+      .then(() => done())
       .catch(err => console.log(err));
   });
 
@@ -28,16 +30,18 @@ describe('User Model', () => {
 
   describe('fields and virtuals', () => {
 
-    it('Email, password and firstName are required', done => {
+    it('Email, password, lastName and firstName are required', done => {
       const user = new User({
         bornAt: Date.now(),
       });
       user.validate(err => {
         err.should.to.be.ok;
         err.should.have.property('errors');
-        err.errors.should.have.property('email');
         err.errors.should.have.property('firstName');
+        err.errors.should.have.property('lastName');
+        err.errors.should.have.property('email');
         err.errors.should.have.property('password');
+        err.errors.should.have.property('deviceToken');
         done();
       });
     });
@@ -67,10 +71,11 @@ describe('User Model', () => {
     });
 
     it('email field should be unique', done => {
-      const user = new User({
+      const user1 = new User({
         email: 'unique@gmail.com',
       });
       user.validate(err => {
+        console.log(err.errors);
         err.should.to.be.ok;
         err.should.have.property('errors');
         err.errors.should.have.property('email');
@@ -79,6 +84,24 @@ describe('User Model', () => {
         done();
       });
     });
+
+    it('Virtual fields (age, location.lastUpdate, reputation.average)', done => {
+      User.create({
+        email: 'unique@gmail.com',
+        firstName: 'Test',
+        lastName: 'test',
+        password: 'Secret123.',
+        deviceToken: 'ouiuoiuoiu.ij',
+      })
+      .then(user => {
+        user.should.have.property('age');
+        user.location.should.have.property('lastUpdate');
+        user.reputation.should.have.property('average');
+        user.reputation.should.have.property('totalRates');
+        done();
+      })
+    });
+
   });
 
 });
