@@ -195,10 +195,14 @@ const UserSchema = new Schema({
     type: String,
   },
   location: {
-    coordinates: {
-      type: [Number],
-      index: '2dsphere',
+    type: {
+      type: String,
+      default: 'Point',
     },
+    coordinates: [{
+      type: Number,
+      required: 'You must supply coordinates!',
+    }],
     lastUpdate: Date,
   },
   accounts: [
@@ -290,6 +294,8 @@ const UserSchema = new Schema({
     },
   },
 });
+
+UserSchema.index({ location: '2dsphere' });
 
 UserSchema.virtual('age').get(function () {
   const today = new Date();

@@ -21,7 +21,7 @@ export default {
       deviceToken: Joi.string().required(),
       location: Joi.object()
         .keys({
-          coordinates: Joi.array().items(Joi.number()),
+          coordinates: Joi.array().items(Joi.number()).required(),
         }),
       accounts: Joi.array().items(
         Joi.object()
