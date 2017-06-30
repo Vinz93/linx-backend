@@ -2,6 +2,7 @@ import path from 'path';
 
 export const dbConfig = {
   db: 'mongodb://localhost/linx',
+  passportSecret: 'yo78boom90',
 };
 
 export const appConfig = {
