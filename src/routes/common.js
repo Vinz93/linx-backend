@@ -1,5 +1,10 @@
 import express from 'express';
 import validate from 'express-validation';
+import passport from 'passport';
+
+import passportService from '../services/passport';
+const requireAuth = passport.authenticate('jwt', { session: false });
+const requireSignin = passport.authenticate('local', { session: false });
 
 import User from '../controllers/user';
 import userValidator from '../services/param_validations/user';
@@ -17,10 +22,10 @@ router.route('/users')
 router.route('/users/:id')
   .patch(validate(userValidator.update), catchErrors(User.update));
 
-router.route('/users/login')
-  .post(validate(userValidator.login), catchErrors(User.login));
+router.route('/users/signin')
+  .post(requireSignin, User.signin);
 
 router.route('/users/me')
-  .get(validate(userValidator.readByMe), catchErrors(User.validate), User.readByMe);
+  .get(requireAuth, User.readByMe);
 
 export default router;

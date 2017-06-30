@@ -120,7 +120,7 @@ const UserController = {
   },
   /**
    * @swagger
-   * /users/login:
+   * /users/signin:
    *   post:
    *     tags:
    *      - User
@@ -143,24 +143,8 @@ const UserController = {
    *         description: returns user token'
    */
 
-  async login(req, res) {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) throw new APIError('user not found', httpStatus.NOT_FOUND);
-    if (!user.authenticate(req.body.password)) {
-      throw new APIError('wrong password', httpStatus.BAD_REQUEST);
-    }
-    return res.json({
-      token: createJwt(user),
-    });
-  },
-
-  async validate(req, res, next) {
-    const token = req.get('Authorization');
-    const { id } = await verifyJwt(token);
-    const user = await User.findById(id);
-    if (!user) throw new APIError('User not found', httpStatus.UNAUTHORIZED);
-    res.locals.user = user;
-    next();
+  signin(req, res) {
+    res.json({ jwt: createJwt(req.user), profile: req.user });
   },
 
   /**
@@ -184,7 +168,7 @@ const UserController = {
    */
 
   readByMe(req, res) {
-    return res.json(res.locals.user);
+    return res.json(req.user);
   },
 
 };
