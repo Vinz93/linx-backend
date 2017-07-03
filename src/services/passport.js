@@ -23,13 +23,12 @@ const localLogin = new LocalStrategy(localOptions, async (email, password, done)
 });
 
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromHeader('Authorization'),
+  jwtFromRequest: ExtractJwt.fromAuthHeader(),
   secretOrKey: dbConfig.passportSecret,
 };
 
 const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
   try {
-    console.log('this is teh payload', payload);
     const user = await User.findById(payload.id);
     if (!user) return done(null, false);
     done(null, user);

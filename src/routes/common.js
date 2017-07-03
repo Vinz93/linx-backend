@@ -23,7 +23,7 @@ router.route('/users/:id')
   .patch(validate(userValidator.update), catchErrors(User.update));
 
 router.route('/users/signin')
-  .post(requireSignin, User.signin);
+  .post(validate(userValidator.signin), requireSignin, User.signin);
 
 router.route('/users/me')
   .get(requireAuth, User.readByMe);
