@@ -171,6 +171,10 @@ const UserController = {
     return res.json(req.user);
   },
 
+  linkedin(req, res) {
+    return res.json(req);
+  },
+
 };
 
 export default UserController;
