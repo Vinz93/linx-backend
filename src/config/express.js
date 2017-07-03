@@ -7,6 +7,8 @@ import methodOverride from 'method-override';
 import nodemailer from 'nodemailer';
 import swaggerDoc from 'swagger-jsdoc';
 import swaggerTools from 'swagger-tools';
+import passport from 'passport';
+import session from 'express-session';
 
 import errorMessages from '../services/middlewares/error_messages';
 import errorResponse from '../services/middlewares/error_response';
@@ -41,6 +43,13 @@ if (appConfig.env === 'development' || appConfig.env === 'testing') {
 }
 
 app.use(bodyParser.json());
+app.use(session({
+  secret: 'SECRET',
+  resave: false,
+  saveUninitialized: true,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cors());
 
 app.use(appConfig.path, routes);
