@@ -2,7 +2,7 @@ import httpStatus from 'http-status';
 
 import { paginate } from '../helpers/utils';
 import { APIError } from '../helpers/errors';
-import { createJwt, verifyJwt } from '../services/jwt';
+import { createJwt } from '../services/jwt';
 import User from '../models/user';
 
 const UserController = {

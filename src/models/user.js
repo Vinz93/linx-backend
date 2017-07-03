@@ -189,7 +189,6 @@ const UserSchema = new Schema({
     type: String,
   },
   password: {
-    required: true,
     type: String,
   },
   deviceToken: {
