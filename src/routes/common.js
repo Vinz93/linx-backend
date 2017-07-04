@@ -2,7 +2,7 @@ import express from 'express';
 import validate from 'express-validation';
 import passport from 'passport';
 
-import passportService from '../services/passport';
+import '../services/passport';
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
 const linkedinOAuth = passport.authenticate('linkedin');
