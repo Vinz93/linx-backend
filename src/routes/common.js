@@ -9,6 +9,8 @@ const linkedinOAuth = passport.authenticate('linkedin');
 
 import User from '../controllers/user';
 import userValidator from '../services/param_validations/user';
+import Zone from '../controllers/zone';
+import zoneValidator from '../services/param_validations/zone';
 import { catchErrors } from '../helpers/errors';
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -34,6 +36,10 @@ router.route('/auth/linkedin')
 
 router.route('/auth/linkedin/callback')
   .get(linkedinOAuth, User.linkedin);
+
+router.route('/zones')
+  .get(validate(zoneValidator.readAll), catchErrors(Zone.readAll))
+  .post(validate(zoneValidator.create), catchErrors(Zone.create));
 
 
 export default router;
