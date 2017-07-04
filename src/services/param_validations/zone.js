@@ -19,7 +19,10 @@ export default {
       type: Joi.string(),
       geometry: Joi.object()
         .keys({
-          coordinates: Joi.array().items(Joi.number()).required(),
+          coordinates: Joi.array().items(
+            Joi.array().items(
+              Joi.array().items(Joi.number()))
+          ).required(),
         }),
     },
   },

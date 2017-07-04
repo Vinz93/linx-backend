@@ -50,10 +50,7 @@ const ZoneSchema = new Schema({
       type: String,
       default: 'Polygon',
     },
-    coordinates: [{
-      type: Number,
-      required: 'You must supply coordinates!',
-    }],
+    coordinates: [],
   },
 }, {
   timestamps: true,
@@ -64,4 +61,4 @@ const ZoneSchema = new Schema({
 ZoneSchema.index({ geometry: '2dsphere' });
 ZoneSchema.plugin(paginate);
 
-export default mongoose.model('User', ZoneSchema);
+export default mongoose.model('Zone', ZoneSchema);
