@@ -69,6 +69,8 @@ export default {
           idToken: Joi.string(),
         })
       ),
+      verified: Joi.boolean(),
+      headline: Joi.string(),
       publicFields: Joi.array().items(Joi.string()),
     },
   },
@@ -144,6 +146,8 @@ export default {
             })
           ),
         }),
+      verified: Joi.boolean(),
+      headline: Joi.string(),
       publicFields: Joi.array().items(Joi.string()),
     },
   },

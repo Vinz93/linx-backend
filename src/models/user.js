@@ -283,6 +283,9 @@ const UserSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  headline: {
+    type: String,
+  },
 
 }, {
   timestamps: true,
