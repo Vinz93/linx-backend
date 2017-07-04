@@ -2,6 +2,7 @@ import path from 'path';
 
 export const dbConfig = {
   db: 'mongodb://localhost/linx',
+  passportSecret: 'yo78boom90',
 };
 
 export const appConfig = {
@@ -21,5 +22,16 @@ export const mailer = {
   auth: {
     user: 'solsteace@solsteace.com',
     pass: 'vinotinto2016',
+  },
+};
+
+export const passport = {
+  linkedin: {
+    apiKey: '78adk076r633k1',
+    secretKey: 'n5rsDNshjjhObhDs',
+  },
+  facebook: {
+    apiKey: '',
+    secretKey: '',
   },
 };
