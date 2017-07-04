@@ -134,6 +134,8 @@ const Schema = mongoose.Schema;
  *         type: string
  *       deviceToken:
  *         type: string
+ *       headline:
+ *         type: string
  *       location:
  *         $ref: '#/definitions/Location'
  *       accounts:
@@ -255,6 +257,7 @@ const UserSchema = new Schema({
     {
       name: String,
       token: String,
+      contacts: [String],
     },
   ],
   reputation: {

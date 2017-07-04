@@ -171,8 +171,22 @@ const UserController = {
     return res.json(req.user);
   },
 
+  /**
+   * @swagger
+   * /auth/linkedin:
+   *   get:
+   *     tags:
+   *      - User
+   *     description: signin linkedin
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: user information'
+   */
+
   linkedin(req, res) {
-    return res.json(req);
+    res.json({ jwt: createJwt(req.user), profile: req.user });
   },
 
 };

@@ -9,13 +9,10 @@ import { APIError } from '../helpers/errors';
 import User from '../models/user';
 const { dbConfig, passport: credentials, appConfig } = config;
 
-passport.serializeUser((user, done) => {
-  console.log('🔊 serialize', user.id);
-  done(null, user.id);
-});
+passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (obj, done) => {
   console.log('🔊 Deserialize', obj);
-  const user = User.find({ socialNetworks: { $elemMatch: { token: obj } } });
+  const user = await User.findById(obj);
   done(null, user);
 });
 
@@ -58,26 +55,19 @@ const linkedinOptions = {
     'last-name',
     'email-address',
     'headline',
-    'industry',
     'positions',
     'picture-url',
     'location',
-    'num-connections',
-    'summary',
-    'specialties',
   ],
 };
 
 
 const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenSecret, profile, done) => {
+  const { _json: data } = profile;
   try {
-    // const user = await User.findOrCreate({ linkedinId: profile.id });
-    // const user = await User.find({ socialNetworks: { $elemMatch: { token: obj } } });
-    const { _json: data } = profile;
-    console.log('🐼  profile:  ', data);
     const user = await User.findOne({ email: data.emailAddress });
     if (!user) {
-      // register (first Time)
+      /*  Register first time for the user */
       const experiences = data.positions.values.map(experience => ({
         company: experience.company.name,
         position: experience.title,
@@ -85,22 +75,31 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
           start: `${experience.startDate.month}-01-${experience.startDate.year}`,
         },
       }));
-      User.create({
+      const newUser = await User.create({
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.emailAddress,
         image: data.pictureUrl,
         deviceToken: 'giveme this just after login',
         verified: true,
+        headline: data.headline,
         experiences,
         socialNetworks: [{
           name: 'linkedin',
-          token: 'token',
+          token,
         }],
       });
+      return (null, newUser);
     }
-
-    return done(null, profile);
+  /*  already exist
+    1- Login (linkedin token exist): return user
+    2- not linked in linkedin:
+        complete register?
+        verified if is not
+        add linkedin token
+    3- actualizar user every time?
+   */
+    return done(null, user);
   } catch (err) {
     return done(err, false);
   }
