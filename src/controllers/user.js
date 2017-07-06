@@ -87,7 +87,7 @@ const UserController = {
 
   /**
    * @swagger
-   * /users/{id}:
+   * /users:
    *   patch:
    *     tags:
    *      - User
@@ -95,9 +95,9 @@ const UserController = {
    *     produces:
    *       - application/json
    *     parameters:
-   *       - name: id
-   *         description: User id
-   *         in: path
+   *       - name: Authorization
+   *         description: auth token.
+   *         in: header
    *         required: true
    *         type: string
    *       - name: user
@@ -112,11 +112,35 @@ const UserController = {
    */
 
   async update(req, res) {
-    const user = await User.findById(req.params.id);
-    if (!user) throw new APIError('User not found.', httpStatus.NOT_FOUND);
+    const user = req.user;
     user.set(req.body);
-    await user.save();
-    res.status(httpStatus.OK).json(user);
+    const updatedUser = await user.save();
+    res.status(httpStatus.OK).json(updatedUser);
+  },
+
+  /**
+   * @swagger
+   * /users:
+   *   delete:
+   *     tags:
+   *      - User
+   *     description: delete the current user
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: Authorization
+   *         description: auth token.
+   *         in: header
+   *         required: true
+   *         type: string
+   *     responses:
+   *       204:
+   *         description: Ok'
+   */
+
+  async delete(req, res) {
+    await req.user.remove();
+    res.status(httpStatus.NO_CONTENT).end();
   },
   /**
    * @swagger
@@ -158,7 +182,7 @@ const UserController = {
    *       - application/json
    *     parameters:
    *       - name: Authorization
-   *         description: User's first name.
+   *         description: auth token
    *         in: header
    *         required: true
    *         type: string

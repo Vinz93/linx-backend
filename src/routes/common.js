@@ -20,10 +20,9 @@ validate.options({
 
 router.route('/users')
   .get(validate(userValidator.readAll), catchErrors(User.readAll))
-  .post(validate(userValidator.create), catchErrors(User.create));
-
-router.route('/users/:id')
-  .patch(validate(userValidator.update), catchErrors(User.update));
+  .post(validate(userValidator.create), catchErrors(User.create))
+  .patch(validate(userValidator.update), requireAuth, catchErrors(User.update))
+  .delete(validate(userValidator.delete), requireAuth, catchErrors(User.delete));
 
 router.route('/users/signin')
   .post(validate(userValidator.signin), requireSignin, User.signin);
