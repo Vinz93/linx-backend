@@ -107,7 +107,50 @@ const ZoneController = {
    */
   async create(req, res) {
     const newZone = await Zone.create(req.body);
-    return res.json(newZone);
+    return res.status(httpStatus.CREATED).json(newZone);
+  },
+  /**
+   * @swagger
+   * /zones/{id}:
+   *   patch:
+   *     tags:
+   *      - Zone
+   *     description: Create zones
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: Zone id.
+   *         in: path
+   *         required: true
+   *         type: string
+   *       - name: zone
+   *         description: Zone object.
+   *         in: body
+   *         required: true
+   *         schema:
+   *           $ref: '#/definitions/Zone'
+   *     responses:
+   *       200:
+   *         description: Successfully updated
+   *         schema:
+   *           allOf:
+   *              - $ref: '#/definitions/Zone'
+   *              - properties:
+   *                  id:
+   *                    type: string
+   *                  createdAt:
+   *                    type: string
+   *                    format: date-time
+   *                  updatedAt:
+   *                    type: string
+   *                    format: date-time
+   */
+  async update(req, res) {
+    const zone = await Zone.findById(req.params.id);
+    zone.set(req.body);
+    await zone.save();
+    return res.status(httpStatus.NO_CONTENT).end();
   },
 };
 

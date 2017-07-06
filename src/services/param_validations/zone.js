@@ -32,4 +32,23 @@ export default {
       id: Joi.objectId().required(),
     },
   },
+
+  update: {
+    path: {
+      id: Joi.objectId().required(),
+    },
+    body: {
+      name: Joi.string(),
+      description: Joi.string(),
+      address: Joi.string(),
+      type: Joi.string(),
+      geometry: Joi.object()
+        .keys({
+          coordinates: Joi.array().items(
+            Joi.array().items(
+              Joi.array().items(Joi.number()))
+          ).required(),
+        }),
+    },
+  },
 };

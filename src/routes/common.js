@@ -41,6 +41,7 @@ router.route('/zones')
   .post(validate(zoneValidator.create), catchErrors(Zone.create));
 
 router.route('/zones/:id')
-  .get(validate(zoneValidator.read), catchErrors(Zone.read));
+  .get(validate(zoneValidator.read), catchErrors(Zone.read))
+  .patch(validate(zoneValidator.update), catchErrors(Zone.update));
 
 export default router;
