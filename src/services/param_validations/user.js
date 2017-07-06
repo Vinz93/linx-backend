@@ -76,8 +76,8 @@ export default {
   },
 
   update: {
-    params: {
-      id: Joi.objectId().required(),
+    headers: {
+      authorization: Joi.string().required(),
     },
     body: {
       firstName: Joi.string(),
@@ -160,6 +160,12 @@ export default {
   },
 
   readByMe: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+  },
+
+  delete: {
     headers: {
       authorization: Joi.string().required(),
     },
