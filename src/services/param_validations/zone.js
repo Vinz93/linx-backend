@@ -33,6 +33,12 @@ export default {
     },
   },
 
+  delete: {
+    path: {
+      id: Joi.objectId().required(),
+    },
+  },
+
   update: {
     path: {
       id: Joi.objectId().required(),

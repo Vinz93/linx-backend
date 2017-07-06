@@ -109,13 +109,40 @@ const ZoneController = {
     const newZone = await Zone.create(req.body);
     return res.status(httpStatus.CREATED).json(newZone);
   },
+
+  /**
+   * @swagger
+   * /zones/{id}:
+   *   delete:
+   *     tags:
+   *      - Zone
+   *     description: delete zone
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: Zone id.
+   *         in: path
+   *         required: true
+   *         type: string
+   *     responses:
+   *       204:
+   *         description: Successfully deleted
+   */
+  async delete(req, res) {
+    const zone = await Zone.findById(req.params.id);
+    if (!zone) throw new APIError('zone not found', httpStatus.NOT_FOUND);
+    await zone.remove();
+    res.status(httpStatus.NO_CONTENT).end();
+  },
+
   /**
    * @swagger
    * /zones/{id}:
    *   patch:
    *     tags:
    *      - Zone
-   *     description: Create zones
+   *     description: update zone
    *     produces:
    *       - application/json
    *     parameters:
@@ -131,7 +158,7 @@ const ZoneController = {
    *         schema:
    *           $ref: '#/definitions/Zone'
    *     responses:
-   *       200:
+   *       204:
    *         description: Successfully updated
    *         schema:
    *           allOf:
@@ -148,9 +175,10 @@ const ZoneController = {
    */
   async update(req, res) {
     const zone = await Zone.findById(req.params.id);
+    if (!zone) throw new APIError('zone not found', httpStatus.NOT_FOUND);
     zone.set(req.body);
     await zone.save();
-    return res.status(httpStatus.NO_CONTENT).end();
+    res.status(httpStatus.NO_CONTENT).end();
   },
 };
 

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import paginate from 'mongoose-paginate';
+import fieldRemover from 'mongoose-field-remover';
 
 const Schema = mongoose.Schema;
 
@@ -59,6 +60,7 @@ const ZoneSchema = new Schema({
 });
 
 ZoneSchema.index({ geometry: '2dsphere' });
+ZoneSchema.plugin(fieldRemover, '__v');
 ZoneSchema.plugin(paginate);
 
 export default mongoose.model('Zone', ZoneSchema);
