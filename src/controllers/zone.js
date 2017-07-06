@@ -49,6 +49,32 @@ const ZoneController = {
 
   /**
    * @swagger
+   * /zones/{id}:
+   *   get:
+   *     tags:
+   *      - Zone
+   *     description: Show a zone by id
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: Zone id.
+   *         in: path
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: return a zone'
+   */
+
+  async read(req, res) {
+    const zone = await Zone.findById(req.params.id);
+    if (!zone) throw new APIError('zone not found', httpStatus.NOT_FOUND);
+    res.json(zone);
+  },
+
+  /**
+   * @swagger
    * /zones:
    *   post:
    *     tags:

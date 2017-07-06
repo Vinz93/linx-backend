@@ -26,4 +26,10 @@ export default {
         }),
     },
   },
+
+  read: {
+    path: {
+      id: Joi.objectId().required(),
+    },
+  },
 };
