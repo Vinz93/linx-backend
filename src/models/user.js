@@ -4,6 +4,7 @@ import paginate from 'mongoose-paginate';
 import uniqueValidator from 'mongoose-unique-validator';
 import crypto from 'crypto';
 import { average } from '../helpers/utils';
+import config from '../config/env';
 
 const Schema = mongoose.Schema;
 
@@ -289,6 +290,10 @@ const UserSchema = new Schema({
   headline: {
     type: String,
   },
+  roleKey: {
+    type: String,
+    default: 'da907sdc-999-ghtyty',
+  },
 
 }, {
   timestamps: true,
@@ -301,6 +306,7 @@ const UserSchema = new Schema({
       delete ret.deviceToken;
       delete ret.verified;
       delete ret.socialNetworks;
+      delete ret.roleKey;
       delete ret.reputation.rates;
       return ret;
     },
@@ -323,6 +329,11 @@ UserSchema.virtual('age').get(function () {
 UserSchema.methods = {
   authenticate(password) {
     return crypto.createHash('md5').update(password).digest('hex') === this.password;
+  },
+
+  getRole() {
+    const { roles } = config;
+    return roles[this.roleKey];
   },
 };
 
