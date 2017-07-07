@@ -12,6 +12,7 @@ import userValidator from '../services/param_validations/user';
 import Zone from '../controllers/zone';
 import zoneValidator from '../services/param_validations/zone';
 import { catchErrors } from '../helpers/errors';
+import { onlyAdmin } from '../services/acl';
 const router = express.Router(); // eslint-disable-line new-cap
 
 validate.options({
@@ -43,6 +44,6 @@ router.route('/zones')
 router.route('/zones/:id')
   .get(validate(zoneValidator.read), catchErrors(Zone.read))
   .patch(validate(zoneValidator.update), catchErrors(Zone.update))
-  .delete(validate(zoneValidator.delete), catchErrors(Zone.delete));
+  .delete(requireAuth, onlyAdmin, validate(zoneValidator.delete), catchErrors(Zone.delete));
 
 export default router;

@@ -34,6 +34,9 @@ export default {
   },
 
   delete: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
     path: {
       id: Joi.objectId().required(),
     },
