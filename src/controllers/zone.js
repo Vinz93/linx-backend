@@ -25,6 +25,11 @@ const ZoneController = {
    *         in: query
    *         required: false
    *         type: string
+   *       - name: Authorization
+   *         description: auth token.
+   *         in: header
+   *         required: true
+   *         type: string
    *     responses:
    *       200:
    *         description: return an array of zones'
@@ -57,6 +62,11 @@ const ZoneController = {
    *     produces:
    *       - application/json
    *     parameters:
+   *       - name: Authorization
+   *         description: auth token.
+   *         in: header
+   *         required: true
+   *         type: string
    *       - name: id
    *         description: Zone id.
    *         in: path
@@ -83,6 +93,11 @@ const ZoneController = {
    *     produces:
    *       - application/json
    *     parameters:
+   *       - name: Authorization
+   *         description: auth token.
+   *         in: header
+   *         required: true
+   *         type: string
    *       - name: zone
    *         description: Zone object.
    *         in: body
@@ -125,6 +140,11 @@ const ZoneController = {
    *         in: path
    *         required: true
    *         type: string
+   *       - name: Authorization
+   *         description: auth token.
+   *         in: header
+   *         required: true
+   *         type: string
    *     responses:
    *       204:
    *         description: Successfully deleted
@@ -146,6 +166,11 @@ const ZoneController = {
    *     produces:
    *       - application/json
    *     parameters:
+   *       - name: Authorization
+   *         description: auth token.
+   *         in: header
+   *         required: true
+   *         type: string
    *       - name: id
    *         description: Zone id.
    *         in: path
