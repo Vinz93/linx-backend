@@ -35,3 +35,8 @@ export const passport = {
     secretKey: '',
   },
 };
+
+export const roles = {
+  '8ha9hc98-777-oioiuo': 'ADMIN',
+  'da907sdc-999-ghtyty': 'COMMON',
+};

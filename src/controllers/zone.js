@@ -125,6 +125,11 @@ const ZoneController = {
    *         in: path
    *         required: true
    *         type: string
+   *       - name: Authorization
+   *         description: auth token.
+   *         in: header
+   *         required: true
+   *         type: string
    *     responses:
    *       204:
    *         description: Successfully deleted
