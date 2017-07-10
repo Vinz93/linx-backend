@@ -5,6 +5,9 @@ Joi.objectId = objectId(Joi);
 
 export default {
   readAll: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
     query: {
       offset: Joi.number().integer(),
       limit: Joi.number().integer(),
@@ -12,6 +15,9 @@ export default {
   },
 
   create: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
     body: {
       name: Joi.string().required(),
       description: Joi.string(),
@@ -28,6 +34,9 @@ export default {
   },
 
   read: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
     path: {
       id: Joi.objectId().required(),
     },
@@ -43,6 +52,9 @@ export default {
   },
 
   update: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
     path: {
       id: Joi.objectId().required(),
     },

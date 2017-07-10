@@ -38,12 +38,12 @@ router.route('/auth/linkedin/callback')
   .get(linkedinOAuth, User.linkedin);
 
 router.route('/zones')
-  .get(validate(zoneValidator.readAll), catchErrors(Zone.readAll))
-  .post(validate(zoneValidator.create), catchErrors(Zone.create));
+  .get(validate(zoneValidator.readAll), requireAuth, onlyAdmin, catchErrors(Zone.readAll))
+  .post(validate(zoneValidator.create), requireAuth, onlyAdmin, catchErrors(Zone.create));
 
 router.route('/zones/:id')
-  .get(validate(zoneValidator.read), catchErrors(Zone.read))
-  .patch(validate(zoneValidator.update), catchErrors(Zone.update))
-  .delete(requireAuth, onlyAdmin, validate(zoneValidator.delete), catchErrors(Zone.delete));
+  .get(validate(zoneValidator.read), requireAuth, onlyAdmin, catchErrors(Zone.read))
+  .patch(validate(zoneValidator.update), requireAuth, onlyAdmin, catchErrors(Zone.update))
+  .delete(validate(zoneValidator.delete), requireAuth, onlyAdmin, catchErrors(Zone.delete));
 
 export default router;
