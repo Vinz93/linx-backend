@@ -2,7 +2,7 @@ import httpStatus from 'http-status';
 
 import { paginate } from '../helpers/utils';
 import { APIError } from '../helpers/errors';
-import Zone from '../models/Zone';
+import Zone from '../models/zone';
 
 const ZoneController = {
   /**
