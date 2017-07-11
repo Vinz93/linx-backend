@@ -35,7 +35,7 @@ const spec = swaggerDoc({
 app.disable('x-powered-by');
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-if (appConfig.env === 'development' || appConfig.env === 'testing') {
+if (appConfig.env === 'development' || appConfig.env === 'qa' || appConfig.env === 'integration') {
   app.use(morgan('dev'));
   app.use(bodyParser.urlencoded({
     extended: true,
