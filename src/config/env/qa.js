@@ -23,3 +23,19 @@ export const mailer = {
     pass: 'vinotinto2016',
   },
 };
+
+export const passport = {
+  linkedin: {
+    apiKey: '78adk076r633k1',
+    secretKey: 'n5rsDNshjjhObhDs',
+  },
+  facebook: {
+    apiKey: '',
+    secretKey: '',
+  },
+};
+
+export const roles = {
+  '8ha9hc98-777-oioiuo': 'ADMIN',
+  'da907sdc-999-ghtyty': 'COMMON',
+};
