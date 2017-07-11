@@ -79,13 +79,17 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.emailAddress,
-        image: data.pictureUrl,
         deviceToken: 'giveme this just after login',
         headline: data.headline,
         experiences,
+        location: {
+          coordinates: [-79.390919, 43.723563],
+        },
         socialNetworks: [{
-          name: 'linkedin',
           token,
+          id: data.id,
+          name: 'linkedin',
+          profilePicture: data.pictureUrl,
         }],
       });
       return (null, newUser);

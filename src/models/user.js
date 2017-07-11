@@ -80,6 +80,8 @@ const Schema = mongoose.Schema;
  *        type: string
  *      idToken:
  *        type: string
+ *      profilePicture:
+ *        type: string
  *   Study:
  *     type: object
  *     properties:
@@ -256,8 +258,10 @@ const UserSchema = new Schema({
   ],
   socialNetworks: [
     {
+      id: String,
       name: String,
       token: String,
+      profilePicture: String,
       contacts: [String],
     },
   ],
@@ -300,9 +304,13 @@ const UserSchema = new Schema({
       delete ret.password;
       delete ret.__v;
       delete ret.deviceToken;
-      delete ret.socialNetworks;
       delete ret.roleKey;
       delete ret.reputation.rates;
+      ret.social = ret.socialNetworks.map(sn => ({
+        name: sn.name,
+        profilePicture: sn.profilePicture,
+      }));
+      delete ret.socialNetworks;
       return ret;
     },
   },
