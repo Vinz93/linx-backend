@@ -81,7 +81,6 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
         email: data.emailAddress,
         image: data.pictureUrl,
         deviceToken: 'giveme this just after login',
-        verified: true,
         headline: data.headline,
         experiences,
         socialNetworks: [{
@@ -95,7 +94,6 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
     1- Login (linkedin token exist): return user
     2- not linked in linkedin:
         complete register?
-        verified if is not
         add linkedin token
     3- actualizar user every time?
    */

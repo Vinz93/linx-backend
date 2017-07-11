@@ -283,10 +283,6 @@ const UserSchema = new Schema({
       type: String,
     },
   ],
-  verified: {
-    type: Boolean,
-    default: false,
-  },
   headline: {
     type: String,
   },
@@ -304,7 +300,6 @@ const UserSchema = new Schema({
       delete ret.password;
       delete ret.__v;
       delete ret.deviceToken;
-      delete ret.verified;
       delete ret.socialNetworks;
       delete ret.roleKey;
       delete ret.reputation.rates;
