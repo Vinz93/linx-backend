@@ -96,7 +96,7 @@ const UserController = {
    *       - application/json
    *     parameters:
    *       - name: Authorization
-   *         description: auth token.
+   *         description: format 'JWT <your-token>'.
    *         in: header
    *         required: true
    *         type: string
@@ -129,7 +129,7 @@ const UserController = {
    *       - application/json
    *     parameters:
    *       - name: Authorization
-   *         description: auth token.
+   *         description: format 'JWT <your-token>'.
    *         in: header
    *         required: true
    *         type: string
@@ -182,7 +182,7 @@ const UserController = {
    *       - application/json
    *     parameters:
    *       - name: Authorization
-   *         description: auth token
+   *         description: format 'JWT <your-token>'.
    *         in: header
    *         required: true
    *         type: string

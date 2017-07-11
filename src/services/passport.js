@@ -79,14 +79,17 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.emailAddress,
-        image: data.pictureUrl,
         deviceToken: 'giveme this just after login',
-        verified: true,
         headline: data.headline,
         experiences,
+        location: {
+          coordinates: [-79.390919, 43.723563],
+        },
         socialNetworks: [{
-          name: 'linkedin',
           token,
+          id: data.id,
+          name: 'linkedin',
+          profilePicture: data.pictureUrl,
         }],
       });
       return (null, newUser);
@@ -95,7 +98,6 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
     1- Login (linkedin token exist): return user
     2- not linked in linkedin:
         complete register?
-        verified if is not
         add linkedin token
     3- actualizar user every time?
    */

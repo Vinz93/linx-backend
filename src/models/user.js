@@ -3,8 +3,10 @@ import validate from 'mongoose-validator';
 import paginate from 'mongoose-paginate';
 import uniqueValidator from 'mongoose-unique-validator';
 import crypto from 'crypto';
+
 import { average } from '../helpers/utils';
 import config from '../config/env';
+const { host, basePort } = config.appConfig;
 
 const Schema = mongoose.Schema;
 
@@ -80,6 +82,8 @@ const Schema = mongoose.Schema;
  *        type: string
  *      idToken:
  *        type: string
+ *      profilePicture:
+ *        type: string
  *   Study:
  *     type: object
  *     properties:
@@ -129,7 +133,7 @@ const Schema = mongoose.Schema;
  *       bornAt:
  *         type: string
  *         format: date-time
- *       image:
+ *       pictureId:
  *         type: string
  *       password:
  *         type: string
@@ -188,8 +192,9 @@ const UserSchema = new Schema({
     type: Date,
     default: new Date(),
   },
-  image: {
+  pictureId: {
     type: String,
+    default: 'placeholder.png',
   },
   password: {
     type: String,
@@ -256,8 +261,10 @@ const UserSchema = new Schema({
   ],
   socialNetworks: [
     {
+      id: String,
       name: String,
       token: String,
+      profilePicture: String,
       contacts: [String],
     },
   ],
@@ -283,10 +290,6 @@ const UserSchema = new Schema({
       type: String,
     },
   ],
-  verified: {
-    type: Boolean,
-    default: false,
-  },
   headline: {
     type: String,
   },
@@ -304,10 +307,13 @@ const UserSchema = new Schema({
       delete ret.password;
       delete ret.__v;
       delete ret.deviceToken;
-      delete ret.verified;
-      delete ret.socialNetworks;
       delete ret.roleKey;
       delete ret.reputation.rates;
+      ret.social = ret.socialNetworks.map(sn => ({
+        name: sn.name,
+        profilePicture: sn.profilePicture,
+      }));
+      delete ret.socialNetworks;
       return ret;
     },
   },
@@ -324,6 +330,10 @@ UserSchema.virtual('age').get(function () {
   if (m < 0 || (m === 0 && today.getDate() < bornAt.getDate())) age--;
 
   return age;
+});
+
+UserSchema.virtual('pictureUrl').get(function () {
+  return `${host}:${basePort}/pictures/${this.pictureId}`;
 });
 
 UserSchema.methods = {
