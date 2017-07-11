@@ -7,6 +7,6 @@ const config = {
   development,
   integration,
   qa,
-}[process.env.NODE_ENV || 'integration'];
+}[process.env.NODE_ENV || 'development'];
 
 export default config;
