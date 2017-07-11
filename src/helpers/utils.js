@@ -15,7 +15,8 @@ export const paginate = {
 export function upload() {
   const storage = multer.diskStorage({
     destination(req, file, cb) {
-      cb(null, path.join(req.app.locals.config.root, '../uploads'));
+      const { pictureId } = req.query;
+      cb(null, path.join(req.app.locals.config.root, '../pictures'));
     },
     filename(req, file, cb) {
       cb(null, `${uuid.v4()}.${mime.extension(file.mimetype)}`);

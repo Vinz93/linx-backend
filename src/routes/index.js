@@ -39,6 +39,11 @@ router.get('/time', (req, res) => {
  *     produces:
  *       - application/json
  *     parameters:
+ *       - name: pictureId
+ *         description: old pictureId.
+ *         in: query
+ *         required: false
+ *         type: string
  *       - name: file
  *         description: file to upload.
  *         in: formData
@@ -65,7 +70,10 @@ router.post('/files', (req, res) => {
     if (config.basePort) url = `${url}:${config.basePort}`;
     url = `${url}/pictures/${req.file.filename}`;
 
-    res.json({ url });
+    res.json({
+      url,
+      filename: req.file.filename,
+    });
   });
 });
 
