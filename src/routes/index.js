@@ -63,7 +63,7 @@ router.post('/files', (req, res) => {
     const config = req.app.locals.config;
     let url = config.host;
     if (config.basePort) url = `${url}:${config.basePort}`;
-    url = `${url}/uploads/${req.file.filename}`;
+    url = `${url}/pictures/${req.file.filename}`;
 
     res.json({ url });
   });

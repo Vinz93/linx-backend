@@ -3,8 +3,10 @@ import validate from 'mongoose-validator';
 import paginate from 'mongoose-paginate';
 import uniqueValidator from 'mongoose-unique-validator';
 import crypto from 'crypto';
+
 import { average } from '../helpers/utils';
 import config from '../config/env';
+const { host, basePort } = config.appConfig;
 
 const Schema = mongoose.Schema;
 
@@ -131,7 +133,7 @@ const Schema = mongoose.Schema;
  *       bornAt:
  *         type: string
  *         format: date-time
- *       image:
+ *       pictureId:
  *         type: string
  *       password:
  *         type: string
@@ -190,8 +192,9 @@ const UserSchema = new Schema({
     type: Date,
     default: new Date(),
   },
-  image: {
+  pictureId: {
     type: String,
+    default: 'placeholder.png',
   },
   password: {
     type: String,
@@ -327,6 +330,10 @@ UserSchema.virtual('age').get(function () {
   if (m < 0 || (m === 0 && today.getDate() < bornAt.getDate())) age--;
 
   return age;
+});
+
+UserSchema.virtual('pictureUrl').get(function () {
+  return `${host}:${basePort}/pictures/${this.pictureId}`;
 });
 
 UserSchema.methods = {
