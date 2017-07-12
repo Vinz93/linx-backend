@@ -28,6 +28,9 @@ router.route('/users')
 router.route('/users/signin')
   .post(validate(userValidator.signin), requireSignin, User.signin);
 
+router.route('/users/signout')
+  .post(validate(userValidator.signout), requireAuth, User.signout);
+
 router.route('/users/me')
 .get(requireAuth, User.readByMe);
 

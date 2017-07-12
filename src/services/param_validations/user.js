@@ -168,4 +168,10 @@ export default {
       authorization: Joi.string().required(),
     },
   },
+
+  signout: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+  },
 };

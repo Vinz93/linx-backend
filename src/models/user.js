@@ -200,7 +200,6 @@ const UserSchema = new Schema({
   },
   deviceToken: {
     type: String,
-    required: 'You must supply a devicetoken!',
   },
   location: {
     type: {

@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 
 import { paginate } from '../helpers/utils';
-import { APIError } from '../helpers/errors';
+// import { APIError } from '../helpers/errors';
 import { createJwt } from '../services/jwt';
 import User from '../models/user';
 
@@ -142,6 +142,7 @@ const UserController = {
     await req.user.remove();
     res.status(httpStatus.NO_CONTENT).end();
   },
+
   /**
    * @swagger
    * /users/signin:
@@ -169,6 +170,33 @@ const UserController = {
 
   signin(req, res) {
     res.json({ jwt: createJwt(req.user), profile: req.user });
+  },
+
+  /**
+   * @swagger
+   * /users/signout:
+   *   post:
+   *     tags:
+   *      - User
+   *     description: signout the current user
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: Authorization
+   *         description: format 'JWT <your-token>'.
+   *         in: header
+   *         required: true
+   *         type: string
+   *     responses:
+   *       204:
+   *         description: no content'
+   */
+
+  async signout(req, res) {
+    const { user } = req;
+    user.deviceToken = null;
+    await user.save();
+    res.status(httpStatus.NO_CONTENT).end();
   },
 
   /**
