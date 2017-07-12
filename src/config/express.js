@@ -23,7 +23,7 @@ const spec = swaggerDoc({
       title: 'API',
       version: '1.0.0',
     },
-    basePath: config.appConfig.basePath,
+    basePath: `${appConfig.basePath}${appConfig.path}`,
   },
   apis: [
     `${path.resolve()}/src/models/**/*.js`,
@@ -52,14 +52,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors());
 
-app.use(appConfig.path, routes);
+app.use(`${appConfig.basePath}${appConfig.path}`, routes);
 
 swaggerTools.initializeMiddleware(spec, (middleware) => {
   app.use(middleware.swaggerUi({
-    apiDocs: `${appConfig.path}docs.json`,
-    swaggerUi: `${appConfig.path}docs`,
-    apiDocsPrefix: appConfig.basePath,
-    swaggerUiPrefix: appConfig.basePath,
+    apiDocs: `${appConfig.basePath}${appConfig.path}/docs.json`,
+    swaggerUi: `${appConfig.basePath}${appConfig.path}/docs`,
+    apiDocsPrefix: `${appConfig.basePath}${appConfig.path}`,
+    swaggerUiPrefix: '/',
   }));
 });
 
