@@ -9,7 +9,9 @@
     "start": "NODE_ENV=production PORT=3333cs pm2 start dist/index.js",
     "test": "mocha  src/tests/**/*.js  --timeout 10000 -c --compilers js:babel-core/register || true",
     "test:nyan": "mocha src/tests/**/*.js  --timeout 10000 -c -R nyan --compilers js:babel-core/register || true",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "deploy": "cd ./deployment && sh ./deploy.sh root linx-dev.solsteace.ca",
+    "deploy-qa": "cd ./deployment && sh ./deploy.sh root linx-qa.solsteace.ca"
   },
   "keywords": [
     "Express"
