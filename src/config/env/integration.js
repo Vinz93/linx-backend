@@ -7,11 +7,11 @@ export const dbConfig = {
 
 export const appConfig = {
   env: 'integration',
-  host: process.env.HOST || 'http://127.0.0.1',
+  host: process.env.HOST || 'http://linx-dev.solsteace.ca',
   path: '/',
   basePath: '/',
   port: 3000,
-  basePort: 3000,
+  publicPort: 80,
   root: path.join(__dirname, '../../../'),
 };
 

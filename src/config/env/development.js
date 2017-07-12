@@ -11,7 +11,7 @@ export const appConfig = {
   path: '/',
   basePath: '/',
   port: 3000,
-  basePort: 3000,
+  publicPort: 3000,
   root: path.join(__dirname, '../../../'),
 };
 

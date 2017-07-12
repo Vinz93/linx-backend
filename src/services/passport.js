@@ -48,7 +48,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
 const linkedinOptions = {
   consumerKey: credentials.linkedin.apiKey,
   consumerSecret: credentials.linkedin.secretKey,
-  callbackURL: `${appConfig.host}:${appConfig.port}/auth/linkedin/callback`,
+  callbackURL: `${appConfig.host}:${appConfig.publicPort}/auth/linkedin/callback`,
   profileFields: [
     'id',
     'first-name',
