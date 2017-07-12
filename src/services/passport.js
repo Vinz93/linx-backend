@@ -7,7 +7,8 @@ import { Strategy as LinkedInStrategy } from 'passport-linkedin';
 import config from '../config/env';
 import { APIError } from '../helpers/errors';
 import User from '../models/user';
-const { dbConfig, passport: credentials, appConfig } = config;
+const { dbConfig, passport: credentials } = config;
+const { host, publicPort, basePath, path } = config.appConfig;
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (obj, done) => {
@@ -48,7 +49,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
 const linkedinOptions = {
   consumerKey: credentials.linkedin.apiKey,
   consumerSecret: credentials.linkedin.secretKey,
-  callbackURL: `${appConfig.host}:${appConfig.publicPort}/auth/linkedin/callback`,
+  callbackURL: `${host}:${publicPort}${basePath}${path}/auth/linkedin/callback`,
   profileFields: [
     'id',
     'first-name',
