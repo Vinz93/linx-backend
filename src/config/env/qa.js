@@ -8,8 +8,8 @@ export const dbConfig = {
 export const appConfig = {
   env: 'qa',
   host: process.env.HOST || 'http://linx-qa.solsteace.ca',
-  path: '/',
-  basePath: '/',
+  path: '/v1',
+  basePath: '/api',
   port: 3000,
   publicPort: 80,
   root: path.join(__dirname, '../../../'),
