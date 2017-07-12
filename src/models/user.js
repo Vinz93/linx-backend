@@ -6,7 +6,7 @@ import crypto from 'crypto';
 
 import { average } from '../helpers/utils';
 import config from '../config/env';
-const { host, basePort } = config.appConfig;
+const { host, publicPort } = config.appConfig;
 
 const Schema = mongoose.Schema;
 
@@ -194,7 +194,6 @@ const UserSchema = new Schema({
   },
   pictureId: {
     type: String,
-    default: 'placeholder.png',
   },
   password: {
     type: String,
@@ -333,7 +332,8 @@ UserSchema.virtual('age').get(function () {
 });
 
 UserSchema.virtual('pictureUrl').get(function () {
-  return `${host}:${basePort}/pictures/${this.pictureId}`;
+  if (!this.pictureId) return null;
+  return `${host}:${publicPort}/pictures/${this.pictureId}`;
 });
 
 UserSchema.methods = {
