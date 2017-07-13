@@ -344,6 +344,11 @@ UserSchema.methods = {
     const { roles } = config;
     return roles[this.roleKey];
   },
+
+  useSocialNetwork(name) {
+    const sn = this.socialNetworks.some(sn => sn.name === name);
+    return sn;
+  },
 };
 
 UserSchema.pre('save', function (next) {
