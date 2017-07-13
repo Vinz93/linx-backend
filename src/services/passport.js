@@ -67,15 +67,15 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
   const { _json: data } = profile;
   try {
     const user = await User.findOne({ email: data.emailAddress });
+    const experiences = data.positions.values.map(experience => ({
+      company: experience.company.name,
+      position: experience.title,
+      period: {
+        start: `${experience.startDate.month}-01-${experience.startDate.year}`,
+      },
+    }));
     if (!user) {
       /*  Register first time for the user */
-      const experiences = data.positions.values.map(experience => ({
-        company: experience.company.name,
-        position: experience.title,
-        period: {
-          start: `${experience.startDate.month}-01-${experience.startDate.year}`,
-        },
-      }));
       const newUser = await User.create({
         firstName: data.firstName,
         lastName: data.lastName,
@@ -101,13 +101,19 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
       await user.save();
       return done(null, user);
     }
-    return done(null, user);
-  /*  already exist
-    1- Login (linkedin token exist): return user
-    2- not linked in linkedin:
-        complete register?
-        add linkedin token
-   */
+    /*  user exists but is not on linkedin */
+    user.socialNetworks.push({
+      token,
+      id: data.id,
+      name: 'linkedin',
+      profilePicture: data.pictureUrl,
+    });
+    const linkedinInfo = {
+      headline: data.headline,
+      experiences,
+    };
+    const userUpdated = await user.save();
+    return done(null, { linkedinInfo, ...userUpdated.toJSON() });
   } catch (err) {
     return done(err, false);
   }
