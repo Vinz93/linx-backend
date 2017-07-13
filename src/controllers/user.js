@@ -82,7 +82,7 @@ const UserController = {
    */
   async create(req, res) {
     const newUser = await User.create(req.body);
-    return res.json(newUser);
+    res.json({ jwt: createJwt(newUser), profile: newUser });
   },
 
   /**
