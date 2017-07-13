@@ -93,15 +93,21 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
         }],
       });
       return done(null, { isNew: true, ...newUser.toJSON() });
+    } else if (user.useSocialNetwork('linkedin')) {
+      /*  user exists and use linkedin */
+      const linkedinIndex = user.socialNetworks.findIndex(sn => sn.name === 'linkedin');
+      user.socialNetworks[linkedinIndex].profilePicture = data.pictureUrl;
+      user.socialNetworks[linkedinIndex].token = token;
+      await user.save();
+      return done(null, user);
     }
+    return done(null, user);
   /*  already exist
     1- Login (linkedin token exist): return user
     2- not linked in linkedin:
         complete register?
         add linkedin token
-    3- actualizar user every time?
    */
-    return done(null, user);
   } catch (err) {
     return done(err, false);
   }
