@@ -80,7 +80,6 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.emailAddress,
-        deviceToken: 'giveme this just after login',
         headline: data.headline,
         experiences,
         location: {
@@ -93,7 +92,7 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
           profilePicture: data.pictureUrl,
         }],
       });
-      return (null, newUser);
+      return done(null, { isNew: true, ...newUser.toJSON() });
     }
   /*  already exist
     1- Login (linkedin token exist): return user
