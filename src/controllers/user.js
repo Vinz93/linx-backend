@@ -4,6 +4,7 @@ import { paginate } from '../helpers/utils';
 // import { APIError } from '../helpers/errors';
 import { createJwt } from '../services/jwt';
 import User from '../models/user';
+import { sendForgotPassword } from '../services/mailer';
 
 const UserController = {
   /**
@@ -201,6 +202,66 @@ const UserController = {
 
   /**
    * @swagger
+   * /users/forgot-password:
+   *   post:
+   *     tags:
+   *      - User
+   *     description: Send a recovery email to the user
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: email
+   *         description: User's email.
+   *         in: formData
+   *         required: true
+   *         type: string
+   *     responses:
+   *       204:
+   *         description: no content'
+   */
+
+  async forgotPassword(req, res) {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(httpStatus.NOT_FOUND).end();
+    await sendForgotPassword(user);
+    res.status(httpStatus.NO_CONTENT).end();
+  },
+
+  /**
+   * @swagger
+   * /users/change-password:
+   *   patch:
+   *     tags:
+   *      - User
+   *     description: change user password
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: password
+   *         description: new password.
+   *         in: formData
+   *         required: true
+   *         type: string
+   *       - name: Authorization
+   *         description: format 'JWT your-token'.
+   *         in: header
+   *         required: true
+   *         type: string
+   *     responses:
+   *       204:
+   *         description: no content'
+   */
+
+  async changePassword(req, res) {
+    const { user } = req;
+    user.password = req.body.password;
+    await user.save();
+    res.status(httpStatus.NO_CONTENT).end();
+  },
+
+  /**
+   * @swagger
    * /users/me:
    *   get:
    *     tags:
@@ -210,7 +271,7 @@ const UserController = {
    *       - application/json
    *     parameters:
    *       - name: Authorization
-   *         description: format 'JWT <your-token>'.
+   *         description: format 'JWT your-token'.
    *         in: header
    *         required: true
    *         type: string

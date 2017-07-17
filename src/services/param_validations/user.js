@@ -174,4 +174,19 @@ export default {
       authorization: Joi.string().required(),
     },
   },
+
+  forgotPassword: {
+    body: {
+      email: Joi.string().email().required(),
+    },
+  },
+
+  changePassword: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    body: {
+      password: Joi.string().required(),
+    },
+  },
 };
