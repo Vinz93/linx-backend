@@ -16,15 +16,16 @@ export const appConfig = {
 };
 
 export const mailer = {
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: 'solsteace@solsteace.com',
-    pass: 'vinotinto2016',
+  key: 'PjJCch7xJK75lDaJMqVcoQ',
+  from: {
+    name: 'linx',
+    email: 'devtest@solsteace.ca',
+  },
+  developmentTeam: {
+    name: 'development team',
+    email: 'vbianco@solsteace.com',
   },
 };
-
 export const passport = {
   linkedin: {
     apiKey: '78adk076r633k1',
