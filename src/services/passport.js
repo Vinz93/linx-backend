@@ -122,7 +122,7 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
 const facebookOptions = {
   clientID: credentials.facebook.apiKey,
   clientSecret: credentials.facebook.secretKey,
-  callbackURL: `http://localhost:3000${basePath}${path}/auth/facebook/callback`,
+  callbackURL: `${host}:${publicPort}${basePath}${path}/auth/facebook/callback`,
   profileFields: [
     'id',
     'first_name',
