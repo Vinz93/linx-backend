@@ -4,6 +4,7 @@ import { paginate } from '../helpers/utils';
 // import { APIError } from '../helpers/errors';
 import { createJwt } from '../services/jwt';
 import User from '../models/user';
+import { sendForgotPassword } from '../services/mailer';
 
 const UserController = {
   /**
@@ -196,6 +197,34 @@ const UserController = {
     const { user } = req;
     user.deviceToken = null;
     await user.save();
+    res.status(httpStatus.NO_CONTENT).end();
+  },
+
+  /**
+   * @swagger
+   * /users/forgot-password:
+   *   post:
+   *     tags:
+   *      - User
+   *     description: Send a recovery email to the user
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: email
+   *         description: User's email.
+   *         in: formData
+   *         required: true
+   *         type: string
+   *     responses:
+   *       204:
+   *         description: no content'
+   */
+
+  async forgotPassword(req, res) {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(httpStatus.NOT_FOUND).end();
+    await sendForgotPassword(user);
     res.status(httpStatus.NO_CONTENT).end();
   },
 

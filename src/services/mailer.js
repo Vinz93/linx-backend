@@ -1,4 +1,5 @@
 import mandrill from 'mandrill-api/mandrill';
+import { createJwt } from '../services/jwt';
 import config from '../config/env';
 
 const { mailer } = config;
@@ -24,5 +25,15 @@ async function sendMailTemplate(name, email, templateName, templateContent) {
 }
 
 export async function sendForgotPassword(user) {
-  return await sendMailTemplate(user.firstName, user.email, 'Linx Forgot Password');
+  const { host } = config.appConfig;
+  const token = createJwt(user);
+  const button = `
+    <a href="${host}/forgot/${token}">
+      CONTINUE
+    </a>`;
+  const content = [{
+    name: 'button',
+    content: button,
+  }];
+  return await sendMailTemplate(user.firstName, user.email, 'Linx Forgot Password', content);
 }
