@@ -34,6 +34,9 @@ router.route('/users/signout')
 router.route('/users/forgot-password')
   .post(validate(userValidator.forgotPassword), User.forgotPassword);
 
+router.route('/users/change-password')
+  .patch(validate(userValidator.changePassword), requireAuth, User.changePassword);
+
 router.route('/users/me')
 .get(requireAuth, User.readByMe);
 
