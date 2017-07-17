@@ -13,7 +13,6 @@ const { host, publicPort, basePath, path } = config.appConfig;
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (obj, done) => {
-  console.log('🔊 Deserialize', obj);
   const user = await User.findById(obj);
   done(null, user);
 });
@@ -121,58 +120,57 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
 });
 
 const facebookOptions = {
-  consumerKey: credentials.facebook.apiKey,
-  consumerSecret: credentials.facebook.secretKey,
-  callbackURL: `${host}:${publicPort}${basePath}${path}/auth/facebook/callback`,
+  clientID: credentials.facebook.apiKey,
+  clientSecret: credentials.facebook.secretKey,
+  callbackURL: `http://localhost:3000${basePath}${path}/auth/facebook/callback`,
   profileFields: [
-    'public_profile',
+    'id',
+    'first_name',
+    'last_name',
+    'picture',
+    'email',
   ],
 };
 
 const facebookLogin = new FacebookStrategy(facebookOptions, async (accessToken, refreshToken, profile, done) => {
   try {
-    console.log(profile);
-    done(null, profile);
-    const user = await User.findOne({});
+    const { _json: data } = profile;
+    if (!data.email) throw new APIError('you dont have an email asocciated to facebook', httpStatus.UNPROCESSABLE_ENTITY);
+    const user = await User.findOne({ email: data.email });
     if (!user) {
       /*  Register first time for the user */
-      // const newUser = await User.create({
-      //   firstName: data.firstName,
-      //   lastName: data.lastName,
-      //   email: data.emailAddress,
-      //   headline: data.headline,
-      //   location: {
-      //     coordinates: [-79.390919, 43.723563],
-      //   },
-      //   socialNetworks: [{
-      //     token,
-      //     id: data.id,
-      //     name: 'facebook',
-      //     profilePicture: data.pictureUrl,
-      //   }],
-      // });
-      // return done(null, { isNew: true, ...newUser.toJSON() });
+      const newUser = await User.create({
+        firstName: data.first_name,
+        lastName: data.last_name,
+        email: data.email,
+        location: {
+          coordinates: [-79.390919, 43.723563],
+        },
+        socialNetworks: [{
+          token: accessToken,
+          id: data.id,
+          name: 'facebook',
+          profilePicture: data.picture.data.url,
+        }],
+      });
+      return done(null, { isNew: true, ...newUser.toJSON() });
     } else if (user.useSocialNetwork('facebook')) {
-      /*  user exists and use linkedin */
-      // const linkedinIndex = user.socialNetworks.findIndex(sn => sn.name === 'linkedin');
-      // user.socialNetworks[linkedinIndex].profilePicture = data.pictureUrl;
-      // user.socialNetworks[linkedinIndex].token = token;
-      // await user.save();
-      // return done(null, user);
+      /*  user exists and use facebook */
+      const facebookIndex = user.socialNetworks.findIndex(sn => sn.name === 'facebook');
+      user.socialNetworks[facebookIndex].profilePicture = data.picture.data.url;
+      user.socialNetworks[facebookIndex].token = accessToken;
+      await user.save();
+      return done(null, user);
     }
-    /*  user exists but is not on linkedin */
-    // user.socialNetworks.push({
-    //   token,
-    //   id: data.id,
-    //   name: 'linkedin',
-    //   profilePicture: data.pictureUrl,
-    // });
-    // const linkedinInfo = {
-    //   headline: data.headline,
-    //   experiences,
-    // };
-    // const userUpdated = await user.save();
-    // return done(null, { linkedinInfo, ...userUpdated.toJSON() });
+    /*  user exists but is not on facebook*/
+    user.socialNetworks.push({
+      token: accessToken,
+      id: data.id,
+      name: 'facebook',
+      profilePicture: data.picture.data.url,
+    });
+    const userUpdated = await user.save();
+    return done(null, userUpdated);
   } catch (err) {
     return done(err, false);
   }

@@ -6,6 +6,7 @@ import '../services/passport';
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
 const linkedinOAuth = passport.authenticate('linkedin');
+const facebookOAuth = passport.authenticate('facebook', { scope: 'email' });
 
 import User from '../controllers/user';
 import userValidator from '../services/param_validations/user';
@@ -45,6 +46,12 @@ router.route('/auth/linkedin')
 
 router.route('/auth/linkedin/callback')
   .get(linkedinOAuth, User.linkedin);
+
+router.route('/auth/facebook')
+  .get(facebookOAuth);
+
+router.route('/auth/facebook/callback')
+  .get(facebookOAuth, User.facebook);
 
 router.route('/zones')
   .get(validate(zoneValidator.readAll), requireAuth, onlyAdmin, catchErrors(Zone.readAll))

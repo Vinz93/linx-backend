@@ -302,6 +302,24 @@ const UserController = {
     res.json({ jwt: createJwt(req.user), profile: req.user });
   },
 
+  /**
+   * @swagger
+   * /auth/facebook:
+   *   get:
+   *     tags:
+   *      - User
+   *     description: signin linkedin
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: user information'
+   */
+
+  facebook(req, res) {
+    res.json({ jwt: createJwt(req.user), profile: req.user });
+  },
+
 };
 
 export default UserController;
