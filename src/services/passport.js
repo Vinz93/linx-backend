@@ -3,6 +3,7 @@ import LocalStrategy from 'passport-local';
 import httpStatus from 'http-status';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { Strategy as LinkedInStrategy } from 'passport-linkedin';
+import { Strategy as FacebookStrategy } from 'passport-facebook';
 
 import config from '../config/env';
 import { APIError } from '../helpers/errors';
@@ -119,6 +120,65 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
   }
 });
 
+const facebookOptions = {
+  consumerKey: credentials.facebook.apiKey,
+  consumerSecret: credentials.facebook.secretKey,
+  callbackURL: `${host}:${publicPort}${basePath}${path}/auth/facebook/callback`,
+  profileFields: [
+    'public_profile',
+  ],
+};
+
+const facebookLogin = new FacebookStrategy(facebookOptions, async (accessToken, refreshToken, profile, done) => {
+  try {
+    console.log(profile);
+    done(null, profile);
+    const user = await User.findOne({});
+    if (!user) {
+      /*  Register first time for the user */
+      // const newUser = await User.create({
+      //   firstName: data.firstName,
+      //   lastName: data.lastName,
+      //   email: data.emailAddress,
+      //   headline: data.headline,
+      //   location: {
+      //     coordinates: [-79.390919, 43.723563],
+      //   },
+      //   socialNetworks: [{
+      //     token,
+      //     id: data.id,
+      //     name: 'facebook',
+      //     profilePicture: data.pictureUrl,
+      //   }],
+      // });
+      // return done(null, { isNew: true, ...newUser.toJSON() });
+    } else if (user.useSocialNetwork('facebook')) {
+      /*  user exists and use linkedin */
+      // const linkedinIndex = user.socialNetworks.findIndex(sn => sn.name === 'linkedin');
+      // user.socialNetworks[linkedinIndex].profilePicture = data.pictureUrl;
+      // user.socialNetworks[linkedinIndex].token = token;
+      // await user.save();
+      // return done(null, user);
+    }
+    /*  user exists but is not on linkedin */
+    // user.socialNetworks.push({
+    //   token,
+    //   id: data.id,
+    //   name: 'linkedin',
+    //   profilePicture: data.pictureUrl,
+    // });
+    // const linkedinInfo = {
+    //   headline: data.headline,
+    //   experiences,
+    // };
+    // const userUpdated = await user.save();
+    // return done(null, { linkedinInfo, ...userUpdated.toJSON() });
+  } catch (err) {
+    return done(err, false);
+  }
+});
+
 passport.use(jwtLogin);
 passport.use(localLogin);
 passport.use(linkedinLogin);
+passport.use(facebookLogin);
