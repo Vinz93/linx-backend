@@ -32,8 +32,8 @@ export const passport = {
     secretKey: 'n5rsDNshjjhObhDs',
   },
   facebook: {
-    apiKey: '280634502343234',
-    secretKey: '9d24a6ab29ad710cd330a73ba9f928f8',
+    apiKey: '154853825072098',
+    secretKey: '9b5a57cc87eefc9df596929edb37a51a',
   },
 };
 
