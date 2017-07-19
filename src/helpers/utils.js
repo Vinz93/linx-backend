@@ -1,8 +1,8 @@
-import path from 'path';
 import multer from 'multer';
-import uuid from 'node-uuid';
-import mime from 'mime';
+import AWS from 'aws-sdk';
+import config from '../config/env';
 
+const { s3: s3Credentials } = config.aws;
 export const paginate = {
   limit(limit, value) {
     return limit !== undefined ? limit : value || 20;
@@ -13,17 +13,16 @@ export const paginate = {
 };
 
 export function upload() {
-  const storage = multer.diskStorage({
-    destination(req, file, cb) {
-      const { pictureId } = req.query;
-      cb(null, path.join(req.app.locals.config.root, '../pictures'));
-    },
-    filename(req, file, cb) {
-      cb(null, `${uuid.v4()}.${mime.extension(file.mimetype)}`);
-    },
-  });
-  return multer({ storage }).single('file');
+  return multer().single('file');
 }
+
+AWS.config.update({
+  accessKeyId: s3Credentials.accessKeyId,
+  secretAccessKey: s3Credentials.secretAccessKey,
+  region: s3Credentials.region,
+});
+
+export const s3 = new AWS.S3();
 
 export function average(items, n) {
   return items.reduce((acum, act) => acum + act) / n;
