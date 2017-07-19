@@ -195,6 +195,9 @@ const UserSchema = new Schema({
   pictureId: {
     type: String,
   },
+  pictureUrl: {
+    type: String,
+  },
   password: {
     type: String,
   },
@@ -330,10 +333,6 @@ UserSchema.virtual('age').get(function () {
   return age;
 });
 
-UserSchema.virtual('pictureUrl').get(function () {
-  if (!this.pictureId) return null;
-  return `${host}:${publicPort}/pictures/${this.pictureId}`;
-});
 
 UserSchema.methods = {
   authenticate(password) {
