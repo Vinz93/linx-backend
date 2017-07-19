@@ -37,7 +37,14 @@ export const passport = {
     secretKey: '9d24a6ab29ad710cd330a73ba9f928f8',
   },
 };
-
+export const aws = {
+  s3: {
+    accessKeyId: 'AKIAID4DP7RATH5M5PEQ',
+    secretAccessKey: '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',
+    region: 'us-east-1',
+    bucket: 'linx-pictures',
+  },
+};
 export const roles = {
   '8ha9hc98-777-oioiuo': 'ADMIN',
   'da907sdc-999-ghtyty': 'COMMON',

@@ -12,8 +12,7 @@ const { port, path, host, env, publicPort, basePath } = config.appConfig;
 
 function listen() {
   app.listen(port);
-  console.log(`  environment: ${env}`);
-  console.log(`💻  API started on port ${port}`);
+  console.log(`💻  API ${env} started on port ${port}`);
   console.log(`📔  Swagger on ${host}:${publicPort}${basePath}${path}/docs`);
 }
 
