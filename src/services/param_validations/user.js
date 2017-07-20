@@ -53,6 +53,7 @@ export default {
         .keys({
           company: Joi.string(),
           position: Joi.string(),
+          private: Joi.boolean(),
           period: Joi.object()
             .keys({
               start: Joi.string().isoDate(),
@@ -65,6 +66,7 @@ export default {
         .keys({
           institution: Joi.string(),
           degree: Joi.string(),
+          private: Joi.boolean(),
           period: Joi.object()
             .keys({
               start: Joi.string().isoDate(),
@@ -77,6 +79,7 @@ export default {
         .keys({
           name: Joi.string(),
           level: Joi.number().min(1).max(5),
+          private: Joi.boolean(),
         })
       ),
       reputation: Joi.object()
@@ -91,7 +94,7 @@ export default {
           ),
         }),
       headline: Joi.string(),
-      publicFields: Joi.array().items(Joi.string()),
+      privateFields: Joi.array().items(Joi.string()),
     },
   },
 

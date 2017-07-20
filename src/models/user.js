@@ -6,7 +6,6 @@ import crypto from 'crypto';
 
 import { average } from '../helpers/utils';
 import config from '../config/env';
-const { host, publicPort } = config.appConfig;
 
 const Schema = mongoose.Schema;
 
@@ -66,6 +65,8 @@ const Schema = mongoose.Schema;
  *        type: string
  *      position:
  *        type: string
+ *      private:
+ *        type: boolean
  *      period:
  *        $ref: '#/definitions/Period'
  *   Language:
@@ -75,6 +76,8 @@ const Schema = mongoose.Schema;
  *        type: string
  *      level:
  *        type: integer
+ *      private:
+ *        type: boolean
  *   SocialNetwork:
  *     type: object
  *     properties:
@@ -91,6 +94,8 @@ const Schema = mongoose.Schema;
  *        type: string
  *      degree:
  *        type: string
+ *      private:
+ *        type: boolean
  *      period:
  *        $ref: '#/definitions/Period'
  *   Accounts:
@@ -113,7 +118,7 @@ const Schema = mongoose.Schema;
  *     type: array
  *     items:
  *      $ref: '#/definitions/SocialNetwork'
- *   PublicFields:
+ *   PrivateFields:
  *     type: array
  *     items:
  *       type: string
@@ -157,8 +162,8 @@ const Schema = mongoose.Schema;
  *         $ref: '#/definitions/SocialNetworks'
  *       reputation:
  *         $ref: '#/definitions/Reputation'
- *       publicFields:
- *         $ref: '#/definitions/PublicFields'
+ *       privateFields:
+ *         $ref: '#/definitions/PrivateFields'
  *     required:
  *       - firstName
  *       - lastName
@@ -234,6 +239,10 @@ const UserSchema = new Schema({
     {
       company: String,
       position: String,
+      private: {
+        type: Boolean,
+        default: false,
+      },
       period: {
         start: Date,
         finish: Date,
@@ -244,6 +253,10 @@ const UserSchema = new Schema({
     {
       institution: String,
       degree: String,
+      private: {
+        type: Boolean,
+        default: false,
+      },
       period: {
         start: Date,
         finish: Date,
@@ -253,6 +266,10 @@ const UserSchema = new Schema({
   languages: [
     {
       name: String,
+      private: {
+        type: Boolean,
+        default: false,
+      },
       level: {
         type: Number,
         min: 1,
@@ -286,9 +303,10 @@ const UserSchema = new Schema({
       default: 0,
     },
   },
-  publicFields: [
+  privateFields: [
     {
       type: String,
+      enum: ['lastName', 'email', 'bornAt'],
     },
   ],
   headline: {
