@@ -28,7 +28,7 @@ export async function sendForgotPassword(user) {
   const { host } = config.appConfig;
   const token = createJwt(user);
   const button = `
-    <a href="${host}/forgot/${token}">
+    <a href="${host}/#/change-password/${token}">
       CONTINUE
     </a>`;
   const content = [{
