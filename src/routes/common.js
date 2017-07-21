@@ -39,6 +39,8 @@ router.route('/users/forgot-password')
 router.route('/users/change-password')
   .patch(validate(userValidator.changePassword), requireAuth, User.changePassword);
 
+router.post('/users/upload-picture', requireAuth, fileCtrl.uploadS3, fileCtrl.deleteS3);
+
 router.route('/users/me')
 .get(requireAuth, User.readByMe);
 
@@ -63,6 +65,5 @@ router.route('/zones/:id')
   .patch(validate(zoneValidator.update), requireAuth, onlyAdmin, catchErrors(Zone.update))
   .delete(validate(zoneValidator.delete), requireAuth, onlyAdmin, catchErrors(Zone.delete));
 
-router.post('/users/upload-picture', requireAuth, fileCtrl.uploadS3, fileCtrl.deleteS3);
 
 export default router;

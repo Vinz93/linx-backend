@@ -286,23 +286,6 @@ const UserSchema = new Schema({
       contacts: [String],
     },
   ],
-  reputation: {
-    rates: [{
-      rate: Number,
-      from: {
-        type: String,
-        ref: 'User',
-      },
-    }],
-    average: {
-      type: Number,
-      default: 0,
-    },
-    totalRates: {
-      type: Number,
-      default: 0,
-    },
-  },
   privateFields: [
     {
       type: String,
@@ -351,6 +334,7 @@ UserSchema.virtual('age').get(function () {
   return age;
 });
 
+/* add rates avg as virtual or static (aggregate)*/
 
 UserSchema.methods = {
   authenticate(password) {
@@ -374,11 +358,6 @@ UserSchema.pre('save', function (next) {
   }
   if (this.isModified('location')) {
     this.location.lastUpdate = Date.now();
-  }
-  if (this.isModified('reputation.rates')) {
-    this.reputation.totalRates = this.reputation.rates.length;
-    const rates = this.reputation.rates.map(item => item.rate);
-    this.reputation.average = average(rates, this.reputation.rates.length);
   }
   next();
 });
