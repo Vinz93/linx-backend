@@ -334,6 +334,7 @@ UserSchema.virtual('age').get(function () {
   return age;
 });
 
+/* add rates avg as virtual or static (aggregate)*/
 
 UserSchema.methods = {
   authenticate(password) {
