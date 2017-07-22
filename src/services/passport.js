@@ -68,7 +68,7 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
   try {
     const user = await User.findOne({ email: data.emailAddress });
     let experiences = [];
-    if (data.positions.values) {
+    if (data.positions.values.length > 0) {
       experiences = data.positions.values.map(experience => ({
         company: experience.company.name,
         position: experience.title,
