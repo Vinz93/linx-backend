@@ -67,13 +67,16 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenS
   const { _json: data } = profile;
   try {
     const user = await User.findOne({ email: data.emailAddress });
-    const experiences = data.positions.values.map(experience => ({
-      company: experience.company.name,
-      position: experience.title,
-      period: {
-        start: `${experience.startDate.month}-01-${experience.startDate.year}`,
-      },
-    }));
+    let experiences = [];
+    if (data.positions.values) {
+      experiences = data.positions.values.map(experience => ({
+        company: experience.company.name,
+        position: experience.title,
+        period: {
+          start: `${experience.startDate.month}-01-${experience.startDate.year}`,
+        },
+      }));
+    }
     if (!user) {
       /*  Register first time for the user */
       const newUser = await User.create({
