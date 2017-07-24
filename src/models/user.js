@@ -21,25 +21,6 @@ const Schema = mongoose.Schema;
  *      finish:
  *        type: string
  *        format: date-time
- *   Rate:
- *     type: object
- *     properties:
- *      rate:
- *        type: integer
- *      from:
- *        type: string
- *   Reputation:
- *     type: object
- *     properties:
- *      rates:
- *        type: array
- *        items:
- *          $ref: '#/definitions/Rate'
- *      average:
- *        type: integer
- *        format: float
- *      totalRates:
- *        type: integer
  *   Location:
  *    type: object
  *    properties:
@@ -160,8 +141,6 @@ const Schema = mongoose.Schema;
  *         $ref: '#/definitions/Languages'
  *       socialNetworks:
  *         $ref: '#/definitions/SocialNetworks'
- *       reputation:
- *         $ref: '#/definitions/Reputation'
  *       privateFields:
  *         $ref: '#/definitions/PrivateFields'
  *     required:
@@ -310,7 +289,6 @@ const UserSchema = new Schema({
       delete ret.__v;
       delete ret.deviceToken;
       delete ret.roleKey;
-      delete ret.reputation.rates;
       ret.social = ret.socialNetworks.map(sn => ({
         name: sn.name,
         profilePicture: sn.profilePicture,
