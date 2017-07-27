@@ -1,17 +1,17 @@
 import path from 'path';
 
 export const dbConfig = {
-  db: 'mongodb://localhost/linx',
+  db: 'mongodb://linx:solsteace11@aws-us-east-1-portal.5.dblayer.com:20919/linx-dev?ssl=true',
   passportSecret: 'yo78boom90',
 };
 
 export const appConfig = {
-  env: 'development',
+  env: 'integration',
   host: process.env.HOST || 'http://127.0.0.1',
   path: '/v1',
   basePath: '/api',
   port: 3000,
-  publicPort: 3000,
+  publicPort: 80,
   root: path.join(__dirname, '../../../'),
 };
 

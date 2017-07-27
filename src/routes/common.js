@@ -44,6 +44,9 @@ router.post('/users/upload-picture', requireAuth, fileCtrl.uploadS3, fileCtrl.de
 router.route('/users/me')
 .get(requireAuth, User.readByMe);
 
+router.route('/users/atAirport')
+.get(requireAuth, User.atAirport);
+
 router.route('/auth/linkedin')
   .get(linkedinOAuth);
 

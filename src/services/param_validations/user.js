@@ -128,6 +128,15 @@ export default {
       email: Joi.string().email().required(),
     },
   },
+  atAirport: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    query: {
+      longitude: Joi.string().required(),
+      latitude: Joi.string().required(),
+    },
+  },
 
   changePassword: {
     headers: {

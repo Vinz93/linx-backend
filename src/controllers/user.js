@@ -4,6 +4,7 @@ import { paginate } from '../helpers/utils';
 // import { APIError } from '../helpers/errors';
 import { createJwt } from '../services/jwt';
 import User from '../models/user';
+import Zone from '../models/zone';
 import { sendForgotPassword } from '../services/mailer';
 
 const UserController = {
@@ -283,6 +284,47 @@ const UserController = {
   readByMe(req, res) {
     return res.json(req.user);
   },
+
+    /**
+   * @swagger
+   * /users/atAirport:
+   *   get:
+   *     tags:
+   *      - User
+   *     description: Know if user is at airport or not
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: longitude
+   *         description: User's latitude.
+   *         in: query
+   *         required: true
+   *         type: string
+   *       - name: latitude
+   *         description: User's longitude.
+   *         in: query
+   *         required: true
+   *         type: string
+   *       - name: Authorization
+   *         description: format 'JWT your-token'.
+   *         in: header
+   *         required: true
+   *         type: string
+   *     responses:
+   *       204:
+   *         description: is at airport'
+   */
+
+  async atAirport(req, res) {
+    const { longitude, latitude } = req.query;
+    const zone = await Zone.findOne({ geometry: { $geoIntersects: { $geometry: { type: "Point", coordinates: [longitude, latitude] } } } });
+    if (zone) {
+      const { name } = zone;
+      return res.json({ name, isAt: true });
+    }
+    return res.json({ isAt: false });
+  },
+
 
   /**
    * @swagger
