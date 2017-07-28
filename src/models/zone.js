@@ -46,6 +46,9 @@ const ZoneSchema = new Schema({
   type: {
     type: String,
   },
+  terminals: {
+    type: [String],
+  },
   geometry: {
     type: {
       type: String,

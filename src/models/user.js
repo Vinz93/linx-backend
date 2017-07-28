@@ -174,7 +174,6 @@ const UserSchema = new Schema({
   },
   bornAt: {
     type: Date,
-    default: new Date(),
   },
   pictureId: {
     type: String,
@@ -304,10 +303,12 @@ UserSchema.index({ location: '2dsphere' });
 UserSchema.virtual('age').get(function () {
   const today = new Date();
   const bornAt = this.bornAt;
-  const m = today.getMonth() - bornAt.getMonth();
-  let age = today.getFullYear() - bornAt.getFullYear();
-
-  if (m < 0 || (m === 0 && today.getDate() < bornAt.getDate())) age--;
+  let age = 0;
+  if (bornAt) {
+    const m = today.getMonth() - bornAt.getMonth();
+    age = today.getFullYear() - bornAt.getFullYear();
+    if (m < 0 || (m === 0 && today.getDate() < bornAt.getDate())) age--;
+  }
 
   return age;
 });

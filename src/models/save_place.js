@@ -53,6 +53,9 @@ const SavePlaceSchema = new Schema({
   phone: {
     type: String,
   },
+  terminal: {
+    type: String,
+  },
   relevance: {
     type: Number,
     min: 1,
