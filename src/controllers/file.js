@@ -46,6 +46,7 @@ const fileController = {
         Bucket: s3Credentials.bucket,
         Key: `${uuid.v4()}.${mime.extension(file.mimetype)}`,
         Body: file.buffer,
+        ACL: 'public-read',
       };
       const options = { partSize: 10 * 1024 * 1024, queueSize: 1 };
       s3.upload(params, options, async (err, data) => {
