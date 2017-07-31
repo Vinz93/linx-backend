@@ -8,8 +8,26 @@ import { Strategy as FacebookStrategy } from 'passport-facebook';
 import config from '../config/env';
 import { APIError } from '../helpers/errors';
 import User from '../models/user';
+import { verifyJwt } from './jwt';
 const { dbConfig, passport: credentials } = config;
 const { host, publicPort, basePath, path } = config.appConfig;
+
+async function getUserIdByHeadersAuthorization(req) {
+  const authorization = req.headers.authorization;
+  if (!authorization) {
+    return undefined;
+  }
+  const [scheme, token] = authorization.split(' ');
+  if (!token || scheme !== 'JWT') {
+    return undefined;
+  }
+  try {
+    const { id } = await verifyJwt(token);
+    return id;
+  } catch (error) {
+    throw new APIError('Invalid Token', httpStatus.UNAUTHORIZED);
+  }
+}
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (obj, done) => {
@@ -47,6 +65,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
 });
 
 const linkedinOptions = {
+  passReqToCallback: true,
   consumerKey: credentials.linkedin.apiKey,
   consumerSecret: credentials.linkedin.secretKey,
   callbackURL: `${host}:${publicPort}${basePath}${path}/auth/linkedin/callback`,
@@ -63,10 +82,17 @@ const linkedinOptions = {
 };
 
 
-const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (token, tokenSecret, profile, done) => {
+const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, tokenSecret, profile, done) => {
   const { _json: data } = profile;
   try {
-    const user = await User.findOne({ email: data.emailAddress });
+    const authorizedUserId = await getUserIdByHeadersAuthorization(req);
+    const user = await User.findOne({
+      $or: [
+        { email: data.emailAddress },
+        { _id: authorizedUserId },
+        { 'socialNetworks.token': token },
+      ],
+    });
     let experiences = [];
     if (data.positions.values.length > 0) {
       experiences = data.positions.values.map(experience => ({
