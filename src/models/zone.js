@@ -26,6 +26,10 @@ const Schema = mongoose.Schema;
  *         type: string
  *       type:
  *         type: string
+ *       terminals:
+ *         type: array
+ *         items:
+ *           type: string
  *       geometry:
  *         $ref: '#/definitions/Geometry'
  *     required:

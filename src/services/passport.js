@@ -81,7 +81,13 @@ const linkedinOptions = {
   ],
 };
 
-
+function validateDateExperience(startDate){
+  if(startDate){
+    return `${startDate.month}-01-${startDate.year}`;
+  }else{
+    return null;
+  }
+}
 const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, tokenSecret, profile, done) => {
   const { _json: data } = profile;
   try {
@@ -99,7 +105,7 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, t
         company: experience.company.name,
         position: experience.title,
         period: {
-          start: `${experience.startDate.month}-01-${experience.startDate.year}`,
+          start: validateDateExperience(experience.startDate),
         },
       }));
     }

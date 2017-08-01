@@ -23,6 +23,7 @@ export default {
       description: Joi.string(),
       address: Joi.string(),
       type: Joi.string(),
+      terminals: Joi.array().items(Joi.string()),
       geometry: Joi.object()
         .keys({
           coordinates: Joi.array().items(
@@ -63,6 +64,7 @@ export default {
       description: Joi.string(),
       address: Joi.string(),
       type: Joi.string(),
+      terminals: Joi.array().items(Joi.string()),
       geometry: Joi.object()
         .keys({
           coordinates: Joi.array().items(
