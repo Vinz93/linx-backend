@@ -82,9 +82,9 @@ const linkedinOptions = {
 };
 
 function validateDateExperience(startDate){
-  if(startDate){
+  if(startDate) {
     return `${startDate.month}-01-${startDate.year}`;
-  }else{
+  } else {
     return null;
   }
 }
