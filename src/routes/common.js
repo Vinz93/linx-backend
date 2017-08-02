@@ -39,13 +39,17 @@ router.route('/users/forgot-password')
 router.route('/users/change-password')
   .patch(validate(userValidator.changePassword), requireAuth, User.changePassword);
 
-router.post('/users/upload-picture', requireAuth, fileCtrl.uploadS3, fileCtrl.deleteS3);
+router.post('/users/upload-picture', (req, res, next) => { 
+  // SOLO PARA PRUEBA
+  console.log('headers --->', req.headers);
+  next();
+}, requireAuth, fileCtrl.uploadS3, fileCtrl.deleteS3);
 
 router.route('/users/me')
-.get(requireAuth, User.readByMe);
+  .get(requireAuth, User.readByMe);
 
 router.route('/users/atAirport')
-.get(requireAuth, User.atAirport);
+  .get(requireAuth, User.atAirport);
 
 router.route('/auth/linkedin')
   .get(linkedinOAuth);
