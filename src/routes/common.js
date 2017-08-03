@@ -3,9 +3,9 @@ import validate from 'express-validation';
 import passport from 'passport';
 
 import '../services/passport';
-const requireAuth = passport.authenticate('jwt', { session: false });
+const requireAuth = passport.authenticate('jwt', { session: true });
 const requireSignin = passport.authenticate('local', { session: false });
-const linkedinOAuth = passport.authenticate('linkedin', { session: true });
+const linkedinOAuth = passport.authenticate('linkedin');
 const facebookOAuth = passport.authenticate('facebook', { scope: 'email' });
 
 import User from '../controllers/user';
@@ -47,18 +47,17 @@ router.route('/users/me')
 router.route('/users/atAirport')
 .get(requireAuth, User.atAirport);
 
-router.route('/auth/linkedin')
+router.route('/users/linkedin')
   .get((req, res, next) => {
     console.log('headers linkedin ---->', req.headers);
     next();
-  }, linkedinOAuth);
+  }, requireAuth, linkedinOAuth);
+
+router.route('/auth/linkedin')
+  .get(linkedinOAuth);
 
 router.route('/auth/linkedin/callback')
-  .get((req, res, next) => {
-    console.log('headers linkedin callback ---->', req.headers);
-    // delete req.headers.authorization;
-    next();
-  }, linkedinOAuth, User.linkedin);
+  .get(linkedinOAuth, User.linkedin);
 
 router.route('/auth/facebook')
   .get(facebookOAuth);

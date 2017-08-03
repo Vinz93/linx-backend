@@ -285,35 +285,35 @@ const UserController = {
     return res.json(req.user);
   },
 
-    /**
-   * @swagger
-   * /users/atAirport:
-   *   get:
-   *     tags:
-   *      - User
-   *     description: Know if user is at airport or not
-   *     produces:
-   *       - application/json
-   *     parameters:
-   *       - name: longitude
-   *         description: User's latitude.
-   *         in: query
-   *         required: true
-   *         type: string
-   *       - name: latitude
-   *         description: User's longitude.
-   *         in: query
-   *         required: true
-   *         type: string
-   *       - name: Authorization
-   *         description: format 'JWT your-token'.
-   *         in: header
-   *         required: true
-   *         type: string
-   *     responses:
-   *       204:
-   *         description: is at airport'
-   */
+  /**
+ * @swagger
+ * /users/atAirport:
+ *   get:
+ *     tags:
+ *      - User
+ *     description: Know if user is at airport or not
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: longitude
+ *         description: User's latitude.
+ *         in: query
+ *         required: true
+ *         type: string
+ *       - name: latitude
+ *         description: User's longitude.
+ *         in: query
+ *         required: true
+ *         type: string
+ *       - name: Authorization
+ *         description: format 'JWT your-token'.
+ *         in: header
+ *         required: true
+ *         type: string
+ *     responses:
+ *       204:
+ *         description: is at airport'
+ */
 
   async atAirport(req, res) {
     const { longitude, latitude } = req.query;
@@ -324,6 +324,20 @@ const UserController = {
     }
     return res.json({ isAt: false });
   },
+
+  /**
+ * @swagger
+ * /users/linkedin:
+ *   get:
+ *     tags:
+ *      - User
+ *     description: Integration with linkedin profile
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: user information'
+ */
 
 
   /**

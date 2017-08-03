@@ -8,27 +8,8 @@ import { Strategy as FacebookStrategy } from 'passport-facebook';
 import config from '../config/env';
 import { APIError } from '../helpers/errors';
 import User from '../models/user';
-import { verifyJwt } from './jwt';
 const { dbConfig, passport: credentials } = config;
 const { host, publicPort, basePath, path } = config.appConfig;
-
-async function getUserIdByHeadersAuthorization(req) {
-  const authorization = req.headers.authorization;
-  console.log('passport --->', authorization);
-  if (!authorization) {
-    return undefined;
-  }
-  const [scheme, token] = authorization.split(' ');
-  if (!token || scheme !== 'JWT') {
-    return undefined;
-  }
-  try {
-    const { id } = await verifyJwt(token);
-    return id;
-  } catch (error) {
-    throw new APIError('Invalid Token', httpStatus.UNAUTHORIZED);
-  }
-}
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (obj, done) => {
@@ -85,14 +66,14 @@ const linkedinOptions = {
 function validateDateExperience(startDate) {
   if (startDate) {
     return `${startDate.month}-01-${startDate.year}`;
-  } else {
-    return null;
   }
+  return null;
 }
+
 const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, tokenSecret, profile, done) => {
   const { _json: data } = profile;
   try {
-    const authorizedUserId = await getUserIdByHeadersAuthorization(req);
+    const authorizedUserId = req.user ? req.user.id : undefined;
     console.log('authorizedUserId ---->', authorizedUserId);
     const user = await User.findOne({
       $or: [
