@@ -48,10 +48,7 @@ router.route('/users/atAirport')
 .get(requireAuth, User.atAirport);
 
 router.route('/users/linkedin')
-  .get((req, res, next) => {
-    console.log('headers linkedin ---->', req.headers);
-    next();
-  }, requireAuth, linkedinOAuth);
+  .get(requireAuth, linkedinOAuth);
 
 router.route('/auth/linkedin')
   .get(linkedinOAuth);

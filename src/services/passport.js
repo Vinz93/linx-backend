@@ -74,7 +74,6 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, t
   const { _json: data } = profile;
   try {
     const authorizedUserId = req.user ? req.user.id : undefined;
-    console.log('authorizedUserId ---->', authorizedUserId);
     const user = await User.findOne({
       $or: [
         { email: data.emailAddress },
