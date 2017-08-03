@@ -14,6 +14,7 @@ const { host, publicPort, basePath, path } = config.appConfig;
 
 async function getUserIdByHeadersAuthorization(req) {
   const authorization = req.headers.authorization;
+  console.log('passport --->', authorization);
   if (!authorization) {
     return undefined;
   }
