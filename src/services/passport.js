@@ -115,10 +115,10 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, t
       const linkedinIndex = user.socialNetworks.findIndex(sn => sn.name === 'linkedin');
       user.socialNetworks[linkedinIndex].profilePicture = data.pictureUrl;
       user.socialNetworks[linkedinIndex].token = token;
-      const linkedinInfo = {
+      const linkedinInfo = authorizedUserId ? {
         headline: data.headline,
         experiences,
-      };
+      } : undefined;
       await user.save();
       return done(null, { linkedinInfo, ...user.toJSON() });
     }
