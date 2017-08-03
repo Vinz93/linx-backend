@@ -8,26 +8,8 @@ import { Strategy as FacebookStrategy } from 'passport-facebook';
 import config from '../config/env';
 import { APIError } from '../helpers/errors';
 import User from '../models/user';
-import { verifyJwt } from './jwt';
 const { dbConfig, passport: credentials } = config;
 const { host, publicPort, basePath, path } = config.appConfig;
-
-async function getUserIdByHeadersAuthorization(req) {
-  const authorization = req.headers.authorization;
-  if (!authorization) {
-    return undefined;
-  }
-  const [scheme, token] = authorization.split(' ');
-  if (!token || scheme !== 'JWT') {
-    return undefined;
-  }
-  try {
-    const { id } = await verifyJwt(token);
-    return id;
-  } catch (error) {
-    throw new APIError('Invalid Token', httpStatus.UNAUTHORIZED);
-  }
-}
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async (obj, done) => {
@@ -87,10 +69,11 @@ function validateDateExperience(startDate) {
   }
   return null;
 }
+
 const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, tokenSecret, profile, done) => {
   const { _json: data } = profile;
   try {
-    const authorizedUserId = await getUserIdByHeadersAuthorization(req);
+    const authorizedUserId = req.user ? req.user.id : undefined;
     const user = await User.findOne({
       $or: [
         { email: data.emailAddress },
@@ -132,8 +115,12 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, t
       const linkedinIndex = user.socialNetworks.findIndex(sn => sn.name === 'linkedin');
       user.socialNetworks[linkedinIndex].profilePicture = data.pictureUrl;
       user.socialNetworks[linkedinIndex].token = token;
+      const linkedinInfo = authorizedUserId ? {
+        headline: data.headline,
+        experiences,
+      } : undefined;
       await user.save();
-      return done(null, user);
+      return done(null, { linkedinInfo, ...user.toJSON() });
     }
     /*  user exists but is not on linkedin */
     user.socialNetworks.push({

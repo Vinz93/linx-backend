@@ -11,7 +11,7 @@ export const appConfig = {
   path: '/v1',
   basePath: '/api',
   port: 3000,
-  publicPort: 80,
+  publicPort: 3000,
   root: path.join(__dirname, '../../../'),
 };
 

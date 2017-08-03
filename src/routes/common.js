@@ -3,7 +3,7 @@ import validate from 'express-validation';
 import passport from 'passport';
 
 import '../services/passport';
-const requireAuth = passport.authenticate('jwt', { session: false });
+const requireAuth = passport.authenticate('jwt', { session: true });
 const requireSignin = passport.authenticate('local', { session: false });
 const linkedinOAuth = passport.authenticate('linkedin');
 const facebookOAuth = passport.authenticate('facebook', { scope: 'email' });
@@ -46,6 +46,9 @@ router.route('/users/me')
 
 router.route('/users/atAirport')
 .get(requireAuth, User.atAirport);
+
+router.route('/users/linkedin')
+  .get(requireAuth, linkedinOAuth);
 
 router.route('/auth/linkedin')
   .get(linkedinOAuth);
