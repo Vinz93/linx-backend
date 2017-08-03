@@ -115,8 +115,12 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, t
       const linkedinIndex = user.socialNetworks.findIndex(sn => sn.name === 'linkedin');
       user.socialNetworks[linkedinIndex].profilePicture = data.pictureUrl;
       user.socialNetworks[linkedinIndex].token = token;
+      const linkedinInfo = {
+        headline: data.headline,
+        experiences,
+      };
       await user.save();
-      return done(null, user);
+      return done(null, { linkedinInfo, ...user.toJSON() });
     }
     /*  user exists but is not on linkedin */
     user.socialNetworks.push({
