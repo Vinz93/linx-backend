@@ -5,7 +5,7 @@ import passport from 'passport';
 import '../services/passport';
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireSignin = passport.authenticate('local', { session: false });
-const linkedinOAuth = passport.authenticate('linkedin');
+const linkedinOAuth = passport.authenticate('linkedin', { session: true });
 const facebookOAuth = passport.authenticate('facebook', { scope: 'email' });
 
 import User from '../controllers/user';
@@ -54,7 +54,11 @@ router.route('/auth/linkedin')
   }, linkedinOAuth);
 
 router.route('/auth/linkedin/callback')
-  .get(linkedinOAuth, User.linkedin);
+  .get((req, res, next) => {
+    console.log('headers linkedin callback ---->', req.headers);
+    // delete req.headers.authorization;
+    next();
+  }, linkedinOAuth, User.linkedin);
 
 router.route('/auth/facebook')
   .get(facebookOAuth);

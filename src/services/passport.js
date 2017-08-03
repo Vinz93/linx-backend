@@ -82,8 +82,8 @@ const linkedinOptions = {
   ],
 };
 
-function validateDateExperience(startDate){
-  if(startDate) {
+function validateDateExperience(startDate) {
+  if (startDate) {
     return `${startDate.month}-01-${startDate.year}`;
   } else {
     return null;
@@ -93,6 +93,7 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, t
   const { _json: data } = profile;
   try {
     const authorizedUserId = await getUserIdByHeadersAuthorization(req);
+    console.log('authorizedUserId ---->', authorizedUserId);
     const user = await User.findOne({
       $or: [
         { email: data.emailAddress },
