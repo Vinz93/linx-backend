@@ -148,7 +148,7 @@ const facebookOptions = {
     'id',
     'first_name',
     'last_name',
-    'picture',
+    'picture.type(large)',
     'email',
   ],
 };
