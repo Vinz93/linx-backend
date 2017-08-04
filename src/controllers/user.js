@@ -328,8 +328,8 @@ const UserController = {
       },
     });
     if (zone) {
-      const { name } = zone;
-      return res.json({ name, isAt: true });
+      const { name, terminals } = zone;
+      return res.json({ name, terminals, isAt: true });
     }
     return res.json({ isAt: false });
   },
