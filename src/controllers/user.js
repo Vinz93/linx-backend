@@ -318,14 +318,17 @@ const UserController = {
   async atAirport(req, res) {
     const { longitude, latitude } = req.query;
     const zone = await Zone.findOne({
-      geometry: {
-        $geoIntersects: {
-          $geometry: {
-            type: "Point",
-            coordinates: [longitude, latitude],
+      $and: [{
+        geometry: {
+          $geoIntersects: {
+            $geometry: {
+              type: "Point",
+              coordinates: [longitude, latitude],
+            },
           },
-        },
-      },
+        } },
+        { type: "airport" },
+      ],
     });
     if (zone) {
       const { name, terminals } = zone;
