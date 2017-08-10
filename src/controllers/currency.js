@@ -43,12 +43,12 @@ const CurrencyController = {
    *       - application/json
    *     parameters:
    *       - name: source
-   *         description: the currency that you have ejm: 'USD'.
+   *         description: the currency that you have ejm= 'USD'.
    *         in: query
    *         required: true
    *         type: string
    *       - name: currencies
-   *         description: the currencies that you want ejm: 'CAD,VEF'.
+   *         description: the currencies that you want ejm= 'CAD,VEF'.
    *         in: query
    *         required: true
    *         type: string
@@ -58,7 +58,7 @@ const CurrencyController = {
    */
 
   async rates(req, res) {
-    const { source = 'USD', currencies } = req.query;
+    const { source, currencies } = req.query;
     const response = await axios.get(`${apiUrl}/live`, {
       params: {
         access_key: accessKey,
@@ -69,7 +69,7 @@ const CurrencyController = {
     if (!response.data.success) {
       throw new APIError(httpStatus.BAD_REQUEST, 'Error getting currencies');
     }
-    res.status(httpStatus.OK).json(response.data.currencies);
+    res.status(httpStatus.OK).json(response.data.quotes);
   },
 };
 
