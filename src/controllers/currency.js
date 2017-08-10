@@ -31,6 +31,46 @@ const CurrencyController = {
     }
     res.status(httpStatus.OK).json(response.data.currencies);
   },
+
+  /**
+   * @swagger
+   * /currencies/rates:
+   *   get:
+   *     tags:
+   *      - Currency
+   *     description: Returns the currencies rates based on a single source
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: source
+   *         description: the currency that you have ejm: 'USD'.
+   *         in: query
+   *         required: true
+   *         type: string
+   *       - name: currencies
+   *         description: the currencies that you want ejm: 'CAD,VEF'.
+   *         in: query
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: return an array of users'
+   */
+
+  async rates(req, res) {
+    const { source = 'USD', currencies } = req.query;
+    const response = await axios.get(`${apiUrl}/live`, {
+      params: {
+        access_key: accessKey,
+        source,
+        currencies,
+      },
+    });
+    if (!response.data.success) {
+      throw new APIError(httpStatus.BAD_REQUEST, 'Error getting currencies');
+    }
+    res.status(httpStatus.OK).json(response.data.currencies);
+  },
 };
 
 export default CurrencyController;
