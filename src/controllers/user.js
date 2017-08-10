@@ -287,7 +287,7 @@ const UserController = {
 
   /**
  * @swagger
- * /users/atAirport:
+ * /users/at-airport:
  *   get:
  *     tags:
  *      - User
