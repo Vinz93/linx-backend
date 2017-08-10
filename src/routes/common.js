@@ -13,6 +13,7 @@ import userValidator from '../services/param_validations/user';
 import Zone from '../controllers/zone';
 import zoneValidator from '../services/param_validations/zone';
 import fileCtrl from '../controllers/file';
+import Currency from '../controllers/currency';
 import { catchErrors } from '../helpers/errors';
 import { onlyAdmin } from '../services/acl';
 const router = express.Router(); // eslint-disable-line new-cap
@@ -70,6 +71,9 @@ router.route('/zones/:id')
   .get(validate(zoneValidator.read), requireAuth, onlyAdmin, catchErrors(Zone.read))
   .patch(validate(zoneValidator.update), requireAuth, onlyAdmin, catchErrors(Zone.update))
   .delete(validate(zoneValidator.delete), requireAuth, onlyAdmin, catchErrors(Zone.delete));
+
+router.route('/currencies/list')
+  .get(catchErrors(Currency.list));
 
 
 export default router;
