@@ -23,15 +23,8 @@ const CurrencyController = {
    */
 
   async list(req, res) {
-    const response = await axios.get(`${apiUrl}/list`, {
-      params: {
-        access_key: accessKey,
-      },
-    });
-    if (!response.data.success) {
-      throw new APIError(httpStatus.BAD_REQUEST, 'Error getting currencies');
-    }
-    res.status(httpStatus.OK).json(response.data.currencies);
+    const currencies = await Currency.find().select('currencyKey name');
+    res.status(httpStatus.OK).json(currencies);
   },
 
   /**
