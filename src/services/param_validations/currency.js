@@ -10,4 +10,22 @@ export default {
       currencies: Joi.string().required(),
     },
   },
+  create: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    body: {
+      coinType: Joi.string().required(),
+      currencyKey: Joi.string().required(),
+      value: Joi.number().required(),
+    },
+  },
+  delete: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    path: {
+      id: Joi.objectId().required(),
+    },
+  },
 };

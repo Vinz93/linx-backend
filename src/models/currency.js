@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
 /**
  * @swagger
  * definition:
- *   Denomination:
+ *   Currency:
  *     type: object
  *     properties:
  *      coinType:
@@ -20,7 +20,7 @@ const Schema = mongoose.Schema;
  *     required:
  *       - currencyKey
  */
-const DenominationSchema = new Schema({
+const CurrencySchema = new Schema({
   coinType: String,
   value: Number,
   currencyKey: String,
@@ -31,7 +31,7 @@ const DenominationSchema = new Schema({
   toJSON: { virtuals: true },
 });
 
-DenominationSchema.plugin(paginate);
-DenominationSchema.plugin(fieldRemover, '__v');
+CurrencySchema.plugin(paginate);
+CurrencySchema.plugin(fieldRemover, '__v');
 
-export default mongoose.model('Denomination', DenominationSchema);
+export default mongoose.model('Currency', CurrencySchema);

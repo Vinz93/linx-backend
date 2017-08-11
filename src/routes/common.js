@@ -10,10 +10,8 @@ const facebookOAuth = passport.authenticate('facebook', { scope: 'email' });
 
 import User from '../controllers/user';
 import Exchange from '../controllers/exchange';
-import Denomination from '../controllers/denomination';
 import userValidator from '../services/param_validations/user';
 import exchangeValidator from '../services/param_validations/exchange';
-import denominationValidator from '../services/param_validations/denomination';
 import Zone from '../controllers/zone';
 import zoneValidator from '../services/param_validations/zone';
 import fileCtrl from '../controllers/file';
@@ -69,10 +67,6 @@ router.route('/exchanges')
   .post(validate(exchangeValidator.create), requireAuth, catchErrors(Exchange.create))
   .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
 
-router.route('/denominations')
-  .post(validate(denominationValidator.create), requireAuth, catchErrors(Denomination.create))
-  .delete(validate(denominationValidator.delete), requireAuth, catchErrors(Denomination.delete));
-
 router.route('/auth/facebook/callback')
   .get(facebookOAuth, User.facebook);
 
@@ -84,6 +78,10 @@ router.route('/zones/:id')
   .get(validate(zoneValidator.read), requireAuth, onlyAdmin, catchErrors(Zone.read))
   .patch(validate(zoneValidator.update), requireAuth, onlyAdmin, catchErrors(Zone.update))
   .delete(validate(zoneValidator.delete), requireAuth, onlyAdmin, catchErrors(Zone.delete));
+
+router.route('/currencies')
+  .post(validate(currencyValidator.create), requireAuth, catchErrors(Currency.create))
+  .delete(validate(currencyValidator.delete), requireAuth, catchErrors(Currency.delete));
 
 router.route('/currencies/list')
   .get(catchErrors(Currency.list));

@@ -51,7 +51,7 @@ const ExchangeSchema = new Schema({
         {
           denominationId: {
             type: mongoose.Schema.ObjectId,
-            ref: 'Denomination',
+            ref: 'Currency',
             required: true,
           },
           quantity: Number,
