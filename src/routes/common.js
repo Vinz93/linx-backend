@@ -84,7 +84,7 @@ router.route('/currencies')
   .delete(validate(currencyValidator.delete), requireAuth, catchErrors(Currency.delete));
 
 router.route('/currencies/list')
-  .get(catchErrors(Currency.list));
+  .get(validate(currencyValidator.list), catchErrors(Currency.list));
 
 router.route('/currencies/rates')
   .get(validate(currencyValidator.rates), catchErrors(Currency.rates));

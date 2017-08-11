@@ -17,13 +17,25 @@ const CurrencyController = {
    *     description: Show all currencies
    *     produces:
    *       - application/json
+   *     parameters:
+   *       - name: search
+   *         description: predictive search.
+   *         in: query
+   *         required: false
+   *         type: string
    *     responses:
    *       200:
    *         description: return an object of currencies'
    */
 
   async list(req, res) {
-    const currencies = await Currency.find().select('currencyKey name');
+    const { search = '' } = req.query;
+    const currencies = await Currency.find({ $or: [
+      { $text: { $search: search } },
+      { currencyKey: { $regex: search, $options: '$i' } },
+      { name: { $regex: search, $options: '$i' } },
+    ] })
+    .select('currencyKey name');
     res.status(httpStatus.OK).json(currencies);
   },
 

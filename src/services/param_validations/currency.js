@@ -4,6 +4,11 @@ import Joi from 'joi';
 Joi.objectId = objectId(Joi);
 
 export default {
+  list: {
+    query: {
+      search: Joi.string(),
+    },
+  },
   rates: {
     query: {
       source: Joi.string().required(),

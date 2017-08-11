@@ -30,8 +30,14 @@ const Schema = mongoose.Schema;
  *       - currencyKey
  */
 const CurrencySchema = new Schema({
-  currencyKey: String,
-  name: String,
+  currencyKey: {
+    type: String,
+    index: true,
+  },
+  name: {
+    type: String,
+    index: true,
+  },
   denominations: [
     {
       coinType: String,
@@ -44,6 +50,14 @@ const CurrencySchema = new Schema({
   toJSON: { virtuals: true },
 });
 
+CurrencySchema.index({
+  name: 'text',
+  currencyKey: 'text',
+}, {
+  name: 'search_name_text',
+  currencyKey: 'search_currency_text',
+});
+CurrencySchema.index({ name: 1, currencyKey: 1 });
 CurrencySchema.plugin(paginate);
 CurrencySchema.plugin(fieldRemover, '__v');
 
