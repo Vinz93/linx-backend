@@ -10,8 +10,10 @@ const facebookOAuth = passport.authenticate('facebook', { scope: 'email' });
 
 import User from '../controllers/user';
 import Exchange from '../controllers/exchange';
+import Denomination from '../controllers/denomination';
 import userValidator from '../services/param_validations/user';
 import exchangeValidator from '../services/param_validations/exchange';
+import denominationValidator from '../services/param_validations/denomination';
 import Zone from '../controllers/zone';
 import zoneValidator from '../services/param_validations/zone';
 import fileCtrl from '../controllers/file';
@@ -64,6 +66,10 @@ router.route('/auth/facebook')
 router.route('/exchanges')
   .post(validate(exchangeValidator.create), requireAuth, catchErrors(Exchange.create))
   .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
+
+router.route('/denominations')
+  .post(validate(denominationValidator.create), requireAuth, catchErrors(Denomination.create))
+  .delete(validate(denominationValidator.delete), requireAuth, catchErrors(Denomination.delete));
 
 router.route('/auth/facebook/callback')
   .get(facebookOAuth, User.facebook);

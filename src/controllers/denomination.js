@@ -1,17 +1,16 @@
 import httpStatus from 'http-status';
 import { APIError } from '../helpers/errors';
 
-import Exchange from '../models/exchange';
+import Denomination from '../models/denomination';
 
-
-const ExchangeController = {
+const DenominationController = {
 /**
 * @swagger
-* /exchanges:
+* /denominations:
 *   post:
 *     tags:
-*      - Exchange
-*     description: Create Exchange
+*      - Denomination
+*     description: Create Denomination
 *     produces:
 *       - application/json
 *     parameters:
@@ -20,18 +19,18 @@ const ExchangeController = {
 *         in: header
 *         required: true
 *         type: string
-*       - name: exchange
-*         description: Exchange object.
+*       - name: denomination
+*         description: Denomination object.
 *         in: body
 *         required: true
 *         schema:
-*           $ref: '#/definitions/Exchange'
+*           $ref: '#/definitions/Denomination'
 *     responses:
 *       200:
-*         description: Successfully created Exchange
+*         description: Successfully created Denomination
 *         schema:
 *           allOf:
-*              - $ref: '#/definitions/Exchange'
+*              - $ref: '#/definitions/Denomination'
 *              - properties:
 *                  id:
 *                    type: string
@@ -43,22 +42,23 @@ const ExchangeController = {
 *                    format: date-time
 */
   async create(req, res) {
-    const newExchange = await Exchange.create({ requester: req.user.id, ...req.body });
-    return res.status(httpStatus.CREATED).json(newExchange);
+    //const { currencyKey } = req.body;
+    const newDenomination = await Denomination.create(req.body);
+    return res.status(httpStatus.CREATED).json(newDenomination);
   },
 
 /**
 * @swagger
-* /exchange/{id}:
+* /denominations/{id}:
 *   delete:
 *     tags:
-*      - Exchange
-*     description: delete exchange
+*      - Denomination
+*     description: delete denomination
 *     produces:
 *       - application/json
 *     parameters:
 *       - name: id
-*         description: exchange id.
+*         description: denomination id.
 *         in: path
 *         required: true
 *         type: string
@@ -73,13 +73,13 @@ const ExchangeController = {
 */
 
   async delete(req, res) {
-    const exchange = await Exchange.findById(req.params.id);
-    if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
-    await exchange.remove();
+    const denomination = await Denomination.findById(req.params.id);
+    if (!denomination) throw new APIError('denomination not found', httpStatus.NOT_FOUND);
+    await denomination.remove();
     res.status(httpStatus.NO_CONTENT).end();
   },
 
 };
 
-export default ExchangeController;
+export default DenominationController;
 

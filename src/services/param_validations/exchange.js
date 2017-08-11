@@ -17,21 +17,20 @@ export default {
             denominations: Joi.array().items(
               Joi.object()
                 .keys({
-                  coinType: Joi.string(),
-                  value: Joi.number(),
-                  quantity: Joi.number(),   
+                  denominationId: Joi.string(),
+                  quantity: Joi.number(),
                 })
-              )
+              ),
           })
         ).required(),
     },
   },
-  delete:{
-    headers:{
+  delete: {
+    headers: {
       authorization: Joi.string().required(),
     },
     path: {
       id: Joi.objectId().required(),
     },
-  }
+  },
 };
