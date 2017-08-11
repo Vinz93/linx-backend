@@ -19,7 +19,7 @@ const CurrencyController = {
    *       - application/json
    *     parameters:
    *       - name: search
-   *         description: predictive search.
+   *         description: predictive search on name and currencyKey (optional).
    *         in: query
    *         required: false
    *         type: string
