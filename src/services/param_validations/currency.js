@@ -15,9 +15,14 @@ export default {
       authorization: Joi.string().required(),
     },
     body: {
-      coinType: Joi.string().required(),
       currencyKey: Joi.string().required(),
-      value: Joi.number().required(),
+      name: Joi.string().required(),
+      denominations: Joi.array().items(
+        Joi.object().keys({
+          value: Joi.number().required(),
+          coinType: Joi.string().required(),
+        })
+        ),
     },
   },
   delete: {

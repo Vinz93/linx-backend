@@ -8,23 +8,36 @@ const Schema = mongoose.Schema;
 /**
  * @swagger
  * definition:
+ *   Denominations:
+ *     type: object
+ *     properties:
+ *       coinType:
+ *          type: string
+ *       value:
+ *          type: number
  *   Currency:
  *     type: object
  *     properties:
- *      coinType:
- *        type: string
- *      value:
- *        type: number
  *      currencyKey:
  *        type: string
+ *      name:
+ *        type: string
+ *      denominations:
+ *        type: array
+ *        items:
+ *         $ref: '#/definitions/Denominations'
  *     required:
  *       - currencyKey
  */
 const CurrencySchema = new Schema({
-  coinType: String,
-  value: Number,
   currencyKey: String,
   name: String,
+  denominations: [
+    {
+      coinType: String,
+      value: Number,
+    },
+  ],
 }, {
   timestamps: true,
   toObject: { virtuals: true },
