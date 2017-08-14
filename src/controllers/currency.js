@@ -10,7 +10,7 @@ const { apiUrl, accessKey } = config.currency.currencyLayer;
 const CurrencyController = {
   /**
    * @swagger
-   * /currencies/list:
+   * /currencies:
    *   get:
    *     tags:
    *      - Currency
@@ -18,11 +18,6 @@ const CurrencyController = {
    *     produces:
    *       - application/json
    *     parameters:
-   *       - name: Authorization
-   *         description: auth token.
-   *         in: header
-   *         required: true
-   *         type: string
    *       - name: search
    *         description: predictive search on name and currencyKey (optional).
    *         in: query

@@ -80,17 +80,14 @@ router.route('/zones/:id')
   .delete(validate(zoneValidator.delete), requireAuth, onlyAdmin, catchErrors(Zone.delete));
 
 router.route('/currencies')
+  .get(validate(currencyValidator.list), catchErrors(Currency.list))
   .post(validate(currencyValidator.create), requireAuth, catchErrors(Currency.create))
   .delete(validate(currencyValidator.delete), requireAuth, catchErrors(Currency.delete));
 
+router.route('/currencies/rates')
+  .get(validate(currencyValidator.rates), catchErrors(Currency.rates));
 
 router.route('/currencies/:id')
   .get(validate(currencyValidator.read), requireAuth, catchErrors(Currency.getCurrency));
-
-router.route('/currencies/list')
-  .get(validate(currencyValidator.list), catchErrors(Currency.list));
-
-router.route('/currencies/rates')
-  .get(validate(currencyValidator.rates), catchErrors(Currency.rates));
 
 export default router;
