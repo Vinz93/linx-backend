@@ -45,12 +45,17 @@ const CurrencyController = {
    *   get:
    *     tags:
    *      - Currency
-   *     description: Show a currencies
+   *     description: Show a currency information.
    *     produces:
    *       - application/json
    *     parameters:
+   *       - name: Authorization
+   *         description: auth token, example JWT 'token'
+   *         in: header
+   *         required: true
+   *         type: string
    *       - name: id
-   *         description: Currency id.
+   *         description: Currency id Example api/v1/currency/USD
    *         in: path
    *         required: true
    *         type: string
@@ -60,7 +65,7 @@ const CurrencyController = {
    */
 
   async getCurrency(req, res) {
-    const currency = await Currency.findById(req.params.id);
+    const currency = await Currency.findOne({ currencyKey: req.params.id });
     res.status(httpStatus.OK).json(currency);
   },
 
