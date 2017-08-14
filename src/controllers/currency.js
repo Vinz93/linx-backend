@@ -18,6 +18,11 @@ const CurrencyController = {
    *     produces:
    *       - application/json
    *     parameters:
+   *       - name: Authorization
+   *         description: auth token.
+   *         in: header
+   *         required: true
+   *         type: string
    *       - name: search
    *         description: predictive search on name and currencyKey (optional).
    *         in: query
@@ -37,6 +42,31 @@ const CurrencyController = {
     ] })
     .select('currencyKey name');
     res.status(httpStatus.OK).json(currencies);
+  },
+
+    /**
+   * @swagger
+   * /currencies/{id}:
+   *   get:
+   *     tags:
+   *      - Currency
+   *     description: Show a currencies
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: id
+   *         description: Currency id.
+   *         in: path
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: return an object of currency'
+   */
+
+  async getCurrency(req, res) {
+    const currency = await Currency.findById(req.params.id);
+    res.status(httpStatus.OK).json(currency);
   },
 
   /**

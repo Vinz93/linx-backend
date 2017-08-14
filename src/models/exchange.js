@@ -10,11 +10,13 @@ const Schema = mongoose.Schema;
  *   Denomination:
  *     type: object
  *     properties:
- *      denominationId:
+ *      coinType:
  *        type: string
+ *      value:
+ *        type: number
  *      quantity:
  *        type: number
- *   Currency:
+ *   haveCurrencies:
  *     type: object
  *     properties:
  *      currencyKey:
@@ -29,13 +31,24 @@ const Schema = mongoose.Schema;
  *     type: array
  *     items:
  *      $ref: '#/definitions/Currency'
+ *   wantCurrencies:
+ *     type: string
  *   Exchange:
  *     type: object
  *     properties:
- *       currencies:
- *         $ref: '#/definitions/Currencies'
+ *       requester:
+ *         type: string
+ *       haveCurrencies:
+ *         type: array
+ *         items:
+ *           $ref: '#/definitions/haveCurrencies'
+ *       wantCurrencies:
+ *          type: array
+ *          items:
+ *            $ref: '#/definitions/wantCurrencies'
  *     required:
- *       - currencies
+ *       - requester
+ *       - haveCurrencies
  */
 const ExchangeSchema = new Schema({
   requester: {
@@ -49,11 +62,8 @@ const ExchangeSchema = new Schema({
       totalAmount: Number,
       denominations: [
         {
-          denominationId: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Currency',
-            required: true,
-          },
+          coinType: String,
+          value: Number,
           quantity: Number,
         },
       ],

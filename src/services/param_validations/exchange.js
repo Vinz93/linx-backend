@@ -9,7 +9,8 @@ export default {
       authorization: Joi.string().required(),
     },
     body: {
-      currencies: Joi.array().items(
+      requester: Joi.string().required(),
+      haveCurrencies: Joi.array().items(
         Joi.object()
           .keys({
             currencyKey: Joi.string(),
@@ -17,12 +18,14 @@ export default {
             denominations: Joi.array().items(
               Joi.object()
                 .keys({
-                  denominationId: Joi.string(),
+                  coinType: Joi.string(),
+                  value: Joi.number(),
                   quantity: Joi.number(),
                 })
               ),
           })
         ).required(),
+      wantCurrencies: Joi.array().items(Joi.string()),
     },
   },
   delete: {

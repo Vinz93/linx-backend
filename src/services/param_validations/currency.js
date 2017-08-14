@@ -9,6 +9,14 @@ export default {
       search: Joi.string(),
     },
   },
+  read: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    path: {
+      id: Joi.objectId().required(),
+    },
+  },
   rates: {
     query: {
       source: Joi.string().required(),

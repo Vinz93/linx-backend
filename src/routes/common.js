@@ -83,6 +83,10 @@ router.route('/currencies')
   .post(validate(currencyValidator.create), requireAuth, catchErrors(Currency.create))
   .delete(validate(currencyValidator.delete), requireAuth, catchErrors(Currency.delete));
 
+
+router.route('/currencies/:id')
+  .get(validate(currencyValidator.read), requireAuth, catchErrors(Currency.getCurrency));
+
 router.route('/currencies/list')
   .get(validate(currencyValidator.list), catchErrors(Currency.list));
 
