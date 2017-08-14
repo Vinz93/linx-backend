@@ -17,21 +17,26 @@ const CurrencyController = {
    *     description: Show all currencies
    *     produces:
    *       - application/json
+   *     parameters:
+   *       - name: search
+   *         description: predictive search on name and currencyKey (optional).
+   *         in: query
+   *         required: false
+   *         type: string
    *     responses:
    *       200:
    *         description: return an object of currencies'
    */
 
   async list(req, res) {
-    const response = await axios.get(`${apiUrl}/list`, {
-      params: {
-        access_key: accessKey,
-      },
-    });
-    if (!response.data.success) {
-      throw new APIError(httpStatus.BAD_REQUEST, 'Error getting currencies');
-    }
-    res.status(httpStatus.OK).json(response.data.currencies);
+    const { search = '' } = req.query;
+    const currencies = await Currency.find({ $or: [
+      { $text: { $search: search } },
+      { currencyKey: { $regex: search, $options: '$i' } },
+      { name: { $regex: search, $options: '$i' } },
+    ] })
+    .select('currencyKey name');
+    res.status(httpStatus.OK).json(currencies);
   },
 
   /**
