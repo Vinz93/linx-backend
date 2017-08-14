@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 /**
  * @swagger
  * definition:
- *   Denom:
+ *   Denomination:
  *     type: object
  *     properties:
  *      denominationId:
@@ -24,7 +24,7 @@ const Schema = mongoose.Schema;
  *      denominations:
  *        type: array
  *        items:
- *          $ref: '#/definitions/Denom'
+ *          $ref: '#/definitions/Denomination'
  *   Currencies:
  *     type: array
  *     items:

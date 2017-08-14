@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
 /**
  * @swagger
  * definition:
- *   Denominations:
+ *   Denomination:
  *     type: object
  *     properties:
  *       coinType:
@@ -25,7 +25,7 @@ const Schema = mongoose.Schema;
  *      denominations:
  *        type: array
  *        items:
- *         $ref: '#/definitions/Denominations'
+ *         $ref: '#/definitions/Denomination'
  *     required:
  *       - currencyKey
  */

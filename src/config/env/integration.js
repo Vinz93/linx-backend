@@ -49,3 +49,10 @@ export const roles = {
   '8ha9hc98-777-oioiuo': 'ADMIN',
   'da907sdc-999-ghtyty': 'COMMON',
 };
+
+export const currency = {
+  currencyLayer: {
+    apiUrl: 'http://apilayer.net/api',
+    accessKey: 'db711ea12fbe3e5f97f2a05ed470ad45',
+  },
+};
