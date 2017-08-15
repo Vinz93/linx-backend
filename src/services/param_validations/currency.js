@@ -10,9 +10,6 @@ export default {
     },
   },
   read: {
-    headers: {
-      authorization: Joi.string().required(),
-    },
     path: {
       id: Joi.objectId().required(),
     },
@@ -24,9 +21,6 @@ export default {
     },
   },
   create: {
-    headers: {
-      authorization: Joi.string().required(),
-    },
     body: {
       currencyKey: Joi.string().required(),
       name: Joi.string().required(),
@@ -39,9 +33,6 @@ export default {
     },
   },
   addDenominations: {
-    headers: {
-      authorization: Joi.string().required(),
-    },
     body: {
       denomination: Joi.object().keys({
         value: Joi.number().required(),
@@ -53,9 +44,6 @@ export default {
     },
   },
   removeDenomination: {
-    headers: {
-      authorization: Joi.string().required(),
-    },
     body: {
       denomination: Joi.object().keys({
         value: Joi.number().required(),
@@ -67,9 +55,6 @@ export default {
     },
   },
   delete: {
-    headers: {
-      authorization: Joi.string().required(),
-    },
     path: {
       id: Joi.objectId().required(),
     },
