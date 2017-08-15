@@ -183,6 +183,116 @@ const CurrencyController = {
     res.status(httpStatus.NO_CONTENT).end();
   },
 
+  /**
+   * @swagger
+   * /currencies/{id}/addDenomination:
+   *   patch:
+   *     tags:
+   *      - Currency
+   *     description: Add denominations to a currency
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: Authorization
+   *         description: auth token.
+   *         in: header
+   *         required: true
+   *         type: string
+   *       - name: id
+   *         description: currency id.
+   *         in: path
+   *         required: true
+   *         type: string
+   *       - name: denomination
+   *         description: denomination object.
+   *         in: body
+   *         required: true
+   *         schema:
+   *           $ref: '#/definitions/Denomination'
+   *     responses:
+   *       204:
+   *         description: Successfully updated
+   *         schema:
+   *           allOf:
+   *              - $ref: '#/definitions/Denomination'
+   *              - properties:
+   *                  id:
+   *                    type: string
+   *                  createdAt:
+   *                    type: string
+   *                    format: date-time
+   *                  updatedAt:
+   *                    type: string
+   *                    format: date-time
+   */
+  async addDenominations(req, res) {
+    console.info(req.body.denomination);
+    const currency = await Currency.findOne({ currencyKey: req.params.id });
+    if (!currency) throw new APIError('Denomination not found', httpStatus.NOT_FOUND);
+    const denominations = currency.denominations.find(denomination =>
+      denomination.value === req.body.denomination.value &&
+      denomination.coinType === req.body.denomination.coinType
+    );
+    if (!denominations) {
+      currency.denominations.push(req.body.denomination);
+    }
+    await currency.save();
+    res.status(httpStatus.NO_CONTENT).end();
+  },
+
+  /**
+   * @swagger
+   * /currencies/{id}/removeDenomination:
+   *   delete:
+   *     tags:
+   *      - Currency
+   *     description: Remove denomination from a currency
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: Authorization
+   *         description: auth token.
+   *         in: header
+   *         required: true
+   *         type: string
+   *       - name: id
+   *         description: currency id.
+   *         in: path
+   *         required: true
+   *         type: string
+   *       - name: denomination
+   *         description: denomination object.
+   *         in: body
+   *         required: true
+   *         schema:
+   *           $ref: '#/definitions/Denomination'
+   *     responses:
+   *       204:
+   *         description: Successfully removed denomination
+   *         schema:
+   *           allOf:
+   *              - $ref: '#/definitions/Denomination'
+   *              - properties:
+   *                  id:
+   *                    type: string
+   *                  createdAt:
+   *                    type: string
+   *                    format: date-time
+   *                  updatedAt:
+   *                    type: string
+   *                    format: date-time
+   */
+  async removeDenomination(req, res) {
+    const currency = await Currency.findOne({ currencyKey: req.params.id });
+    if (!currency) throw new APIError('Denomination not found', httpStatus.NOT_FOUND);
+    const newCurrency = currency.denominations.filter(denomination =>
+      denomination.value !== req.body.denomination.value ||
+      denomination.coinType !== req.body.denomination.coinType
+    );
+    currency.denominations = newCurrency;
+    await currency.save();
+    res.status(httpStatus.NO_CONTENT).end();
+  },
 };
 
 export default CurrencyController;

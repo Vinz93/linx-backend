@@ -90,4 +90,10 @@ router.route('/currencies/rates')
 router.route('/currencies/:id')
   .get(validate(currencyValidator.read), requireAuth, catchErrors(Currency.getCurrency));
 
+router.route('/currencies/:id/addDenomination')
+  .patch(validate(currencyValidator.addDenominations), requireAuth, catchErrors(Currency.addDenominations));
+
+router.route('/currencies/:id/removeDenomination')
+  .delete(validate(currencyValidator.removeDenomination), requireAuth, catchErrors(Currency.removeDenomination));
+
 export default router;

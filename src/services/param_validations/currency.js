@@ -38,6 +38,34 @@ export default {
         ),
     },
   },
+  addDenominations: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    body: {
+      denomination: Joi.object().keys({
+        value: Joi.number().required(),
+        coinType: Joi.string().required(),
+      }),
+    },
+    path: {
+      id: Joi.string().required(),
+    },
+  },
+  removeDenomination: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    body: {
+      denomination: Joi.object().keys({
+        value: Joi.number().required(),
+        coinType: Joi.string().required(),
+      }),
+    },
+    path: {
+      id: Joi.string().required(),
+    },
+  },
   delete: {
     headers: {
       authorization: Joi.string().required(),
