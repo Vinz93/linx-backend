@@ -49,13 +49,8 @@ const CurrencyController = {
    *     produces:
    *       - application/json
    *     parameters:
-   *       - name: Authorization
-   *         description: auth token, example JWT 'token'
-   *         in: header
-   *         required: true
-   *         type: string
    *       - name: id
-   *         description: Currency id Example api/v1/currency/USD
+   *         description: Currency id Example= CAD
    *         in: path
    *         required: true
    *         type: string
@@ -119,11 +114,6 @@ const CurrencyController = {
 *     produces:
 *       - application/json
 *     parameters:
-*       - name: Authorization
-*         description: auth token.
-*         in: header
-*         required: true
-*         type: string
 *       - name: currency
 *         description: Currency object.
 *         in: body
@@ -166,11 +156,6 @@ const CurrencyController = {
 *         in: path
 *         required: true
 *         type: string
-*       - name: Authorization
-*         description: auth token.
-*         in: header
-*         required: true
-*         type: string
 *     responses:
 *       204:
 *         description: Successfully deleted
@@ -185,21 +170,16 @@ const CurrencyController = {
 
   /**
    * @swagger
-   * /currencies/{id}/addDenomination:
-   *   patch:
+   * /currencies/{currencyId}/add-denomination:
+   *   post:
    *     tags:
    *      - Currency
    *     description: Add denominations to a currency
    *     produces:
    *       - application/json
    *     parameters:
-   *       - name: Authorization
-   *         description: auth token.
-   *         in: header
-   *         required: true
-   *         type: string
-   *       - name: id
-   *         description: currency id.
+   *       - name: currencyId
+   *         description: ejm= USD.
    *         in: path
    *         required: true
    *         type: string
@@ -226,7 +206,6 @@ const CurrencyController = {
    *                    format: date-time
    */
   async addDenominations(req, res) {
-    console.info(req.body.denomination);
     const currency = await Currency.findOne({ currencyKey: req.params.id });
     if (!currency) throw new APIError('Denomination not found', httpStatus.NOT_FOUND);
     const denominations = currency.denominations.find(denomination =>
@@ -242,7 +221,7 @@ const CurrencyController = {
 
   /**
    * @swagger
-   * /currencies/{id}/removeDenomination:
+   * /currencies/{currencyId}/remove-denomination:
    *   delete:
    *     tags:
    *      - Currency
@@ -250,13 +229,8 @@ const CurrencyController = {
    *     produces:
    *       - application/json
    *     parameters:
-   *       - name: Authorization
-   *         description: auth token.
-   *         in: header
-   *         required: true
-   *         type: string
-   *       - name: id
-   *         description: currency id.
+   *       - name: currencyId
+   *         description: ejm= USD.
    *         in: path
    *         required: true
    *         type: string

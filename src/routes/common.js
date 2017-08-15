@@ -81,19 +81,19 @@ router.route('/zones/:id')
 
 router.route('/currencies')
   .get(validate(currencyValidator.list), catchErrors(Currency.list))
-  .post(validate(currencyValidator.create), requireAuth, catchErrors(Currency.create))
-  .delete(validate(currencyValidator.delete), requireAuth, catchErrors(Currency.delete));
+  .post(validate(currencyValidator.create), catchErrors(Currency.create))
+  .delete(validate(currencyValidator.delete), catchErrors(Currency.delete));
 
 router.route('/currencies/rates')
   .get(validate(currencyValidator.rates), catchErrors(Currency.rates));
 
 router.route('/currencies/:id')
-  .get(validate(currencyValidator.read), requireAuth, catchErrors(Currency.getCurrency));
+  .get(validate(currencyValidator.read), catchErrors(Currency.getCurrency));
 
-router.route('/currencies/:id/addDenomination')
-  .patch(validate(currencyValidator.addDenominations), requireAuth, catchErrors(Currency.addDenominations));
+router.route('/currencies/:id/add-denomination')
+  .post(validate(currencyValidator.addDenominations), catchErrors(Currency.addDenominations));
 
-router.route('/currencies/:id/removeDenomination')
-  .delete(validate(currencyValidator.removeDenomination), requireAuth, catchErrors(Currency.removeDenomination));
+router.route('/currencies/:id/remove-denomination')
+  .delete(validate(currencyValidator.removeDenomination), catchErrors(Currency.removeDenomination));
 
 export default router;
