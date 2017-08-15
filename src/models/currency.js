@@ -8,6 +8,16 @@ const Schema = mongoose.Schema;
 /**
  * @swagger
  * definition:
+ *   updateDenomination:
+ *     type: object
+ *     properties:
+ *      denomination:
+ *        type: object
+ *        properties:
+ *          coinType:
+ *            type: string
+ *          value:
+ *            type: number
  *   Denomination:
  *     type: object
  *     properties:

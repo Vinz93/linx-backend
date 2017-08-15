@@ -208,7 +208,7 @@ const CurrencyController = {
    *         in: body
    *         required: true
    *         schema:
-   *           $ref: '#/definitions/Denomination'
+   *           $ref: '#/definitions/updateDenomination'
    *     responses:
    *       204:
    *         description: Successfully updated
@@ -265,7 +265,7 @@ const CurrencyController = {
    *         in: body
    *         required: true
    *         schema:
-   *           $ref: '#/definitions/Denomination'
+   *           $ref: '#/definitions/updateDenomination'
    *     responses:
    *       204:
    *         description: Successfully removed denomination
