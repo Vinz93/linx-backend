@@ -42,7 +42,9 @@ const Schema = mongoose.Schema;
 const CurrencySchema = new Schema({
   currencyKey: {
     type: String,
+    uppercase: true,
     index: true,
+    trim: true,
   },
   name: {
     type: String,
@@ -50,7 +52,10 @@ const CurrencySchema = new Schema({
   },
   denominations: [
     {
-      coinType: String,
+      coinType: {
+        type: String,
+        enum: ['coin', 'bill'],
+      },
       value: Number,
     },
   ],
