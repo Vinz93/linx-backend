@@ -1,0 +1,297 @@
+{
+  "updatedAt": "2017-08-15T19:07:43.713Z",
+  "createdAt": "2017-08-11T16:08:52.589Z",
+  "currencyKey": "USD",
+  "name": "dolares americanos",
+  "denominations": [
+    {
+      "_id": "59922626d7dbb22484f917b3"
+    },
+    {
+      "coinType": "bill",
+      "value": 100,
+      "_id": "59922666bfe4832dc8608eda"
+    },
+    {
+      "coinType": "coin",
+      "value": 0.5,
+      "_id": "59924f078a9ad01c543f98dc"
+    },
+    {
+      "coinType": "bill",
+      "value": 1,
+      "_id": "59931b48d1766d59f063dfc9"
+    },
+    {
+      "coinType": "bill",
+      "value": 5,
+      "_id": "5993463ed1766d59f063dfd1"
+    },
+    {
+      "coinType": "bill",
+      "value": 10,
+      "_id": "59934645d1766d59f063dfd2"
+    },
+    {
+      "coinType": "bill",
+      "value": 20,
+      "_id": "5993464cd1766d59f063dfd3"
+    },
+    {
+      "coinType": "bill",
+      "value": 50,
+      "_id": "59934668d1766d59f063dfd4"
+    },
+    {
+      "coinType": "coin",
+      "value": 0.25,
+      "_id": "5993467fd1766d59f063dfd5"
+    }
+  ],
+  "id": "598dd694c2f162385049e8ec"
+}
+
+{
+  "updatedAt": "2017-08-15T20:11:04.426Z",
+  "createdAt": "2017-08-15T20:09:41.067Z",
+  "currencyKey": "CAD",
+  "name": "Canadian Dollar",
+  "denominations": [
+    {
+      "coinType": "bill",
+      "value": 1,
+      "_id": "59935505860a1158100a2b00"
+    },
+    {
+      "coinType": "coin",
+      "value": 0.25,
+      "_id": "5993552d860a1158100a2b01"
+    },
+    {
+      "coinType": "coin",
+      "value": 0.5,
+      "_id": "59935535860a1158100a2b02"
+    },
+    {
+      "coinType": "bill",
+      "value": 5,
+      "_id": "59935546860a1158100a2b03"
+    },
+    {
+      "coinType": "bill",
+      "value": 10,
+      "_id": "59935549860a1158100a2b04"
+    },
+    {
+      "coinType": "bill",
+      "value": 20,
+      "_id": "5993554d860a1158100a2b05"
+    },
+    {
+      "coinType": "bill",
+      "value": 50,
+      "_id": "59935552860a1158100a2b06"
+    },
+    {
+      "coinType": "bill",
+      "value": 100,
+      "_id": "59935558860a1158100a2b07"
+    }
+  ],
+  "id": "59935504860a1158100a2aff"
+}
+
+{
+  "updatedAt": "2017-08-15T20:22:37.280Z",
+  "createdAt": "2017-08-15T20:16:08.080Z",
+  "currencyKey": "EUR",
+  "name": "Euro",
+  "denominations": [
+    {
+      "coinType": "bill",
+      "value": 1,
+      "_id": "59935688860a1158100a2b09"
+    },
+    {
+      "coinType": "coin",
+      "value": 0.25,
+      "_id": "599357ee860a1158100a2b13"
+    },
+    {
+      "coinType": "coin",
+      "value": 0.5,
+      "_id": "599357f2860a1158100a2b14"
+    },
+    {
+      "coinType": "bill",
+      "value": 5,
+      "_id": "599357fb860a1158100a2b15"
+    },
+    {
+      "coinType": "bill",
+      "value": 10,
+      "_id": "59935800860a1158100a2b16"
+    },
+    {
+      "coinType": "bill",
+      "value": 20,
+      "_id": "59935804860a1158100a2b17"
+    },
+    {
+      "coinType": "bill",
+      "value": 50,
+      "_id": "59935807860a1158100a2b18"
+    },
+    {
+      "coinType": "bill",
+      "value": 100,
+      "_id": "5993580d860a1158100a2b19"
+    }
+  ],
+  "id": "59935688860a1158100a2b08"
+}
+
+{
+  "updatedAt": "2017-08-15T20:21:55.836Z",
+  "createdAt": "2017-08-15T20:19:45.903Z",
+  "currencyKey": "GBP",
+  "name": "British Pound Sterling",
+  "denominations": [
+    {
+      "coinType": "bill",
+      "value": 1,
+      "_id": "59935761860a1158100a2b0b"
+    },
+    {
+      "coinType": "bill",
+      "value": 100,
+      "_id": "59935792860a1158100a2b0c"
+    },
+    {
+      "coinType": "bill",
+      "value": 50,
+      "_id": "59935797860a1158100a2b0d"
+    },
+    {
+      "coinType": "bill",
+      "value": 20,
+      "_id": "5993579b860a1158100a2b0e"
+    },
+    {
+      "coinType": "bill",
+      "value": 10,
+      "_id": "5993579f860a1158100a2b0f"
+    },
+    {
+      "coinType": "bill",
+      "value": 5,
+      "_id": "599357a3860a1158100a2b10"
+    },
+    {
+      "coinType": "coin",
+      "value": 0.5,
+      "_id": "599357ad860a1158100a2b11"
+    },
+    {
+      "coinType": "coin",
+      "value": 0.25,
+      "_id": "599357e3860a1158100a2b12"
+    }
+  ],
+  "id": "59935761860a1158100a2b0a"
+}
+
+{
+  "updatedAt": "2017-08-15T20:31:26.400Z",
+  "createdAt": "2017-08-15T20:27:44.613Z",
+  "currencyKey": "VEF",
+  "name": "Venezuelan Bolivar Fuerte",
+  "denominations": [
+    {
+      "coinType": "bill",
+      "value": 100,
+      "_id": "59935940860a1158100a2b1b"
+    },
+    {
+      "coinType": "bill",
+      "value": 500,
+      "_id": "599359f6860a1158100a2b1c"
+    },
+    {
+      "coinType": "bill",
+      "value": 1000,
+      "_id": "599359f9860a1158100a2b1d"
+    },
+    {
+      "coinType": "bill",
+      "value": 2000,
+      "_id": "599359ff860a1158100a2b1e"
+    },
+    {
+      "coinType": "bill",
+      "value": 5000,
+      "_id": "59935a05860a1158100a2b1f"
+    },
+    {
+      "coinType": "bill",
+      "value": 10000,
+      "_id": "59935a0a860a1158100a2b20"
+    },
+    {
+      "coinType": "bill",
+      "value": 20000,
+      "_id": "59935a12860a1158100a2b21"
+    },
+    {
+      "coinType": "coin",
+      "value": 50,
+      "_id": "59935a1e860a1158100a2b22"
+    }
+  ],
+  "id": "59935940860a1158100a2b1a"
+}
+
+{
+  "updatedAt": "2017-08-15T20:34:22.778Z",
+  "createdAt": "2017-08-15T20:33:29.554Z",
+  "currencyKey": "SEK",
+  "name": "Swedish Kron",
+  "denominations": [
+    {
+      "coinType": "bill",
+      "value": 1,
+      "_id": "59935a99860a1158100a2b24"
+    },
+    {
+      "coinType": "coin",
+      "value": 0.5,
+      "_id": "59935aab860a1158100a2b25"
+    },
+    {
+      "coinType": "bill",
+      "value": 5,
+      "_id": "59935ab7860a1158100a2b26"
+    },
+    {
+      "coinType": "bill",
+      "value": 10,
+      "_id": "59935aba860a1158100a2b27"
+    },
+    {
+      "coinType": "bill",
+      "value": 20,
+      "_id": "59935abf860a1158100a2b28"
+    },
+    {
+      "coinType": "bill",
+      "value": 50,
+      "_id": "59935ac7860a1158100a2b29"
+    },
+    {
+      "coinType": "bill",
+      "value": 100,
+      "_id": "59935ace860a1158100a2b2a"
+    }
+  ],
+  "id": "59935a99860a1158100a2b23"
+}
