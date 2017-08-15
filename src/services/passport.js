@@ -116,6 +116,8 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, t
       user.socialNetworks[linkedinIndex].profilePicture = data.pictureUrl;
       user.socialNetworks[linkedinIndex].token = token;
       const linkedinInfo = authorizedUserId ? {
+        firstName: data.firstName,
+        lastName: data.lastName,
         headline: data.headline,
         experiences,
       } : undefined;
@@ -130,6 +132,8 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, t
       profilePicture: data.pictureUrl,
     });
     const linkedinInfo = {
+      firstName: data.firstName,
+      lastName: data.lastName,
       headline: data.headline,
       experiences,
     };
