@@ -15,6 +15,11 @@ const Schema = mongoose.Schema;
  *        items:
  *          type: number
  *          format: float
+ *   Terminals:
+ *     type: object
+ *     properties:
+ *       name:
+ *         type: string
  *   Zone:
  *     type: object
  *     properties:
@@ -24,12 +29,12 @@ const Schema = mongoose.Schema;
  *         type: string
  *       address:
  *         type: string
- *       type:
+ *       zoneType:
  *         type: string
  *       terminals:
  *         type: array
  *         items:
- *           type: string
+ *           $ref: '#/definitions/Terminals'
  *       geometry:
  *         $ref: '#/definitions/Geometry'
  *     required:
@@ -47,12 +52,16 @@ const ZoneSchema = new Schema({
   address: {
     type: String,
   },
-  type: {
+  zoneType: {
     type: String,
   },
-  terminals: {
-    type: [String],
-  },
+  terminals: [
+    {
+      name: {
+        type: String,
+      }
+    }
+  ],
   geometry: {
     type: {
       type: String,

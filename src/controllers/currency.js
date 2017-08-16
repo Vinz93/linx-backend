@@ -26,6 +26,18 @@ const CurrencyController = {
    *     responses:
    *       200:
    *         description: return an object of currencies'
+   *         schema:
+   *           allOf:
+   *              - $ref: '#/definitions/listofCurrencies'
+   *              - properties:
+   *                  id:
+   *                    type: string
+   *                  createdAt:
+   *                    type: string
+   *                    format: date-time
+   *                  updatedAt:
+   *                    type: string
+   *                    format: date-time
    */
 
   async list(req, res) {
@@ -57,6 +69,18 @@ const CurrencyController = {
    *     responses:
    *       200:
    *         description: return an object of currency'
+   *         schema:
+   *           allOf:
+   *              - $ref: '#/definitions/Currency'
+   *              - properties:
+   *                  id:
+   *                    type: string
+   *                  createdAt:
+   *                    type: string
+   *                    format: date-time
+   *                  updatedAt:
+   *                    type: string
+   *                    format: date-time
    */
 
   async getCurrency(req, res) {
@@ -86,7 +110,7 @@ const CurrencyController = {
    *         type: string
    *     responses:
    *       200:
-   *         description: return an array of users'
+   *         description: return an array of exchange rates for a currency'
    */
 
   async rates(req, res) {
@@ -194,7 +218,7 @@ const CurrencyController = {
    *         description: Successfully updated
    *         schema:
    *           allOf:
-   *              - $ref: '#/definitions/Denomination'
+   *              - $ref: '#/definitions/Currency'
    *              - properties:
    *                  id:
    *                    type: string
@@ -243,18 +267,6 @@ const CurrencyController = {
    *     responses:
    *       204:
    *         description: Successfully removed denomination
-   *         schema:
-   *           allOf:
-   *              - $ref: '#/definitions/Denomination'
-   *              - properties:
-   *                  id:
-   *                    type: string
-   *                  createdAt:
-   *                    type: string
-   *                    format: date-time
-   *                  updatedAt:
-   *                    type: string
-   *                    format: date-time
    */
   async removeDenomination(req, res) {
     const currency = await Currency.findOne({ currencyKey: req.params.id });

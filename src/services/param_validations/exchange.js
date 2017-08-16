@@ -26,6 +26,7 @@ export default {
           })
         ).required(),
       wantCurrencies: Joi.array().items(Joi.string()),
+      terminal: Joi.string(),
     },
   },
   delete: {

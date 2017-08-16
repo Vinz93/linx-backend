@@ -46,6 +46,8 @@ const Schema = mongoose.Schema;
  *          type: array
  *          items:
  *            $ref: '#/definitions/wantCurrencies'
+ *       terminal:
+ *          type: string
  *     required:
  *       - requester
  *       - haveCurrencies
@@ -70,6 +72,7 @@ const ExchangeSchema = new Schema({
     },
   ],
   wantCurrencies: [String],
+  terminal: String,
 }, {
   timestamps: true,
   toObject: { virtuals: true },

@@ -8,6 +8,10 @@ const Schema = mongoose.Schema;
 /**
  * @swagger
  * definition:
+ *   listofCurrencies:
+ *     type: array
+ *     items:
+ *       $ref: '#/definitions/Currency'
  *   updateDenomination:
  *     type: object
  *     properties:

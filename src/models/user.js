@@ -12,6 +12,21 @@ const Schema = mongoose.Schema;
 /**
  * @swagger
  * definition:
+ *   atAirport:
+ *     type: object
+ *     properties:
+ *       name:
+ *         type: string
+ *       terminals:
+ *         type: array
+ *         items:
+ *           $ref: '#/definitions/Terminals'
+ *       isAt:
+ *         type: boolean
+ *   listofUsers:
+ *     type: array
+ *     items:
+ *       $ref: '#/definitions/User'
  *   Period:
  *     type: object
  *     properties:
