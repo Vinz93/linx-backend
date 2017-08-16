@@ -12,7 +12,7 @@
     "lint": "eslint src",
     "seed-dev": "mongoimport --drop  --host=aws-us-east-1-portal.5.dblayer.com --port 20919 --file dump/currencies.json -c currencies -d linx-dev --username linx --password solsteace11 --ssl",
     "seed-qa": "mongoimport --drop --host=aws-us-east-1-portal.5.dblayer.com --port 20919 --file dump/currencies.json -c currencies -d linx-qa --username linx --password solsteace11 --ssl",
-    "seed-local": "mongoimport  --drop --file dump/currencies.json -c currencies -d linx",
+    "seed-local": "babel-node dump/index.js",
     "deploy": "cd ./deployment && sh ./deploy.sh root linx-dev.solsteace.ca",
     "deploy-qa": "cd ./deployment && sh ./deploy.sh root linx-qa.solsteace.ca"
   },
