@@ -55,13 +55,7 @@ const ZoneSchema = new Schema({
   zoneType: {
     type: String,
   },
-  terminals: [
-    {
-      name: {
-        type: String,
-      }
-    }
-  ],
+  terminals: [String],
   geometry: {
     type: {
       type: String,
