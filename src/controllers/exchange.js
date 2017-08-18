@@ -11,17 +11,17 @@ const ExchangeController = {
 *   post:
 *     tags:
 *      - Exchange
-*     description: Create Exchange
+*     description: This endpoint put you in a currency search
 *     produces:
 *       - application/json
 *     parameters:
 *       - name: Authorization
-*         description: auth token.
+*         description: auth token format= JWT your-token.
 *         in: header
 *         required: true
 *         type: string
 *       - name: exchange
-*         description: Exchange object.
+*         description: Examples currencyKey= CAD, coinType= coin or bill, currencyRateKey=CADUSD, requester is not necessary
 *         in: body
 *         required: true
 *         schema:
@@ -82,4 +82,3 @@ const ExchangeController = {
 };
 
 export default ExchangeController;
-

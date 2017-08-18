@@ -16,6 +16,13 @@ const Schema = mongoose.Schema;
  *        type: number
  *      quantity:
  *        type: number
+ *   CurrencyRate:
+ *     type: object
+ *     properties:
+ *      currencyRateKey:
+ *        type: string
+ *      value:
+ *        type: number
  *   haveCurrencies:
  *     type: object
  *     properties:
@@ -27,6 +34,10 @@ const Schema = mongoose.Schema;
  *        type: array
  *        items:
  *          $ref: '#/definitions/Denomination'
+ *      currencyRates:
+ *        type: array
+ *        items:
+ *          $ref: '#/definitions/CurrencyRate'
  *   Currencies:
  *     type: array
  *     items:
@@ -48,9 +59,14 @@ const Schema = mongoose.Schema;
  *            $ref: '#/definitions/wantCurrencies'
  *       terminal:
  *          type: string
+ *       securityZone:
+ *         type: boolean
+ *       zoneId:
+ *         type: string
  *     required:
  *       - requester
  *       - haveCurrencies
+ *       - wantCurrencies
  */
 const ExchangeSchema = new Schema({
   requester: {
@@ -69,9 +85,20 @@ const ExchangeSchema = new Schema({
           quantity: Number,
         },
       ],
+      currencyRates: [
+        {
+          currencyRateKey: String,
+          value: Number,
+        },
+      ],
     },
   ],
   wantCurrencies: [String],
+  securityZone: Boolean,
+  zoneId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Zone',
+  },
   terminal: String,
 }, {
   timestamps: true,

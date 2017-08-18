@@ -9,7 +9,7 @@ export default {
       authorization: Joi.string().required(),
     },
     body: {
-      requester: Joi.string().required(),
+      requester: Joi.string(),
       haveCurrencies: Joi.array().items(
         Joi.object()
           .keys({
@@ -23,10 +23,19 @@ export default {
                   quantity: Joi.number(),
                 })
               ),
+            currencyRates: Joi.array().items(
+              Joi.object()
+                .keys({
+                  currencyRateKey: Joi.string(),
+                  value: Joi.number(),
+                })
+              ),
           })
         ).required(),
-      wantCurrencies: Joi.array().items(Joi.string()),
+      wantCurrencies: Joi.array().items(Joi.string()).required(),
+      zoneId: Joi.string(),
       terminal: Joi.string(),
+      securityZone: Joi.boolean(),
     },
   },
   delete: {
