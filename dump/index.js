@@ -9,11 +9,11 @@ mongoose.Promise = Promise;
 
 async function loadData() {
   try {
-    console.log(`Running seeds 👷`);
+    console.log(`Running seeds 🌱🌱🌱`);
     await Currency.remove({});
     await Currency.create(currenciesData);
     mongoose.connection.close();
-    console.log(`The process finished :white_check_mark:`);
+    console.log(`The process finished 🌻 🌻 🌻`);
     process.exit();
   } catch (err) {
     console.log(`❌`, err);

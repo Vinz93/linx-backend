@@ -1,7 +1,7 @@
 const currencies = [
   {
     currencyKey: "USD",
-    name: "dolares americanos",
+    name: "American Dollar",
     denominations: [
       {
         coinType: "bill",
@@ -46,12 +46,28 @@ const currencies = [
         value: 1,
       },
       {
-        coinType: "coin",
-        value: 0.25,
+        coinType: "bill",
+        value: 2,
       },
       {
         coinType: "coin",
-        value: 0.5,
+        value: 1,
+      },
+      {
+        coinType: "coin",
+        value: 2,
+      },
+      {
+        coinType: "coin",
+        value: 5,
+      },
+      {
+        coinType: "coin",
+        value: 10,
+      },
+      {
+        coinType: "coin",
+        value: 25,
       },
       {
         coinType: "bill",
@@ -72,6 +88,10 @@ const currencies = [
       {
         coinType: "bill",
         value: 100,
+      },
+      {
+        coinType: "bill",
+        value: 500,
       },
     ],
   },
@@ -80,16 +100,16 @@ const currencies = [
     name: "Euro",
     denominations: [
       {
-        coinType: "bill",
+        coinType: "coin",
+        value: 0.5,
+      },
+      {
+        coinType: "coin",
         value: 1,
       },
       {
         coinType: "coin",
-        value: 0.25,
-      },
-      {
-        coinType: "coin",
-        value: 0.5,
+        value: 2,
       },
       {
         coinType: "bill",
@@ -110,6 +130,14 @@ const currencies = [
       {
         coinType: "bill",
         value: 100,
+      },
+      {
+        coinType: "bill",
+        value: 200,
+      },
+      {
+        coinType: "bill",
+        value: 500,
       },
     ],
   },
@@ -119,10 +147,6 @@ const currencies = [
     denominations: [
       {
         coinType: "bill",
-        value: 1,
-      },
-      {
-        coinType: "bill",
         value: 100,
       },
       {
@@ -143,17 +167,33 @@ const currencies = [
       },
       {
         coinType: "coin",
+        value: 1,
+      },
+      {
+        coinType: "coin",
+        value: 2,
+      },
+      {
+        coinType: "coin",
         value: 0.5,
       },
       {
         coinType: "coin",
-        value: 0.25,
+        value: 0.1,
+      },
+      {
+        coinType: "coin",
+        value: 0.2,
+      },
+      {
+        coinType: "coin",
+        value: 0.05,
       },
     ],
   },
   {
-    currencyKey: "VEF",
-    name: "Venezuelan Bolivar Fuerte",
+    currencyKey: "AUD",
+    name: "Australian Dollar",
     denominations: [
       {
         coinType: "bill",
