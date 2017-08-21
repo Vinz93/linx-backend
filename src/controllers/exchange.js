@@ -21,7 +21,7 @@ const ExchangeController = {
 *         required: true
 *         type: string
 *       - name: exchange
-*         description: Examples currencyKey= CAD, coinType= coin or bill, currencyRateKey=CADUSD, requester is not necessary
+*         description: Examples currencyKey= CAD, coinType= coin or bill, currencyRateKey=CADUSD, user is not necessary
 *         in: body
 *         required: true
 *         schema:
@@ -43,7 +43,7 @@ const ExchangeController = {
 *                    format: date-time
 */
   async create(req, res) {
-    const newExchange = await Exchange.create({ requester: req.user.id, ...req.body });
+    const newExchange = await Exchange.create({ user: req.user.id, ...req.body });
     return res.status(httpStatus.CREATED).json(newExchange);
   },
 

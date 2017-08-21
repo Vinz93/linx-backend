@@ -47,7 +47,7 @@ const Schema = mongoose.Schema;
  *   Exchange:
  *     type: object
  *     properties:
- *       requester:
+ *       user:
  *         type: string
  *       haveCurrencies:
  *         type: array
@@ -64,12 +64,11 @@ const Schema = mongoose.Schema;
  *       zoneId:
  *         type: string
  *     required:
- *       - requester
  *       - haveCurrencies
  *       - wantCurrencies
  */
 const ExchangeSchema = new Schema({
-  requester: {
+  user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: true,
