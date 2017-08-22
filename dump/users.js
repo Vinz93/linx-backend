@@ -15,7 +15,7 @@ const users = [
     email: 'dabramov@gmail.com',
     password: '123456',
     location: {
-      coordinates: [0, 0],
+      coordinates: [-66.933154, 10.486469],
     },
     deviceToken: 'lkjlkj',
   },
@@ -25,7 +25,7 @@ const users = [
     email: 'tmotto@gmail.com',
     password: '123456',
     location: {
-      coordinates: [0, 0],
+      coordinates: [-66.937070, 10.488305],
     },
     deviceToken: 'lkjlkj',
   },
@@ -105,7 +105,7 @@ const users = [
     email: 'vbianco@solsteace.com',
     password: '123456',
     location: {
-      coordinates: [0, 0],
+      coordinates: [-66.933819, 10.484686],
     },
     deviceToken: 'lkjlkj',
   },
