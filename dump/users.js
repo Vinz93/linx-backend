@@ -109,6 +109,16 @@ const users = [
     },
     deviceToken: 'lkjlkj',
   },
+  {
+    firstName: 'Tester',
+    lastName: 'Solsteace',
+    email: 'tester@solsteace.com',
+    password: 'As1234',
+    location: {
+      coordinates: [0, 0],
+    },
+    deviceToken: 'lkjlkj',
+  },
 ];
 
 export default users;
