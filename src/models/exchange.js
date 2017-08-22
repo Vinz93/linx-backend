@@ -99,6 +99,11 @@ const ExchangeSchema = new Schema({
     ref: 'Zone',
   },
   terminal: String,
+  isActive: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
 }, {
   timestamps: true,
   toObject: { virtuals: true },
