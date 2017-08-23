@@ -49,7 +49,7 @@ const ExchangeController = {
 
 /**
 * @swagger
-* /exchange/{id}:
+* /exchanges/{id}:
 *   delete:
 *     tags:
 *      - Exchange
@@ -77,6 +77,36 @@ const ExchangeController = {
     if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
     await exchange.remove();
     res.status(httpStatus.NO_CONTENT).end();
+  },
+
+/**
+* @swagger
+* /exchanges/find-by-distance/{id}:
+*   delete:
+*     tags:
+*      - Exchange
+*     description: Find users who wants to change money near you
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: id
+*         description: exchange id.
+*         in: path
+*         required: true
+*         type: string
+*       - name: Authorization
+*         description: auth token.
+*         in: header
+*         required: true
+*         type: string
+*     responses:
+*       200:
+*         description: An a array of users exchanges
+*/
+
+  async findByDistance(req, res) {
+    const exchange = await Exchange.findById(req.params.id);
+    if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
   },
 
 };
