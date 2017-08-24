@@ -5,7 +5,7 @@ const users = [
     email: 'jliquids@gmail.com',
     password: '123456',
     location: {
-      coordinates: [0, 0],
+      coordinates: [-66.934411, 10.485993],
     },
     deviceToken: 'lkjlkj',
   },
@@ -35,7 +35,7 @@ const users = [
     email: 'jpapa@gmail.com',
     password: '123456',
     location: {
-      coordinates: [0, 0],
+      coordinates: [-66.933342, 10.487301],
     },
     deviceToken: 'lkjlkj',
   },

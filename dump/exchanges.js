@@ -1,6 +1,6 @@
 const exchanges = [
   {
-    user: '599c4b44dc47e440fc6d9bb0',
+    user: '599f2d3f5431972684cbe3c7',
     haveCurrencies: [
       {
         currencyKey: 'USD',
@@ -26,7 +26,97 @@ const exchanges = [
     ],
     wantCurrencies: ['CAD', 'AUD'],
     location: {
-      coordinates: [0, 0],
+      coordinates: [-66.934411, 10.485993],
+    },
+  },
+  {
+    user: '599f2d3f5431972684cbe3c8',
+    haveCurrencies: [
+      {
+        currencyKey: 'CAD',
+        totalAmount: 120,
+        denominations: [
+          {
+            coinType: 'bill',
+            value: 20,
+            quantity: 6,
+          },
+        ],
+        currencyRates: [
+          {
+            currencyRateKey: 'CADUSD',
+            value: 0.9,
+          },
+          {
+            currencyRateKey: 'CADAUD',
+            value: 1.01,
+          },
+        ],
+      },
+    ],
+    wantCurrencies: ['USD', 'AUD'],
+    location: {
+      coordinates: [-66.933154, 10.486469],
+    },
+  },
+  {
+    user: '599f2d3f5431972684cbe3c9',
+    haveCurrencies: [
+      {
+        currencyKey: 'AUD',
+        totalAmount: 200,
+        denominations: [
+          {
+            coinType: 'bill',
+            value: 50,
+            quantity: 4,
+          },
+        ],
+        currencyRates: [
+          {
+            currencyRateKey: 'AUDCAD',
+            value: 0.9,
+          },
+          {
+            currencyRateKey: 'AUDUSD',
+            value: 0.9,
+          },
+        ],
+      },
+    ],
+    wantCurrencies: ['CAD', 'USD'],
+    location: {
+      coordinates: [-66.937070, 10.488305],
+    },
+  },
+  {
+    user: '599f2d3f5431972684cbe3ca',
+    haveCurrencies: [
+      {
+        currencyKey: 'USD',
+        totalAmount: 100,
+        denominations: [
+          {
+            coinType: 'bill',
+            value: 50,
+            quantity: 2,
+          },
+        ],
+        currencyRates: [
+          {
+            currencyRateKey: 'USDCAD',
+            value: 1.2,
+          },
+          {
+            currencyRateKey: 'USDAUD',
+            value: 1.1,
+          },
+        ],
+      },
+    ],
+    wantCurrencies: ['CAD', 'AUD'],
+    location: {
+      coordinates: [-66.933342, 10.487301],
     },
   },
 ];
