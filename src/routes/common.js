@@ -64,8 +64,13 @@ router.route('/auth/facebook')
   .get(facebookOAuth);
 
 router.route('/exchanges')
-  .post(validate(exchangeValidator.create), requireAuth, catchErrors(Exchange.create))
-  .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
+  .post(validate(exchangeValidator.create), requireAuth, catchErrors(Exchange.create));
+
+router.route('/exchanges/:id')
+ .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
+
+router.route('/exchanges/:id/find-by-distance')
+ .get(validate(exchangeValidator.findByDistance), requireAuth, catchErrors(Exchange.findByDistance));
 
 router.route('/auth/facebook/callback')
   .get(facebookOAuth, User.facebook);

@@ -1,8 +1,10 @@
 import httpStatus from 'http-status';
-import { APIError } from '../helpers/errors';
 
 import Exchange from '../models/exchange';
+import { APIError } from '../helpers/errors';
+import config from '../config/env';
 
+const { distances } = config.constants;
 
 const ExchangeController = {
 /**
@@ -81,8 +83,8 @@ const ExchangeController = {
 
 /**
 * @swagger
-* /exchanges/find-by-distance/{id}:
-*   delete:
+* /exchanges/{id}/find-by-distance:
+*   get:
 *     tags:
 *      - Exchange
 *     description: Find users who wants to change money near you
@@ -107,6 +109,18 @@ const ExchangeController = {
   async findByDistance(req, res) {
     const exchange = await Exchange.findById(req.params.id);
     if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
+    const matches = await Exchange.find({
+      location: {
+        $nearSphere: {
+          $geometry: {
+            type: "Point",
+            coordinates: exchange.location,
+          },
+          $maxDistance: distances.findExchanges,
+        },
+      },
+    });
+    res.json(matches);
   },
 
 };

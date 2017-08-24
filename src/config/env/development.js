@@ -58,3 +58,12 @@ export const currency = {
     accessKey: 'db711ea12fbe3e5f97f2a05ed470ad45',
   },
 };
+
+export const constants = {
+  distances: {
+    findExchanges: 40000,
+  },
+  times: {
+    exchangeExpiration: 1,
+  },
+};
