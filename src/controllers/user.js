@@ -378,7 +378,7 @@ const UserController = {
         { zoneType: "airport" },
       ],
     });
-    if (zone) return res.json(zone);
+    if (zone) return res.json({ isAt: true, ...zone.toJSON() });
     return res.json({ isAt: false });
   },
 
