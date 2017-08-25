@@ -3,7 +3,6 @@ import { APIError } from '../helpers/errors';
 
 import Exchange from '../models/exchange';
 
-
 const ExchangeController = {
 /**
 * @swagger
@@ -25,7 +24,7 @@ const ExchangeController = {
 *         in: body
 *         required: true
 *         schema:
-*           $ref: '#/definitions/Exchange'
+*           $ref: '#/definitions/ExchangeMatch'
 *     responses:
 *       200:
 *         description: Successfully created Exchange

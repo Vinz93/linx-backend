@@ -14,7 +14,7 @@ const Schema = mongoose.Schema;
  *         type: string
  *       requested:
  *         type: string
- *       metAt:
+ *       meetAt:
  *         type: string
  *     required:
  *       - requester
@@ -31,12 +31,19 @@ const ExchangeMatchSchema = new Schema({
     ref: 'Exchange',
     required: true,
   },
-  metAt: {
+  meetAt: {
     type: mongoose.Schema.ObjectId,
-    ref: 'SavePlace',
+    ref: 'SafePlace',
     required: true,
   },
-
+  requesterAtPlace: {
+    type: Boolean,
+    default: false,
+  },
+  requestedAtPlace: {
+    type: Boolean,
+    default: false,
+  },
 }, {
   timestamps: true,
   toObject: { virtuals: true },

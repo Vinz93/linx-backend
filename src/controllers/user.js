@@ -31,18 +31,6 @@ const UserController = {
    *     responses:
    *       200:
    *         description: return an array of users'
-   *         schema:
-   *           allOf:
-   *              - $ref: '#/definitions/listofUsers'
-   *              - properties:
-   *                  id:
-   *                    type: string
-   *                  createdAt:
-   *                    type: string
-   *                    format: date-time
-   *                  updatedAt:
-   *                    type: string
-   *                    format: date-time
    */
 
   async readAll(req, res) {
@@ -123,18 +111,6 @@ const UserController = {
    *     responses:
    *       200:
    *         description: User object'
-   *         schema:
-   *           allOf:
-   *              - $ref: '#/definitions/User'
-   *              - properties:
-   *                  id:
-   *                    type: string
-   *                  createdAt:
-   *                    type: string
-   *                    format: date-time
-   *                  updatedAt:
-   *                    type: string
-   *                    format: date-time
    */
 
   async update(req, res) {
@@ -303,18 +279,6 @@ const UserController = {
    *     responses:
    *       200:
    *         description: user information'
-   *         schema:
-   *           allOf:
-   *              - $ref: '#/definitions/User'
-   *              - properties:
-   *                  id:
-   *                    type: string
-   *                  createdAt:
-   *                    type: string
-   *                    format: date-time
-   *                  updatedAt:
-   *                    type: string
-   *                    format: date-time
    */
 
   readByMe(req, res) {
@@ -349,18 +313,6 @@ const UserController = {
  *     responses:
  *       204:
  *         description: is at airport'
- *         schema:
- *           allOf:
- *              - $ref: '#/definitions/atAirport'
- *              - properties:
- *                  id:
- *                    type: string
- *                  createdAt:
- *                    type: string
- *                    format: date-time
- *                  updatedAt:
- *                    type: string
- *                    format: date-time
  */
 
   async atAirport(req, res) {
@@ -375,10 +327,13 @@ const UserController = {
             },
           },
         } },
-        { zoneType: "airport" },
+        { type: "airport" },
       ],
     });
-    if (zone) return res.json({ isAt: true, ...zone.toJSON() });
+    if (zone) {
+      const { name, terminals } = zone;
+      return res.json({ name, terminals, isAt: true });
+    }
     return res.json({ isAt: false });
   },
 
