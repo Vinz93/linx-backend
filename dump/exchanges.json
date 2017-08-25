@@ -1,0 +1,128 @@
+  {
+    "user": {
+      "$oid": "55cb9c666c522cafdb053a31"
+    },
+    "haveCurrencies": [
+      {
+        "currencyKey": "USD",
+        "totalAmount": 100,
+        "denominations": [
+          {
+            "coinType": "bill",
+            "value": 50,
+            "quantity": 2
+          }
+        ],
+        "currencyRates": [
+          {
+            "currencyRateKey": "USDCAD",
+            "value": 1.2
+          },
+          {
+            "currencyRateKey": "USDAUD",
+            "value": 1.1
+          }
+        ]
+      }
+    ],
+    "wantCurrencies": ["CAD", "AUD"],
+    "location": {
+      "coordinates": [-66.934411, 10.485993]
+    }
+  }
+  {
+    "user": {
+      "$oid": "55cb9c666c522cafdb053a32"
+    },
+    "haveCurrencies": [
+      {
+        "currencyKey": "CAD",
+        "totalAmount": 120,
+        "denominations": [
+          {
+            "coinType": "bill",
+            "value": 20,
+            "quantity": 6
+          }
+        ],
+        "currencyRates": [
+          {
+            "currencyRateKey": "CADUSD",
+            "value": 0.9
+          },
+          {
+            "currencyRateKey": "CADAUD",
+            "value": 1.01
+          }
+        ]
+      }
+    ],
+    "wantCurrencies": ["USD", "AUD"],
+    "location": {
+      "coordinates": [-66.933154, 10.486469]
+    }
+  }
+  {
+    "user": {
+      "$oid": "55cb9c666c522cafdb053a33"
+    },
+    "haveCurrencies": [
+      {
+        "currencyKey": "AUD",
+        "totalAmount": 200,
+        "denominations": [
+          {
+            "coinType": "bill",
+            "value": 50,
+            "quantity": 4
+          }
+        ],
+        "currencyRates": [
+          {
+            "currencyRateKey": "AUDCAD",
+            "value": 0.9
+          },
+          {
+            "currencyRateKey": "AUDUSD",
+            "value": 0.9
+          }
+        ]
+      }
+    ],
+    "wantCurrencies": ["CAD", "USD"],
+    "location": {
+      "coordinates": [-66.937070, 10.488305]
+    }
+  }
+  {
+    "user": {
+      "$oid": "55cb9c666c522cafdb053a34"
+    },
+    "haveCurrencies": [
+      {
+        "currencyKey": "USD",
+        "totalAmount": 100,
+        "denominations": [
+          {
+            "coinType": "bill",
+            "value": 50,
+            "quantity": 2
+          }
+        ],
+        "currencyRates": [
+          {
+            "currencyRateKey": "USDCAD",
+            "value": 1.2
+          },
+          {
+            "currencyRateKey": "USDAUD",
+            "value": 1.1
+          }
+        ]
+      }
+    ],
+    "wantCurrencies": ["CAD", "AUD"],
+    "location": {
+      "coordinates": [-66.933342, 10.487301]
+    }
+  }

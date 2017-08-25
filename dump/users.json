@@ -1,0 +1,156 @@
+{
+  "_id": {
+    "$oid": "55cb9c666c522cafdb053a31"
+  },
+  "firstName": "Jon",
+  "lastName": "Liquids",
+  "email": "jliquids@gmail.com",
+  "password": "123456",
+  "location": {
+    "coordinates": [-66.934411, 10.485993]
+  },
+  "deviceToken": "lkjlkj"
+}
+  {
+    "_id": {
+      "$oid": "55cb9c666c522cafdb053a32"
+    },
+    "firstName": "Dan",
+    "lastName": "Abramov",
+    "email": "dabramov@gmail.com",
+    "password": "123456",
+    "location": {
+      "coordinates": [-66.933154, 10.486469]
+    },
+    "deviceToken": "lkjlkj"
+  }
+  {
+    "_id": {
+      "$oid": "55cb9c666c522cafdb053a33"
+    },
+    "firstName": "Todd",
+    "lastName": "Motto",
+    "email": "tmotto@gmail.com",
+    "password": "123456",
+    "location": {
+      "coordinates": [-66.937070, 10.488305]
+    },
+    "deviceToken": "lkjlkj"
+  }
+  {
+    "_id": {
+      "$oid": "55cb9c666c522cafdb053a34"
+    },
+    "firstName": "Jhon",
+    "lastName": "Papa",
+    "email": "jpapa@gmail.com",
+    "password": "123456",
+    "location": {
+      "coordinates": [-66.933342, 10.487301]
+    },
+    "deviceToken": "lkjlkj"
+  }
+  {
+    "_id": {
+      "$oid": "55cb9c666c522cafdb053a35"
+    },
+    "firstName": "Westly",
+    "lastName": "Bos",
+    "email": "wesbos@gmail.com",
+    "password": "123456",
+    "location": {
+      "coordinates": [0, 0]
+    },
+    "deviceToken": "lkjlkj"
+  }
+  {
+    "_id": {
+      "$oid": "55cb9c666c522cafdb053a42"
+    },
+    "firstName": "Kency",
+    "lastName": "Dotts",
+    "email": "kdotts@gmail.com",
+    "password": "123456",
+    "location": {
+      "coordinates": [0, 0]
+    },
+    "deviceToken": "lkjlkj"
+  }
+  {
+    "_id": {
+      "$oid": "55cb9c666c522cafdb053a36"
+    },
+    "firstName": "Tim",
+    "lastName": "Roth",
+    "email": "troth@gmail.com",
+    "password": "123456",
+    "location": {
+      "coordinates": [0, 0]
+    },
+    "deviceToken": "lkjlkj"
+  }
+  {
+    "_id": {
+      "$oid": "55cb9c666c522cafdb053a37"
+    },
+    "firstName": "Abraham",
+    "lastName": "Silverchatz",
+    "email": "asilberchatz@gmail.com",
+    "password": "123456",
+    "location": {
+      "coordinates": [0, 0]
+    },
+    "deviceToken": "lkjlkj"
+  }
+  {
+    "_id": {
+      "$oid": "55cb9c666c522cafdb053a38"
+    },
+    "firstName": "Patricia",
+    "lastName": "Zambrano",
+    "email": "pzambrano@solsteace.com",
+    "password": "Pz1234",
+    "location": {
+      "coordinates": [0, 0]
+    },
+    "deviceToken": "lkjlkj"
+  }
+  {
+    "_id": {
+      "$oid": "55cb9c666c522cafdb053a39"
+    },
+    "firstName": "Patricia",
+    "lastName": "Zambrano",
+    "email": "pzambrano1@solsteace.com",
+    "password": "Pz1234",
+    "location": {
+      "coordinates": [0, 0]
+    },
+    "deviceToken": "lkjlkj"
+  }
+  {
+    "_id": {
+      "$oid": "55cb9c666c522cafdb053a40"
+    },
+    "firstName": "Vincenzo",
+    "lastName": "Bianco",
+    "email": "vbianco@solsteace.com",
+    "password": "123456",
+    "location": {
+      "coordinates": [-66.933819, 10.484686]
+    },
+    "deviceToken": "lkjlkj"
+  }
+  {
+    "_id": {
+      "$oid": "55cb9c666c522cafdb053a41"
+    },
+    "firstName": "Tester",
+    "lastName": "Solsteace",
+    "email": "tester@solsteace.com",
+    "password": "As1234",
+    "location": {
+      "coordinates": [0, 0]
+    },
+    "deviceToken": "lkjlkj"
+  }
