@@ -68,6 +68,7 @@ export default {
       id: Joi.objectId().required(),
     },
   },
+
   acceptConnect: {
     headers: {
       authorization: Joi.string().required(),
@@ -77,6 +78,15 @@ export default {
         requester: Joi.string().required(),
         requested: Joi.string().required(),
       },
+    },
+  },
+  findByDistance: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    path: {
+      id: Joi.objectId().required(),
+
     },
   },
 };

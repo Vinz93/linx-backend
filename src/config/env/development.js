@@ -59,6 +59,16 @@ export const currency = {
   },
 };
 
+
 export const pushnotifications = {
   apiKeyGcm: '123456',
+};
+export const constants = {
+  distances: {
+    findExchanges: 40000,
+  },
+  times: {
+    exchangeExpiration: 1,
+  },
+
 };
