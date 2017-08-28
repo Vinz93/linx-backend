@@ -1,14 +1,14 @@
 import httpStatus from 'http-status';
-import { APIError } from '../helpers/errors';
+// import { APIError } from '../helpers/errors';
 
-import ExchangeMatch from '../models/exchangeMatch';
-import SafePlace from '../models/safe_place';
+import ExchangeMatch from '../models/exchange_match';
+
 
 const exchangeMatchController = {
 
 /**
 * @swagger
-* /exchangeMatch:
+* /exchange-match:
 *   post:
 *     tags:
 *      - ExchangeMatch
@@ -22,7 +22,7 @@ const exchangeMatchController = {
 *         required: true
 *         type: string
 *       - name: exchangeMatch
-*         description: The information of requester, requested and where they are going to meet
+*         description: The information of requester (User ID), requested (User ID) and place where they are going to meet (placeID)
 *         in: body
 *         required: true
 *         schema:
@@ -49,8 +49,8 @@ const exchangeMatchController = {
   },
 /**
 * @swagger
-* /exchangeMatch/arrivedPlace:
-*   get:
+* /exchange-match/arrived-place:
+*   patch:
 *     tags:
 *      - ExchangeMatch
 *     description: Arrived to the meeting place
@@ -96,14 +96,15 @@ const exchangeMatchController = {
         },
       });
     if (exchangeUser.meetAt) {
-      if (exchangeUser.requester.equals(req.user.id)) {
+      if (exchangeUser.requester && exchangeUser.requester.equals(req.user.id)) {
         exchangeUser.requesterAtPlace = true;
       } else {
-        if (exchangeUser.requested.equals(req.user.id)) {
+        if (exchangeUser.requested && exchangeUser.requested.equals(req.user.id)) {
           exchangeUser.requestedAtPlace = true;
         }
       }
-    } else {
+    } else { // we need to return always the meetat field because its required, and
+      // when we use populate and the condition fails this field returns in null state, so we access the model again
       const { meetAt } = await ExchangeMatch.findOne({
         $or: [
         { requester: req.user.id },
@@ -113,7 +114,6 @@ const exchangeMatchController = {
     }
     await exchangeUser.save();
     console.info(exchangeUser);
-    // await exchangeUser.set(req.body);
     res.status(httpStatus.CREATED).json(exchangeUser);
   },
 };

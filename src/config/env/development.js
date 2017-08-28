@@ -58,3 +58,7 @@ export const currency = {
     accessKey: 'db711ea12fbe3e5f97f2a05ed470ad45',
   },
 };
+
+export const pushnotifications = {
+  apiKeyGcm: '123456',
+};

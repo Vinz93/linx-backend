@@ -14,12 +14,12 @@ import userValidator from '../services/param_validations/user';
 import exchangeValidator from '../services/param_validations/exchange';
 import Zone from '../controllers/zone';
 import SafePlace from '../controllers/safe_place';
-import ExchangeMatch from '../controllers/exchangeMatch';
+import ExchangeMatch from '../controllers/exchange_match';
 import zoneValidator from '../services/param_validations/zone';
 import fileCtrl from '../controllers/file';
 import Currency from '../controllers/currency';
 import currencyValidator from '../services/param_validations/currency';
-import ExchangeMatchValidator from '../services/param_validations/exchangeMatch';
+import ExchangeMatchValidator from '../services/param_validations/exchange_match';
 import { catchErrors } from '../helpers/errors';
 import { onlyAdmin } from '../services/acl';
 const router = express.Router(); // eslint-disable-line new-cap
@@ -73,11 +73,17 @@ router.route('/exchanges/:id')
   .get(validate(exchangeValidator.find), requireAuth, catchErrors(Exchange.find))
   .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
 
-router.route('/exchangeMatch')
+router.route('/exchanges/contact')
+  .post(validate(exchangeValidator.connect), requireAuth, catchErrors(Exchange.connect));
+
+router.route('/exchanges/acceptConnect')
+  .post(validate(exchangeValidator.acceptConnect), requireAuth, catchErrors(Exchange.acceptConnect));
+
+router.route('/exchange-match')
   .post(validate(ExchangeMatchValidator.create), requireAuth, catchErrors(ExchangeMatch.create));
 
-router.route('/exchangeMatch/arrivedPlace')
-  .get(validate(ExchangeMatchValidator.arrivedPlace), requireAuth, catchErrors(ExchangeMatch.arrivedPlace));
+router.route('/exchange-match/arrived-place')
+  .patch(validate(ExchangeMatchValidator.arrivedPlace), requireAuth, catchErrors(ExchangeMatch.arrivedPlace));
 
 router.route('/auth/facebook/callback')
   .get(facebookOAuth, User.facebook);

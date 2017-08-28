@@ -7,6 +7,19 @@ const Schema = mongoose.Schema;
 /**
  * @swagger
  * definition:
+ *   ExchangeConnect:
+ *     type: object
+ *     properties:
+ *       requester:
+ *         type: string
+ *       requested:
+ *         type: string
+ *       selectedCurrencies:
+ *         type: array
+ *         items:
+ *           $ref: '#/definitions/wantCurrencies'
+ *     items:
+ *       type: string
  *   Denomination:
  *     type: object
  *     properties:

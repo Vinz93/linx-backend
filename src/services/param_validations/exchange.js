@@ -46,12 +46,37 @@ export default {
       id: Joi.objectId().required(),
     },
   },
+  connect: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    body: {
+      selectedCurrencies: Joi.array().items(Joi.string()),
+    },
+    path: {
+      requester: Joi.string(),
+    },
+    query: {
+      requested: Joi.string(),
+    },
+  },
   find: {
     headers: {
       authorization: Joi.string().required(),
     },
     path: {
       id: Joi.objectId().required(),
+    },
+  },
+  acceptConnect: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    body: {
+      exchangeConnect: {
+        requester: Joi.string().required(),
+        requested: Joi.string().required(),
+      },
     },
   },
 };

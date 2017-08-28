@@ -34,7 +34,6 @@ const ExchangeMatchSchema = new Schema({
   meetAt: {
     type: mongoose.Schema.ObjectId,
     ref: 'SafePlace',
-    required: true,
   },
   requesterAtPlace: {
     type: Boolean,

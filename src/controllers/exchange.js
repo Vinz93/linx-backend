@@ -1,7 +1,9 @@
 import httpStatus from 'http-status';
 import { APIError } from '../helpers/errors';
-
+import { contactExchanger, notifySuccessRequester } from '../services/push_notification';
 import Exchange from '../models/exchange';
+import ExchangeMatch from '../models/exchange_match';
+import User from '../models/user';
 
 const ExchangeController = {
 /**
@@ -48,7 +50,7 @@ const ExchangeController = {
 
 /**
 * @swagger
-* /exchange/{id}:
+* /exchanges/{id}:
 *   delete:
 *     tags:
 *      - Exchange
@@ -106,6 +108,83 @@ const ExchangeController = {
     const exchange = await Exchange.findById(req.params.id);
     if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
     res.status(httpStatus.OK).json(exchange);
+  },
+
+/**
+ * @swagger
+ * /exchanges/contact:
+ *   post:
+ *     tags:
+ *      - Exchange
+ *     description: Sends Push notification to a exchanger to invite him to exchange
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: Authorization
+ *         description: format 'JWT <your-token>'.
+ *         in: header
+ *         required: true
+ *         type: string
+ *       - name: connectExchange
+ *         description: selected currencies, requester and requested
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/ExchangeConnect'
+ *     responses:
+ *       200:
+ *         description: Exchanger object'
+ */
+
+  async contact(req, res) {
+    const { user: requester } = await Exchange.findById(req.body.requester).populate('user');
+    const { user: requested } = await Exchange.findById(req.body.requested).populate('user');
+    const regToken = [requested.deviceToken];
+    if (requester && requested) {
+      const contacted = await contactExchanger(req.body.selectedCurrencies, requester, regToken);
+      if (!contacted) throw new APIError('Couldnt Notify', httpStatus.NOT_FOUND);
+      res.status(httpStatus.OK).json(contacted);
+    }
+  },
+
+/**
+ * @swagger
+ * /exchanges/acceptConnect:
+ *   post:
+ *     tags:
+ *      - Exchange
+ *     description: Accept Invitation to exchange money
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: Authorization
+ *         description: format 'JWT <your-token>'.
+ *         in: header
+ *         required: true
+ *         type: string
+ *       - name: exchangeConnect
+ *         description: Exchange id of requester
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             requester:
+ *               type: string
+ *             requested:
+ *               type: string
+ *     responses:
+ *       200:
+ *         description: Exchange Match object'
+ */
+
+  async acceptConnect(req, res) {
+    const exchange = await ExchangeMatch.create(req.body);
+    const { deviceToken } = await User.findById(req.body.requester);
+    const requested = await User.findById(req.body.requested);
+    const notified = await notifySuccessRequester(requested, deviceToken);
+    if (!notified) throw new APIError('Couldnt Notify', httpStatus.NOT_FOUND);
+    res.status(httpStatus.CREATED).json(exchange);
   },
 
 };
