@@ -4,6 +4,10 @@ import Promise from 'bluebird';
 import config from '../src/config/env';
 import Currency from '../src/models/currency';
 import currenciesData from './currencies';
+import User from '../src/models/user';
+import usersData from './users';
+import Exchange from '../src/models/exchange';
+import exchangeData from './exchanges';
 
 mongoose.Promise = Promise;
 
@@ -12,6 +16,10 @@ async function loadData() {
     console.log(`Running seeds 🌱🌱🌱`);
     await Currency.remove({});
     await Currency.create(currenciesData);
+    await User.remove({});
+    await User.create(usersData);
+    await Exchange.remove({});
+    await Exchange.create(exchangeData);
     mongoose.connection.close();
     console.log(`The process finished 🌻 🌻 🌻`);
     process.exit();

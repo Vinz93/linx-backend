@@ -46,7 +46,15 @@ export default {
       id: Joi.objectId().required(),
     },
   },
-  findByDistance: {
+  find: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    path: {
+      id: Joi.objectId().required(),
+    },
+  },
+  findbyDistance: {
     headers: {
       authorization: Joi.string().required(),
     },

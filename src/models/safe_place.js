@@ -15,7 +15,7 @@ const Schema = mongoose.Schema;
  *        items:
  *          type: number
  *          format: float
- *   SavePlace:
+ *   SafePlace:
  *     type: object
  *     properties:
  *       name:
@@ -36,7 +36,7 @@ const Schema = mongoose.Schema;
  *       - name
  *       - location
  */
-const SavePlaceSchema = new Schema({
+const SafePlaceSchema = new Schema({
   name: {
     type: String,
     required: 'Place name is required',
@@ -74,7 +74,8 @@ const SavePlaceSchema = new Schema({
   toJSON: { virtuals: true },
 });
 
-SavePlaceSchema.plugin(fieldRemover, '__v');
-SavePlaceSchema.plugin(paginate);
+SafePlaceSchema.plugin(fieldRemover, '__v');
+SafePlaceSchema.plugin(paginate);
+SafePlaceSchema.index({ location: '2dsphere' });
 
-export default mongoose.model('SavePlace', SavePlaceSchema);
+export default mongoose.model('SafePlace', SafePlaceSchema);

@@ -27,7 +27,7 @@ const ExchangeController = {
 *         in: body
 *         required: true
 *         schema:
-*           $ref: '#/definitions/Exchange'
+*           $ref: '#/definitions/ExchangeMatch'
 *     responses:
 *       200:
 *         description: Successfully created Exchange
@@ -79,6 +79,36 @@ const ExchangeController = {
     if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
     await exchange.remove();
     res.status(httpStatus.NO_CONTENT).end();
+  },
+/**
+* @swagger
+* /exchanges/{id}:
+*   get:
+*     tags:
+*      - Exchange
+*     description: find  exchange by id
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: id
+*         description: exchange id.
+*         in: path
+*         required: true
+*         type: string
+*       - name: Authorization
+*         description: auth token.
+*         in: header
+*         required: true
+*         type: string
+*     responses:
+*       200:
+*         description: Successfully
+*/
+
+  async find(req, res) {
+    const exchange = await Exchange.findById(req.params.id);
+    if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
+    res.status(httpStatus.OK).json(exchange);
   },
 
 /**

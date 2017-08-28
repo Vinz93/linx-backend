@@ -9,14 +9,17 @@ const linkedinOAuth = passport.authenticate('linkedin');
 const facebookOAuth = passport.authenticate('facebook', { scope: 'email' });
 
 import User from '../controllers/user';
-import Exchange from '../controllers/exchange';
 import userValidator from '../services/param_validations/user';
+import Exchange from '../controllers/exchange';
 import exchangeValidator from '../services/param_validations/exchange';
 import Zone from '../controllers/zone';
+import SafePlace from '../controllers/safe_place';
+import ExchangeMatch from '../controllers/exchangeMatch';
 import zoneValidator from '../services/param_validations/zone';
 import fileCtrl from '../controllers/file';
 import Currency from '../controllers/currency';
 import currencyValidator from '../services/param_validations/currency';
+import ExchangeMatchValidator from '../services/param_validations/exchangeMatch';
 import { catchErrors } from '../helpers/errors';
 import { onlyAdmin } from '../services/acl';
 const router = express.Router(); // eslint-disable-line new-cap
@@ -67,10 +70,17 @@ router.route('/exchanges')
   .post(validate(exchangeValidator.create), requireAuth, catchErrors(Exchange.create));
 
 router.route('/exchanges/:id')
- .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
+  .get(validate(exchangeValidator.find), requireAuth, catchErrors(Exchange.find))
+  .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
 
 router.route('/exchanges/:id/find-by-distance')
- .get(validate(exchangeValidator.findByDistance), requireAuth, catchErrors(Exchange.findByDistance));
+.get(validate(exchangeValidator.findByDistance), requireAuth, catchErrors(Exchange.findByDistance));
+
+router.route('/exchangeMatch')
+  .post(validate(ExchangeMatchValidator.create), requireAuth, catchErrors(ExchangeMatch.create));
+
+router.route('/exchangeMatch/arrivedPlace')
+  .get(validate(ExchangeMatchValidator.arrivedPlace), requireAuth, catchErrors(ExchangeMatch.arrivedPlace));
 
 router.route('/auth/facebook/callback')
   .get(facebookOAuth, User.facebook);
@@ -100,5 +110,8 @@ router.route('/currencies/:id/add-denomination')
 
 router.route('/currencies/:id/remove-denomination')
   .delete(validate(currencyValidator.removeDenomination), catchErrors(Currency.removeDenomination));
+
+router.route('/safePlace')
+  .post(catchErrors(SafePlace.create));
 
 export default router;
