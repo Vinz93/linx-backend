@@ -132,5 +132,7 @@ const ExchangeSchema = new Schema({
 
 ExchangeSchema.plugin(paginate);
 ExchangeSchema.plugin(fieldRemover, '__v');
+ExchangeSchema.index({ location: '2dsphere' });
+
 
 export default mongoose.model('Exchange', ExchangeSchema);

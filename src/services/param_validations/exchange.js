@@ -54,7 +54,7 @@ export default {
       id: Joi.objectId().required(),
     },
   },
-  findbyDistance: {
+  findByDistance: {
     headers: {
       authorization: Joi.string().required(),
     },

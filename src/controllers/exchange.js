@@ -144,13 +144,14 @@ const ExchangeController = {
         $nearSphere: {
           $geometry: {
             type: "Point",
-            coordinates: exchange.location,
+            coordinates: exchange.location.coordinates,
           },
           $maxDistance: distances.findExchanges,
         },
       },
-    });
-    res.json(matches);
+    })
+    .populate('user');
+    res.status(httpStatus.OK).json(matches);
   },
 
 };

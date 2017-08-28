@@ -119,6 +119,81 @@ const exchanges = [
       coordinates: [-66.933342, 10.487301],
     },
   },
+  {
+    user: '59a0a5e5c87352a0a08210df',
+    haveCurrencies: [
+      {
+        currencyKey: 'CAD',
+        totalAmount: 170,
+        denominations: [
+          {
+            coinType: 'bill',
+            value: 20,
+            quantity: 6,
+          },
+          {
+            coinType: 'bill',
+            value: 50,
+            quantity: 1,
+          },
+        ],
+        currencyRates: [
+          {
+            currencyRateKey: 'CADUSD',
+            value: 0.9,
+          },
+          {
+            currencyRateKey: 'CADAUD',
+            value: 1.01,
+          },
+        ],
+      },
+    ],
+    wantCurrencies: ['USD', 'AUD'],
+    location: {
+      coordinates: [-79.389546, 43.726044],
+    },
+  },
+  {
+    user: '59a0a5f4c87352a0a08210e1',
+    haveCurrencies: [
+      {
+        currencyKey: 'CAD',
+        totalAmount: 170,
+        denominations: [
+          {
+            coinType: 'bill',
+            value: 20,
+            quantity: 5,
+          },
+          {
+            coinType: 'bill',
+            value: 50,
+            quantity: 1,
+          },
+          {
+            coinType: 'bill',
+            value: 10,
+            quantity: 2,
+          },
+        ],
+        currencyRates: [
+          {
+            currencyRateKey: 'CADUSD',
+            value: 0.9,
+          },
+          {
+            currencyRateKey: 'CADAUD',
+            value: 1.01,
+          },
+        ],
+      },
+    ],
+    wantCurrencies: ['USD', 'AUD'],
+    location: {
+      coordinates: [-79.393162, 43.727509],
+    },
+  },
 ];
 
 export default exchanges;
