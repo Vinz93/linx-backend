@@ -143,6 +143,7 @@ const ExchangeController = {
     if (requester && requested) {
       const contacted = await contactExchanger(req.body.selectedCurrencies, requester, regToken);
       if (!contacted) throw new APIError('Couldnt Notify', httpStatus.NOT_FOUND);
+      await ExchangeMatch.create(req.body);
       res.status(httpStatus.OK).json(contacted);
     }
   },
@@ -179,12 +180,50 @@ const ExchangeController = {
  */
 
   async acceptConnect(req, res) {
-    const exchange = await ExchangeMatch.create(req.body);
     const { deviceToken } = await User.findById(req.body.requester);
     const requested = await User.findById(req.body.requested);
-    const notified = await notifySuccessRequester(requested, deviceToken);
-    if (!notified) throw new APIError('Couldnt Notify', httpStatus.NOT_FOUND);
-    res.status(httpStatus.CREATED).json(exchange);
+    const exchangeMatch = await ExchangeMatch.findOne({
+      $and: [
+        { requester: req.body.requester },
+        { requested: req.body.requested },
+      ] });
+    if (exchangeMatch) {
+      exchangeMatch.status = "active";
+      await exchangeMatch.save();
+      notifySuccessRequester(requested, deviceToken);
+      res.status(httpStatus.CREATED).json(exchangeMatch);
+    }
+  },
+
+/**
+ * @swagger
+ * /exchanges/rejectConnect/{id}:
+ *   post:
+ *     tags:
+ *      - Exchange
+ *     description: Reject Invitation to exchange money
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: Authorization
+ *         description: format 'JWT <your-token>'.
+ *         in: header
+ *         required: true
+ *         type: string
+ *       - name: id
+ *         description: Exchange match id
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Successfully Rejected Match'
+ */
+
+  async rejectConnect(req, res) {
+    const reject = await ExchangeMatch.findById(req.path.id);
+    reject.delete();
+    res.status(httpStatus.OK).json({ deleted: true });
   },
 
 };

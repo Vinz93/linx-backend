@@ -114,7 +114,7 @@ router.route('/currencies/:id/add-denomination')
 router.route('/currencies/:id/remove-denomination')
   .delete(validate(currencyValidator.removeDenomination), catchErrors(Currency.removeDenomination));
 
-router.route('/safePlace')
+router.route('/safe-place')
   .post(catchErrors(SafePlace.create));
 
 export default router;

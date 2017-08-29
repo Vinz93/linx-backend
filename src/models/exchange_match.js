@@ -43,6 +43,10 @@ const ExchangeMatchSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  status: {
+    type: String,
+    default: "invited",
+  },
 }, {
   timestamps: true,
   toObject: { virtuals: true },
