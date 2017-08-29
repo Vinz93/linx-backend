@@ -1,7 +1,7 @@
 const airports = [
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.94193078816193,
@@ -498,20 +498,20 @@ const airports = [
         ]
       ],
     },
-    "name": "Bedford",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport",
-    "terminals": [
+    name: "Bedford",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport",
+    terminals: [
       "terminal1",
       "terminal2",
       "terminal3",
-      "terminal4"
-    ]
+      "terminal4",
+    ],
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.89138023380261,
@@ -804,20 +804,20 @@ const airports = [
         ]
       ],
     },
-    "name": "Fordham South",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport",
-    "terminals": [
+    name: "Fordham South",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport",
+    terminals: [
       "terminal1",
       "terminal2",
       "terminal3",
-      "terminal4"
-    ]
+      "terminal4",
+    ],
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.97604935591413,
@@ -1342,20 +1342,20 @@ const airports = [
         ]
       ],
     },
-    "name": "Borough Park",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport",
-    "terminals": [
+    name: "Borough Park",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport",
+    terminals: [
       "terminal1",
       "terminal2",
       "terminal3",
-      "terminal4"
-    ]
+      "terminal4",
+    ],
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.79493246233996,
@@ -1732,11 +1732,11 @@ const airports = [
         ]
       ],
     },
-    "name": "East Flushing",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport",
-    "terminals": [
+    name: "East Flushing",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport",
+    terminals: [
       "terminal1",
       "terminal2",
       "terminal3",
@@ -1744,8 +1744,8 @@ const airports = [
     ]
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.90855790522767,
@@ -2202,20 +2202,20 @@ const airports = [
         ]
       ],
     },
-    "name": "Rugby-Remsen Village",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport",
-    "terminals": [
+    name: "Rugby-Remsen Village",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport",
+    terminals: [
       "terminal1",
       "terminal2",
       "terminal3",
-      "terminal4"
-    ]
+      "terminal4",
+    ],
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.84913837242902,
@@ -2648,20 +2648,20 @@ const airports = [
         ]
       ],
     },
-    "name": "Woodhaven",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport",
-    "terminals": [
+    name: "Woodhaven",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport",
+    terminals: [
       "terminal1",
       "terminal2",
       "terminal3",
-      "terminal4"
-    ]
+      "terminal4",
+    ],
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.93753749374041,
@@ -3030,20 +3030,20 @@ const airports = [
         ]
       ],
     },
-    "name": "Madison",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport",
-    "terminals": [
+    name: "Madison",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport",
+    terminals: [
       "terminal1",
       "terminal2",
       "terminal3",
-      "terminal4"
-    ]
+      "terminal4",
+    ],
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.77573836927098,
@@ -3804,20 +3804,20 @@ const airports = [
         ]
       ],
     },
-    "name": "Auburndale",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport",
-    "terminals": [
+    name: "Auburndale",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport",
+    terminals: [
       "terminal1",
       "terminal2",
       "terminal3",
-      "terminal4"
+      "terminal4",
     ]
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.84704957988542,
@@ -4410,20 +4410,20 @@ const airports = [
         ]
       ],
     },
-    "name": "Williamsbridge-Olinville",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport",
-    "terminals": [
+    name: "Williamsbridge-Olinville",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport",
+    terminals: [
       "terminal1",
       "terminal2",
       "terminal3",
-      "terminal4"
-    ]
+      "terminal4",
+    ],
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.8988069843351,
@@ -4820,20 +4820,20 @@ const airports = [
         ]
       ],
     },
-    "name": "East New York (Pennsylvania Ave)",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport",
-    "terminals": [
+    name: "East New York (Pennsylvania Ave)",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport",
+    terminals: [
       "terminal1",
       "terminal2",
       "terminal3",
-      "terminal4"
-    ]
+      "terminal4",
+    ],
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.80379022888246,
@@ -5322,20 +5322,20 @@ const airports = [
         ]
       ],
     },
-    "name": "Murray Hill",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport",
-    "terminals": [
+    name: "Murray Hill",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport",
+    terminals: [
       "terminal1",
       "terminal2",
       "terminal3",
-      "terminal4"
-    ]
+      "terminal4",
+    ],
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -73.97482741755577,
@@ -5644,14 +5644,14 @@ const airports = [
         ]
       ],
     },
-    "name": "Kensington-Ocean Parkway",
-    "description": "una descripcion",
-    "address": "Direccion del Lugar",
-    "type": "airport"
+    name: "Kensington-Ocean Parkway",
+    description: "una descripcion",
+    address: "Direccion del Lugar",
+    zoneType: "airport"
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -66.9935,
@@ -5713,14 +5713,14 @@ const airports = [
       ],
 
     },
-    "name": "Aeropuerto Simon Bolivar",
-    "description": "Maiquetia Vargas",
-    "address": "Cerca de la playa",
-    "type": "airport"
+    name: "Aeropuerto Simon Bolivar",
+    description: "Maiquetia Vargas",
+    address: "Cerca de la playa",
+    zoneType: "airport"
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -79.60161,
@@ -5758,18 +5758,18 @@ const airports = [
       ],
 
     },
-    "name": "Pearson International Airport",
-    "description": "A place in Canada",
-    "address": "Near Starbucks",
-    "type": "airport",
-    "terminals": [
+    name: "Pearson International Airport",
+    description: "A place in Canada",
+    address: "Near Starbucks",
+    zoneType: "airport",
+    terminals: [
       "Terminal 1",
-      "Terminal 3"
-    ]
+      "Terminal 3",
+    ],
   },
   {
-    "geometry": {
-      "coordinates": [
+    geometry: {
+      coordinates: [
         [
           [
             -79.48879,
@@ -5799,16 +5799,16 @@ const airports = [
       ],
 
     },
-    "name": "Pierre Trudeau Airport Montreal",
-    "description": "A place in Canada",
-    "address": "Near Montreal",
-    "type": "airport",
-    "terminals": [
+    name: "Pierre Trudeau Airport Montreal",
+    description: "A place in Canada",
+    address: "Near Montreal",
+    zoneType: "airport",
+    terminals: [
       "Aeroquay",
       "Domestic",
       "Internation",
-      "Transborder"
-    ]
+      "Transborder",
+    ],
   },
 ];
 

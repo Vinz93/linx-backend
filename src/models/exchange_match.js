@@ -16,6 +16,12 @@ const Schema = mongoose.Schema;
  *         type: string
  *       meetAt:
  *         type: string
+ *       requesterAtPlace:
+ *         type: boolean
+ *       requestedAtPlace:
+ *         type: boolean
+ *       status:
+ *         type: string
  *     required:
  *       - requester
  *       - requested

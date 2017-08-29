@@ -195,7 +195,7 @@ const ExchangeController = {
     if (exchangeMatch) {
       exchangeMatch.status = "active";
       await exchangeMatch.save();
-      notifySuccessRequester(requested, deviceToken);
+      const notified = notifySuccessRequester(requested, deviceToken);
       res.status(httpStatus.CREATED).json(exchangeMatch);
     }
   },
