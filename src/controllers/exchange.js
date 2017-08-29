@@ -259,6 +259,10 @@ const ExchangeController = {
     const exchange = await Exchange.findById(req.params.id);
     if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
     const matches = await Exchange.find({
+      _id: {
+        $ne: exchange.id,
+      },
+      isActive: true,
       location: {
         $nearSphere: {
           $geometry: {
