@@ -5,10 +5,10 @@ import SafePlace from '../models/safe_place';
 const SafePlaceController = {
 /**
 * @swagger
-* /safePlace:
+* /safe-place:
 *   post:
 *     tags:
-*      - safePlace
+*      - SafePlace
 *     description: This endpoint creates a safe place to exchange money.
 *     produces:
 *       - application/json
