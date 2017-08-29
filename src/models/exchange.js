@@ -7,6 +7,7 @@ const Schema = mongoose.Schema;
 /**
  * @swagger
  * definition:
+<<<<<<< HEAD
  *   ExchangeConnect:
  *     type: object
  *     properties:
@@ -20,6 +21,16 @@ const Schema = mongoose.Schema;
  *           $ref: '#/definitions/wantCurrencies'
  *     items:
  *       type: string
+=======
+ *   Location:
+ *    type: object
+ *    properties:
+ *      coordinates:
+ *        type: array
+ *        items:
+ *          type: number
+ *          format: float
+>>>>>>> feature/findByDistance
  *   Denomination:
  *     type: object
  *     properties:
@@ -70,6 +81,8 @@ const Schema = mongoose.Schema;
  *          type: array
  *          items:
  *            $ref: '#/definitions/wantCurrencies'
+ *       location:
+ *         $ref: '#/definitions/Location'
  *       terminal:
  *          type: string
  *       securityZone:
@@ -106,17 +119,27 @@ const ExchangeSchema = new Schema({
     },
   ],
   wantCurrencies: [String],
+  location: {
+    type: {
+      type: String,
+      default: 'Point',
+    },
+    coordinates: [{
+      type: Number,
+      required: 'You must supply coordinates!',
+    }],
+  },
+  isActive: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
   securityZone: Boolean,
   zoneId: {
     type: mongoose.Schema.ObjectId,
     ref: 'Zone',
   },
   terminal: String,
-  isActive: {
-    type: Boolean,
-    required: true,
-    default: true,
-  },
 }, {
   timestamps: true,
   toObject: { virtuals: true },
@@ -125,5 +148,7 @@ const ExchangeSchema = new Schema({
 
 ExchangeSchema.plugin(paginate);
 ExchangeSchema.plugin(fieldRemover, '__v');
+ExchangeSchema.index({ location: '2dsphere' });
+
 
 export default mongoose.model('Exchange', ExchangeSchema);

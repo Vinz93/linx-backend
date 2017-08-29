@@ -1,9 +1,14 @@
 import httpStatus from 'http-status';
-import { APIError } from '../helpers/errors';
-import { contactExchanger, notifySuccessRequester } from '../services/push_notification';
+
 import Exchange from '../models/exchange';
 import ExchangeMatch from '../models/exchange_match';
 import User from '../models/user';
+import config from '../config/env';
+import { APIError } from '../helpers/errors';
+import { contactExchanger, notifySuccessRequester } from '../services/push_notification';
+
+const { distances } = config.constants;
+
 
 const ExchangeController = {
 /**
@@ -224,6 +229,48 @@ const ExchangeController = {
     const reject = await ExchangeMatch.findById(req.path.id);
     reject.delete();
     res.status(httpStatus.OK).json({ deleted: true });
+  },
+/**
+* @swagger
+* /exchanges/{id}/find-by-distance:
+*   get:
+*     tags:
+*      - Exchange
+*     description: Find users who wants to change money near you
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: id
+*         description: exchange id.
+*         in: path
+*         required: true
+*         type: string
+*       - name: Authorization
+*         description: auth token.
+*         in: header
+*         required: true
+*         type: string
+*     responses:
+*       200:
+*         description: An a array of users exchanges
+*/
+
+  async findByDistance(req, res) {
+    const exchange = await Exchange.findById(req.params.id);
+    if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
+    const matches = await Exchange.find({
+      location: {
+        $nearSphere: {
+          $geometry: {
+            type: "Point",
+            coordinates: exchange.location.coordinates,
+          },
+          $maxDistance: distances.findExchanges,
+        },
+      },
+    })
+    .populate('user');
+    res.status(httpStatus.OK).json(matches);
   },
 
 };

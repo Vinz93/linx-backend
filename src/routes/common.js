@@ -9,8 +9,8 @@ const linkedinOAuth = passport.authenticate('linkedin');
 const facebookOAuth = passport.authenticate('facebook', { scope: 'email' });
 
 import User from '../controllers/user';
-import Exchange from '../controllers/exchange';
 import userValidator from '../services/param_validations/user';
+import Exchange from '../controllers/exchange';
 import exchangeValidator from '../services/param_validations/exchange';
 import Zone from '../controllers/zone';
 import SafePlace from '../controllers/safe_place';
@@ -69,17 +69,20 @@ router.route('/auth/facebook')
 router.route('/exchanges')
   .post(validate(exchangeValidator.create), requireAuth, catchErrors(Exchange.create));
 
-router.route('/exchanges/:id')
-  .get(validate(exchangeValidator.find), requireAuth, catchErrors(Exchange.find))
-  .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
-
 router.route('/exchanges/contact')
   .post(validate(exchangeValidator.connect), requireAuth, catchErrors(Exchange.connect));
 
 router.route('/exchanges/acceptConnect')
   .post(validate(exchangeValidator.acceptConnect), requireAuth, catchErrors(Exchange.acceptConnect));
 
-router.route('/exchange-match')
+router.route('/exchanges/:id')
+  .get(validate(exchangeValidator.find), requireAuth, catchErrors(Exchange.find))
+  .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
+
+router.route('/exchanges/:id/find-by-distance')
+.get(validate(exchangeValidator.findByDistance), requireAuth, catchErrors(Exchange.findByDistance));
+
+router.route('/exchangeMatch')
   .post(validate(ExchangeMatchValidator.create), requireAuth, catchErrors(ExchangeMatch.create));
 
 router.route('/exchange-match/arrived-place')
