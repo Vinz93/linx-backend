@@ -7,7 +7,6 @@ const Schema = mongoose.Schema;
 /**
  * @swagger
  * definition:
-<<<<<<< HEAD
  *   ExchangeConnect:
  *     type: object
  *     properties:
@@ -21,7 +20,6 @@ const Schema = mongoose.Schema;
  *           $ref: '#/definitions/wantCurrencies'
  *     items:
  *       type: string
-=======
  *   Location:
  *    type: object
  *    properties:
@@ -30,7 +28,6 @@ const Schema = mongoose.Schema;
  *        items:
  *          type: number
  *          format: float
->>>>>>> feature/findByDistance
  *   Denomination:
  *     type: object
  *     properties:
