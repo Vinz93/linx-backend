@@ -46,17 +46,13 @@ export default {
       id: Joi.objectId().required(),
     },
   },
-  connect: {
+  contact: {
     headers: {
       authorization: Joi.string().required(),
     },
     body: {
       selectedCurrencies: Joi.array().items(Joi.string()),
-    },
-    path: {
       requester: Joi.string(),
-    },
-    query: {
       requested: Joi.string(),
     },
   },

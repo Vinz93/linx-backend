@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 
 export const dbConfig = {
   db: 'mongodb://localhost/linx',
@@ -59,9 +60,19 @@ export const currency = {
   },
 };
 
-
+function readFile(filename) {
+  return fs.readFileSync(
+     path.resolve(__dirname, '../credentials', filename),
+     'UTF-8'
+ );
+}
 export const pushnotifications = {
-  apiKeyGcm: '123456',
+  token: {
+    cert: readFile('apn_key_linx.pem'),
+    keyId: 'WBS3ED2JQ6',
+    teamId: '5HVRFN9385',
+  },
+  production: false,
 };
 export const constants = {
   distances: {
