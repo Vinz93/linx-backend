@@ -1,27 +1,32 @@
-import GCM from 'node-gcm';
 import config from '../config/env';
-const { apiKeyGcm } = config.pushnotifications;
+import apn from 'apn';
+const pushNotif = config.pushnotifications;
+console.info(pushNotif);
+const apnProvider = new apn.Provider(pushNotif);
 
-const sender = new GCM.Sender(apiKeyGcm);
 
 export async function contactExchanger(selectedCurrencies, requester, requestedToken) {
-  const message = new GCM.Message({
-    data: {
-      message: `${requester.firstName} ${requester.lastName} is interested in exchanging ${selectedCurrencies[0]} and ...`,
-      requester,
-      selectedCurrencies,
-    },
-  });
+  // const message = new GCM.Message({
+  //   data: {
+  //     message: `${requester.firstName} ${requester.lastName} is interested in exchanging ${selectedCurrencies[0]} and ...`,
+  //     requester,
+  //     selectedCurrencies,
+  //   },
+  const note = new apn.Notification();
 
-  return await sender.send(message, { registrationTokens: requestedToken });
+  note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+  note.badge = 3;
+  note.sound = 'ping.aiff';
+  note.alert = `${requester.firstName} ${requester.lastName} is interested in exchanging ${selectedCurrencies[0]} and ...`;
+  note.payload = { messageFrom: 'John Appleseed' };
+  note.topic = '<your-app-bundle-id>';
+
+  apnProvider.send(note, requestedToken).then((result) => {
+  // see documentation for an explanation of result
+    console.info(result);
+  });
 }
 
 export async function notifySuccessRequester(requested, requesterToken) {
-  const message = new GCM.Message({
-    data: {
-      message: `${requested.firstName} ${requested.lastName} has accepted your invitation to exchange`,
-    },
-  });
-
-  return await sender.send(message, { registrationTokens: requesterToken });
+  // hola
 }

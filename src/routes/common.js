@@ -70,7 +70,7 @@ router.route('/exchanges')
   .post(validate(exchangeValidator.create), requireAuth, catchErrors(Exchange.create));
 
 router.route('/exchanges/contact')
-  .post(validate(exchangeValidator.connect), requireAuth, catchErrors(Exchange.connect));
+  .post(validate(exchangeValidator.contact), requireAuth, catchErrors(Exchange.contact));
 
 router.route('/exchanges/acceptConnect')
   .post(validate(exchangeValidator.acceptConnect), requireAuth, catchErrors(Exchange.acceptConnect));
