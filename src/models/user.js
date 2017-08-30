@@ -140,6 +140,8 @@ const Schema = mongoose.Schema;
  *         type: string
  *       deviceToken:
  *         type: string
+ *       deviceType:
+ *         type: string
  *       headline:
  *         type: string
  *       location:
@@ -197,6 +199,9 @@ const UserSchema = new Schema({
     type: String,
   },
   password: {
+    type: String,
+  },
+  deviceType: {
     type: String,
   },
   deviceToken: {
@@ -302,6 +307,7 @@ const UserSchema = new Schema({
       delete ret.password;
       delete ret.__v;
       delete ret.deviceToken;
+      delete ret.deviceType;
       delete ret.roleKey;
       ret.social = ret.socialNetworks.map(sn => ({
         name: sn.name,

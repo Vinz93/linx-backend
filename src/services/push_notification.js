@@ -1,8 +1,7 @@
 import config from '../config/env';
 import apn from 'apn';
-const pushNotif = config.pushnotifications;
-console.info(pushNotif);
-const apnProvider = new apn.Provider(pushNotif);
+const { apnconfig } = config.pushnotifications;
+const apnProvider = new apn.Provider(apnconfig);
 
 
 export async function contactExchanger(selectedCurrencies, requester, requestedToken) {
@@ -19,11 +18,10 @@ export async function contactExchanger(selectedCurrencies, requester, requestedT
   note.sound = 'ping.aiff';
   note.alert = `${requester.firstName} ${requester.lastName} is interested in exchanging ${selectedCurrencies[0]} and ...`;
   note.payload = { messageFrom: 'John Appleseed' };
-  note.topic = '<your-app-bundle-id>';
 
   apnProvider.send(note, requestedToken).then((result) => {
   // see documentation for an explanation of result
-    console.info(result);
+    console.info(result.failed[0].response);
   });
 }
 

@@ -67,7 +67,8 @@ router.route('/auth/facebook')
   .get(facebookOAuth);
 
 router.route('/exchanges')
-  .post(validate(exchangeValidator.create), requireAuth, catchErrors(Exchange.create));
+  .post(validate(exchangeValidator.create), requireAuth, catchErrors(Exchange.create))
+  .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
 
 router.route('/exchanges/contact')
   .post(validate(exchangeValidator.contact), requireAuth, catchErrors(Exchange.contact));

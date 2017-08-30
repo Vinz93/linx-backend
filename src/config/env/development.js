@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 
 export const dbConfig = {
-  db: 'mongodb://localhost/linx',
+  db: 'mongodb://linx:solsteace11@aws-us-east-1-portal.5.dblayer.com:20919/linx-dev?ssl=true',
   passportSecret: 'yo78boom90',
 };
 
@@ -67,12 +67,19 @@ function readFile(filename) {
  );
 }
 export const pushnotifications = {
-  token: {
-    cert: readFile('apn_key_linx.pem'),
-    keyId: 'WBS3ED2JQ6',
-    teamId: '5HVRFN9385',
+  apnconfig: {
+    token: {
+      key: readFile('AuthKey_WBS3ED2JQ6.p8'),
+      keyId: 'WBS3ED2JQ6',
+      teamId: '5HVRFN9385',
+    },
+    production: false,
   },
-  production: false,
+  gcmconfig: {
+    token: {
+      key: 'mo',
+    },
+  },
 };
 export const constants = {
   distances: {

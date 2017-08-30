@@ -144,7 +144,7 @@ const ExchangeController = {
   async contact(req, res) {
     const { user: requester } = await Exchange.findById(req.body.requester).populate('user');
     const { user: requested } = await Exchange.findById(req.body.requested).populate('user');
-    const regToken = [requested.deviceToken];
+    const regToken = requested.deviceToken;
     if (requester && requested) {
       const contacted = await contactExchanger(req.body.selectedCurrencies, requester, regToken);
       if (!contacted) throw new APIError('Couldnt Notify', httpStatus.NOT_FOUND);
@@ -200,36 +200,6 @@ const ExchangeController = {
     }
   },
 
-/**
- * @swagger
- * /exchanges/rejectConnect/{id}:
- *   post:
- *     tags:
- *      - Exchange
- *     description: Reject Invitation to exchange money
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: Authorization
- *         description: format 'JWT <your-token>'.
- *         in: header
- *         required: true
- *         type: string
- *       - name: id
- *         description: Exchange match id
- *         in: path
- *         required: true
- *         type: string
- *     responses:
- *       200:
- *         description: Successfully Rejected Match'
- */
-
-  async rejectConnect(req, res) {
-    const reject = await ExchangeMatch.findById(req.path.id);
-    reject.delete();
-    res.status(httpStatus.OK).json({ deleted: true });
-  },
 /**
 * @swagger
 * /exchanges/{id}/find-by-distance:
