@@ -8,27 +8,25 @@ const apnProvider = new apn.Provider(apnconfig);
 const note = new apn.Notification();
 
 export async function contactExchanger(selectedCurrencies, requester, requestedToken, deviceRequested) {
-  const title = `${requester.firstName} ${requester.lastName} is interested in exchanging ${selectedCurrencies[0]} and ...`;
+  const message = `${requester.firstName} ${requester.lastName} is interested in exchanging ${selectedCurrencies[0]} and ...`;
   // APN CONFIG
   note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
   note.sound = 'ping.aiff';
-  note.alert = title;
+  note.alert = message;
   // END APN CONFIG
-  const message = new GCM.Message({
+  const gcmmessage = new GCM.Message({
     data: {
-      message: title,
+      message,
       requester,
       selectedCurrencies,
     },
   });
   if (deviceRequested === "ios") {
-    apnProvider.send(note, requestedToken).then((result) => {
-  // see documentation for an explanation of result
-      console.info(result.failed[0].response);
-    });
-  } else {
-    sender.send(message, { registrationTokens: requestedToken });
+    const apnpush = await apnProvider.send(note, requestedToken);
+    return apnpush;
   }
+  const gcmpush = await sender.send(gcmmessage, { registrationTokens: requestedToken });
+  return gcmpush;
 }
 
 /*  export async function notifySuccessRequester(requested, requesterToken) {

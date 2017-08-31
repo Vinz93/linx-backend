@@ -68,12 +68,8 @@ function readFile(filename) {
 }
 export const pushnotifications = {
   apnconfig: {
-    token: {
-      key: readFile('AuthKey_WBS3ED2JQ6.p8'),
-      keyId: 'WBS3ED2JQ6',
-      teamId: '5HVRFN9385',
-    },
-    production: true,
+    key: readFile('apns_key_cert.pem'),
+    cert: readFile('apns_cert.pem'),
   },
   gcmconfig: {
     token: {

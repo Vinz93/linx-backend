@@ -147,10 +147,10 @@ const ExchangeController = {
     const regToken = requested.deviceToken;
     const { deviceType } = requested;
     if (requester && requested) {
-      const contacted = await contactExchanger(req.body.selectedCurrencies, requester, regToken, deviceType);
-      if (!contacted) throw new APIError('Couldnt Notify', httpStatus.NOT_FOUND);
-      await ExchangeMatch.create(req.body);
-      res.status(httpStatus.OK).json(contacted);
+      const { failed, sent } = await contactExchanger(req.body.selectedCurrencies, requester, regToken, deviceType);
+      if (failed.length > 0) throw new APIError('Couldnt Notify', httpStatus.NOT_FOUND);
+      const newMatch = await ExchangeMatch.create(req.body);
+      res.status(httpStatus.OK).json({ newMatch, sent });
     }
   },
 
