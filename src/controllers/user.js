@@ -165,13 +165,21 @@ const UserController = {
    *         in: formData
    *         required: true
    *         type: string
+   *       - name: deviceType
+   *         description: Device Type
+   *         in: formData
+   *         required: true
+   *         type: string
    *     responses:
    *       200:
    *         description: returns user token'
    */
 
-  signin(req, res) {
-    res.json({ jwt: createJwt(req.user), profile: req.user });
+  async signin(req, res) {
+    const user = await User.findOne({ email: req.body.email });
+    user.deviceType = req.body.deviceType;
+    await user.save();
+    res.json({ jwt: createJwt(req.user), profile: user });
   },
 
   /**

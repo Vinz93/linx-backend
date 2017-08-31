@@ -67,12 +67,13 @@ router.route('/auth/facebook')
   .get(facebookOAuth);
 
 router.route('/exchanges')
-  .post(validate(exchangeValidator.create), requireAuth, catchErrors(Exchange.create));
+  .post(validate(exchangeValidator.create), requireAuth, catchErrors(Exchange.create))
+  .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
 
 router.route('/exchanges/contact')
   .post(validate(exchangeValidator.contact), requireAuth, catchErrors(Exchange.contact));
 
-router.route('/exchanges/acceptConnect')
+router.route('/exchanges/accept-contact')
   .post(validate(exchangeValidator.acceptConnect), requireAuth, catchErrors(Exchange.acceptConnect));
 
 router.route('/exchanges/:id')
