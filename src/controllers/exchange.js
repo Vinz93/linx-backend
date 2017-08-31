@@ -5,7 +5,7 @@ import ExchangeMatch from '../models/exchange_match';
 import User from '../models/user';
 import config from '../config/env';
 import { APIError } from '../helpers/errors';
-import { contactExchanger, notifySuccessRequester } from '../services/push_notification';
+import { contact } from '../services/push_notification';
 
 const { distances } = config.constants;
 
@@ -131,7 +131,7 @@ const ExchangeController = {
  *         required: true
  *         type: string
  *       - name: connectExchange
- *         description: selected currencies, requester and requested
+ *         description: selected currencies, requester exchangeID and requested exchangeID
  *         in: body
  *         required: true
  *         schema:
@@ -144,10 +144,12 @@ const ExchangeController = {
   async contact(req, res) {
     const { user: requester } = await Exchange.findById(req.body.requester).populate('user');
     const { user: requested } = await Exchange.findById(req.body.requested).populate('user');
+    const selectedCurrencies = req.body.selectedCurrencies;
+    const message = `${requester.firstName} ${requester.lastName} is interested in exchanging ${selectedCurrencies[0]} and ...`;
     const regToken = requested.deviceToken;
     const { deviceType } = requested;
     if (requester && requested) {
-      const { failed, sent } = await contactExchanger(req.body.selectedCurrencies, requester, regToken, deviceType);
+      const { failed, sent } = await contact({ selectedCurrencies, requester }, regToken, deviceType, message);
       if (failed.length > 0) throw new APIError('Couldnt Notify', httpStatus.NOT_FOUND);
       const newMatch = await ExchangeMatch.create(req.body);
       res.status(httpStatus.OK).json({ newMatch, sent });
@@ -156,7 +158,7 @@ const ExchangeController = {
 
 /**
  * @swagger
- * /exchanges/acceptConnect:
+ * /exchanges/accept-contact:
  *   post:
  *     tags:
  *      - Exchange
@@ -169,8 +171,8 @@ const ExchangeController = {
  *         in: header
  *         required: true
  *         type: string
- *       - name: exchangeConnect
- *         description: Exchange id of requester
+ *       - name: exchance match
+ *         description: Exchange id of requester and requested
  *         in: body
  *         required: true
  *         schema:
@@ -186,8 +188,9 @@ const ExchangeController = {
  */
 
   async acceptConnect(req, res) {
-    const { deviceToken } = await User.findById(req.body.requester);
+    const { deviceToken, deviceType } = await User.findById(req.body.requester);
     const requested = await User.findById(req.body.requested);
+    const message = `${requested.firstName} ${requested.lastName} has accepted the invitation to exchange money`;
     const exchangeMatch = await ExchangeMatch.findOne({
       $and: [
         { requester: req.body.requester },
@@ -196,8 +199,8 @@ const ExchangeController = {
     if (exchangeMatch) {
       exchangeMatch.status = "active";
       await exchangeMatch.save();
-      const notified = notifySuccessRequester(requested, deviceToken);
-      res.status(httpStatus.CREATED).json(exchangeMatch);
+      const { sent } = await contact({ requested }, deviceToken, deviceType, message);
+      res.status(httpStatus.CREATED).json(exchangeMatch, sent);
     }
   },
 

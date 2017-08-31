@@ -7,8 +7,7 @@ const sender = new GCM.Sender(gcmconfig);
 const apnProvider = new apn.Provider(apnconfig);
 const note = new apn.Notification();
 
-export async function contactExchanger(selectedCurrencies, requester, requestedToken, deviceRequested) {
-  const message = `${requester.firstName} ${requester.lastName} is interested in exchanging ${selectedCurrencies[0]} and ...`;
+export async function contact(pushData, requestedToken, deviceRequested, message) {
   // APN CONFIG
   note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
   note.sound = 'ping.aiff';
@@ -17,8 +16,7 @@ export async function contactExchanger(selectedCurrencies, requester, requestedT
   const gcmmessage = new GCM.Message({
     data: {
       message,
-      requester,
-      selectedCurrencies,
+      pushData,
     },
   });
   if (deviceRequested === "ios") {
@@ -29,5 +27,3 @@ export async function contactExchanger(selectedCurrencies, requester, requestedT
   return gcmpush;
 }
 
-/*  export async function notifySuccessRequester(requested, requesterToken) {
-}*/

@@ -73,7 +73,7 @@ router.route('/exchanges')
 router.route('/exchanges/contact')
   .post(validate(exchangeValidator.contact), requireAuth, catchErrors(Exchange.contact));
 
-router.route('/exchanges/acceptConnect')
+router.route('/exchanges/accept-contact')
   .post(validate(exchangeValidator.acceptConnect), requireAuth, catchErrors(Exchange.acceptConnect));
 
 router.route('/exchanges/:id')
