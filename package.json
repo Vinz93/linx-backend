@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --exec babel-node src/index.js",
-    "build": "rm -rf dist && babel src --out-dir dist",
+    "build": "rm -rf dist && babel src --out-dir dist --copy-files",
     "start": "NODE_ENV=production PORT=3333cs pm2 start dist/index.js",
     "test": "mocha  src/tests/**/*.js  --timeout 10000 -c --compilers js:babel-core/register || true",
     "test:nyan": "mocha src/tests/**/*.js  --timeout 10000 -c -R nyan --compilers js:babel-core/register || true",
