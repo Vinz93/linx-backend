@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 
 export const dbConfig = {
   db: 'mongodb://linx:solsteace11@aws-us-east-1-portal.5.dblayer.com:20919/linx-qa?ssl=true',
@@ -55,10 +56,23 @@ export const currency = {
     accessKey: 'db711ea12fbe3e5f97f2a05ed470ad45',
   },
 };
+function readFile(filename) {
+  return fs.readFileSync(
+     path.resolve(__dirname, '../credentials', filename),
+     'UTF-8'
+ );
+}
 export const pushnotifications = {
-  apiKeyGcm: '123456',
+  apnconfig: {
+    key: readFile('apns_key_cert.pem'),
+    cert: readFile('apns_cert.pem'),
+  },
+  gcmconfig: {
+    token: {
+      key: 'mo',
+    },
+  },
 };
-
 export const constants = {
   distances: {
     findExchanges: 40000,
@@ -66,4 +80,5 @@ export const constants = {
   times: {
     exchangeExpiration: 1,
   },
+
 };
