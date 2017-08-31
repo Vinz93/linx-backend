@@ -73,7 +73,7 @@ export const pushnotifications = {
       keyId: 'WBS3ED2JQ6',
       teamId: '5HVRFN9385',
     },
-    production: false,
+    production: true,
   },
   gcmconfig: {
     token: {
