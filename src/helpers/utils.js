@@ -12,6 +12,11 @@ export const paginate = {
   },
 };
 
+export function removeSpaces(string) {
+  const noSpaces = string.replace(/\s+/g, '').trim();
+  return noSpaces.substring(1, noSpaces.length - 1);
+}
+
 export function upload() {
   return multer().single('file');
 }

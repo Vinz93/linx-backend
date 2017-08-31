@@ -203,6 +203,7 @@ const UserSchema = new Schema({
   },
   deviceType: {
     type: String,
+    enum: ['VISA', 'MASTERCARD', 'AMERICANEXPRESS'],
   },
   deviceToken: {
     type: String,

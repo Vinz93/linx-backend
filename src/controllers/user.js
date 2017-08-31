@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
 
-import { paginate } from '../helpers/utils';
+import { paginate, removeSpaces } from '../helpers/utils';
 // import { APIError } from '../helpers/errors';
 import { createJwt } from '../services/jwt';
 import User from '../models/user';
@@ -83,6 +83,7 @@ const UserController = {
    *                    format: date-time
    */
   async create(req, res) {
+    req.body.deviceToken = removeSpaces(req.body.deviceToken);
     const newUser = await User.create(req.body);
     res.json({ jwt: createJwt(newUser), profile: newUser });
   },
