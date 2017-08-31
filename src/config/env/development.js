@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 
 export const dbConfig = {
-  db: 'mongodb://linx:solsteace11@aws-us-east-1-portal.5.dblayer.com:20919/linx-dev?ssl=true',
+  db: 'mongodb://localhost/linx',
   passportSecret: 'yo78boom90',
 };
 
