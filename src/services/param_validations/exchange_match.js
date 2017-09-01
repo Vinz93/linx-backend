@@ -23,4 +23,12 @@ export default {
       latitude: Joi.string().required(),
     },
   },
+  invites: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    path: {
+      id: Joi.string().required(),
+    },
+  },
 };

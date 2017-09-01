@@ -33,6 +33,10 @@ export default {
           })
         ).required(),
       wantCurrencies: Joi.array().items(Joi.string()).required(),
+      location: Joi.object()
+        .keys({
+          coordinates: Joi.array().items(Joi.number()).required(),
+        }),
       zoneId: Joi.string(),
       terminal: Joi.string(),
       securityZone: Joi.boolean(),

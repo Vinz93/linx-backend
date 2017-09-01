@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-// import { APIError } from '../helpers/errors';
+import { APIError } from '../helpers/errors';
 
 import ExchangeMatch from '../models/exchange_match';
 
@@ -76,6 +76,39 @@ const exchangeMatchController = {
 *       204:
 *         description: Arrived or not to Exchange Place
 */
+
+/**
+* @swagger
+* /exchange-match/invites/{id}:
+*   get:
+*     tags:
+*      - ExchangeMatch
+*     description: find all the invites received to exchange
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: id
+*         description: exchange id of user
+*         in: path
+*         required: true
+*         type: string
+*       - name: Authorization
+*         description: auth token.
+*         in: header
+*         required: true
+*         type: string
+*     responses:
+*       200:
+*         description: Successfully
+*/
+
+  async invites(req, res) {
+    const exchange = await ExchangeMatch.find({ requested: req.path.id, status: "invited" });
+    if (!exchange) throw new APIError('exchange Match not found', httpStatus.NOT_FOUND);
+    res.status(httpStatus.OK).json(exchange);
+  },
+
+
   async arrivedPlace(req, res) {
     const coord = [req.query.longitude, req.query.latitude];
     const maxDistance = 100;
