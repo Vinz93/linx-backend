@@ -171,6 +171,11 @@ const UserController = {
    *         in: formData
    *         required: true
    *         type: string
+   *       - name: deviceToken
+   *         description: Device Token
+   *         in: formData
+   *         required: true
+   *         type: string
    *     responses:
    *       200:
    *         description: returns user token'
@@ -179,6 +184,7 @@ const UserController = {
   async signin(req, res) {
     const user = await User.findOne({ email: req.body.email });
     user.deviceType = req.body.deviceType;
+    user.deviceToken = req.body.deviceToken;
     await user.save();
     res.json({ jwt: createJwt(req.user), profile: user });
   },

@@ -105,6 +105,7 @@ export default {
       email: Joi.string().email().required(),
       password: Joi.string().required(),
       deviceType: Joi.string().required(),
+      deviceToken: Joi.string().required(),
     },
   },
 
