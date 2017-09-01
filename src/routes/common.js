@@ -86,11 +86,15 @@ router.route('/exchanges/:id/find-by-distance')
 router.route('/exchange-match')
   .post(validate(ExchangeMatchValidator.create), requireAuth, catchErrors(ExchangeMatch.create));
 
+
 router.route('/exchange-match/arrived-place')
   .patch(validate(ExchangeMatchValidator.arrivedPlace), requireAuth, catchErrors(ExchangeMatch.arrivedPlace));
 
 router.route('/exchange-match/invites/:id')
   .get(validate(ExchangeMatchValidator.invites), requireAuth, catchErrors(ExchangeMatch.invites));
+
+router.route('/exchange-match/:id')
+  .post(validate(ExchangeMatchValidator.find), requireAuth, catchErrors(ExchangeMatch.find));
 
 router.route('/auth/facebook/callback')
   .get(facebookOAuth, User.facebook);

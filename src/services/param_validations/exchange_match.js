@@ -31,4 +31,12 @@ export default {
       id: Joi.string().required(),
     },
   },
+  find: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    path: {
+      id: Joi.objectId().required(),
+    },
+  },
 };
