@@ -194,6 +194,196 @@ const exchanges = [
       coordinates: [-79.393162, 43.727509],
     },
   },
+  {
+    user: '59a0a5f4c87352a0a08210e2',
+    haveCurrencies: [
+      {
+        currencyKey: 'SEK',
+        totalAmount: 100,
+        denominations: [
+          {
+            coinType: 'coin',
+            value: 10,
+            quantity: 5,
+          },
+          {
+            coinType: 'bill',
+            value: 50,
+            quantity: 1,
+          },
+        ],
+        currencyRates: [
+          {
+            currencyRateKey: 'SEKCAD',
+            value: 0.9,
+          },
+          {
+            currencyRateKey: 'SEKGBP',
+            value: 1.01,
+          },
+        ],
+      },
+    ],
+    wantCurrencies: ['CAD', 'GBP'],
+    location: {
+      coordinates: [-79.365671, 43.739917],
+    },
+  },
+  {
+    user: '59a0a5f4c87352a0a08210e3',
+    haveCurrencies: [
+      {
+        currencyKey: 'SEK',
+        totalAmount: 100,
+        denominations: [
+          {
+            coinType: 'coin',
+            value: 10,
+            quantity: 5,
+          },
+          {
+            coinType: 'bill',
+            value: 50,
+            quantity: 1,
+          },
+        ],
+        currencyRates: [
+          {
+            currencyRateKey: 'SEKCAD',
+            value: 0.9,
+          },
+          {
+            currencyRateKey: 'SEKGBP',
+            value: 1.01,
+          },
+        ],
+      },
+    ],
+    wantCurrencies: ['CAD', 'GBP'],
+    location: {
+      coordinates: [-66.854051, 10.492639],
+    },
+  },
+  {
+    user: '59a0a5f4c87352a0a08210e4',
+    haveCurrencies: [
+      {
+        currencyKey: 'GBP',
+        totalAmount: 100,
+        denominations: [
+          {
+            coinType: 'bill',
+            value: 50,
+            quantity: 2,
+          },
+        ],
+        currencyRates: [
+          {
+            currencyRateKey: 'GBPSEK',
+            value: 0.9,
+          },
+          {
+            currencyRateKey: 'GBPCAD',
+            value: 1.01,
+          },
+        ],
+      },
+    ],
+    wantCurrencies: ['CAD', 'SEK'],
+    location: {
+      coordinates: [-66.853118, 10.494084],
+    },
+  },
+  {
+    user: '59a0a5f4c87352a0a08210e5',
+    haveCurrencies: [
+      {
+        currencyKey: 'GBP',
+        totalAmount: 100,
+        denominations: [
+          {
+            coinType: 'bill',
+            value: 50,
+            quantity: 2,
+          },
+        ],
+        currencyRates: [
+          {
+            currencyRateKey: 'GBPSEK',
+            value: 0.9,
+          },
+          {
+            currencyRateKey: 'GBPCAD',
+            value: 1.01,
+          },
+        ],
+      },
+    ],
+    wantCurrencies: ['CAD', 'SEK'],
+    location: {
+      coordinates: [-79.383020, 43.732475],
+    },
+  },
+  {
+    user: '59a0a5f4c87352a0a08210e6',
+    haveCurrencies: [
+      {
+        currencyKey: 'EUR',
+        totalAmount: 50,
+        denominations: [
+          {
+            coinType: 'bill',
+            value: 10,
+            quantity: 5,
+          },
+        ],
+        currencyRates: [
+          {
+            currencyRateKey: 'EURSEK',
+            value: 0.9,
+          },
+          {
+            currencyRateKey: 'EURCAD',
+            value: 1.01,
+          },
+        ],
+      },
+    ],
+    wantCurrencies: ['CAD', 'SEK'],
+    location: {
+      coordinates: [-79.362903, 43.739545],
+    },
+  },
+  {
+    user: '59a0a5f4c87352a0a08210e7',
+    haveCurrencies: [
+      {
+        currencyKey: 'EUR',
+        totalAmount: 50,
+        denominations: [
+          {
+            coinType: 'bill',
+            value: 10,
+            quantity: 5,
+          },
+        ],
+        currencyRates: [
+          {
+            currencyRateKey: 'EURSEK',
+            value: 0.9,
+          },
+          {
+            currencyRateKey: 'EURCAD',
+            value: 1.01,
+          },
+        ],
+      },
+    ],
+    wantCurrencies: ['CAD', 'SEK'],
+    location: {
+      coordinates: [-66.853933, 10.495392],
+    },
+  },
 ];
 
 export default exchanges;

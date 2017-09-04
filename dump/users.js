@@ -131,6 +131,72 @@ const users = [
     },
     deviceToken: 'lkjlkj',
   },
+  {
+    _id: '59a0a5f4c87352a0a08210e2',
+    firstName: 'Stephen',
+    lastName: 'Grinder',
+    email: 'sgrinder@solsteace.com',
+    password: '123456',
+    location: {
+      coordinates: [0, 0],
+    },
+    deviceToken: 'lkjlkj',
+  },
+  {
+    _id: '59a0a5f4c87352a0a08210e3',
+    firstName: 'Edd',
+    lastName: 'Norton',
+    email: 'enorton@solsteace.com',
+    password: '123456',
+    location: {
+      coordinates: [0, 0],
+    },
+    deviceToken: 'lkjlkj',
+  },
+  {
+    _id: '59a0a5f4c87352a0a08210e4',
+    firstName: 'Wes',
+    lastName: 'Anderson',
+    email: 'wanderson@solsteace.com',
+    password: '123456',
+    location: {
+      coordinates: [0, 0],
+    },
+    deviceToken: 'lkjlkj',
+  },
+  {
+    _id: '59a0a5f4c87352a0a08210e5',
+    firstName: 'Drake',
+    lastName: 'Casas',
+    email: 'dcasas@solsteace.com',
+    password: '123456',
+    location: {
+      coordinates: [0, 0],
+    },
+    deviceToken: 'lkjlkj',
+  },
+  {
+    _id: '59a0a5f4c87352a0a08210e6',
+    firstName: 'Manuel',
+    lastName: 'Borges',
+    email: 'mborges@solsteace.com',
+    password: '123456',
+    location: {
+      coordinates: [0, 0],
+    },
+    deviceToken: 'lkjlkj',
+  },
+  {
+    _id: '59a0a5f4c87352a0a08210e7',
+    firstName: 'Victor',
+    lastName: 'Gonzalez',
+    email: 'vgonzalez@solsteace.com',
+    password: '123456',
+    location: {
+      coordinates: [0, 0],
+    },
+    deviceToken: 'lkjlkj',
+  },
 ];
 
 export default users;
