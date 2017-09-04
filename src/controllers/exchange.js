@@ -146,10 +146,9 @@ const ExchangeController = {
     const { user: requested } = await Exchange.findById(req.body.requested).populate('user');
     const selectedCurrencies = req.body.selectedCurrencies;
     const message = `${requester.firstName} ${requester.lastName} has invited you to exchange, please touch to connect`;
-    const regToken = requested.deviceToken;
-    const { deviceType } = requested;
+    const { deviceType, deviceToken } = requested;
     if (requester && requested) {
-      const { failed, sent } = await contact({ selectedCurrencies, requester }, regToken, deviceType, message);
+      const { failed, sent } = await contact({ selectedCurrencies, requester }, deviceToken, deviceType, message);
       if (failed.length > 0) throw new APIError('Couldnt Notify', httpStatus.NOT_FOUND);
       const newMatch = await ExchangeMatch.create(req.body);
       res.status(httpStatus.OK).json({ newMatch, sent });

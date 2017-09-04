@@ -18,8 +18,8 @@ export default {
       email: Joi.string().email().required(),
       bornAt: Joi.string().isoDate(),
       password: Joi.string().required(),
-      deviceToken: Joi.string().required(),
-      deviceType: Joi.string().required(),
+      deviceToken: Joi.string(),
+      deviceType: Joi.string(),
       location: Joi.object()
         .keys({
           coordinates: Joi.array().items(Joi.number()).required(),
@@ -104,8 +104,8 @@ export default {
     body: {
       email: Joi.string().email().required(),
       password: Joi.string().required(),
-      deviceType: Joi.string().required(),
-      deviceToken: Joi.string().required(),
+      deviceType: Joi.string(),
+      deviceToken: Joi.string(),
     },
   },
 
