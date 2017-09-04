@@ -12,6 +12,7 @@ export async function contact(pushData, requestedToken, deviceRequested, message
   note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
   note.sound = 'ping.aiff';
   note.alert = message;
+  note.payload = pushData;
   // END APN CONFIG
   const gcmmessage = new GCM.Message({
     data: {
@@ -21,6 +22,7 @@ export async function contact(pushData, requestedToken, deviceRequested, message
   });
   if (deviceRequested === "ios") {
     const apnpush = await apnProvider.send(note, requestedToken);
+    console.info(apnpush);
     return apnpush;
   }
   const gcmpush = await sender.send(gcmmessage, { registrationTokens: requestedToken });

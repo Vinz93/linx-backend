@@ -145,7 +145,7 @@ const ExchangeController = {
     const { user: requester } = await Exchange.findById(req.body.requester).populate('user');
     const { user: requested } = await Exchange.findById(req.body.requested).populate('user');
     const selectedCurrencies = req.body.selectedCurrencies;
-    const message = `${requester.firstName} ${requester.lastName} is interested in exchanging ${selectedCurrencies[0]} and ...`;
+    const message = `${requester.firstName} ${requester.lastName} has invited you to exchange, please touch to connect`;
     const regToken = requested.deviceToken;
     const { deviceType } = requested;
     if (requester && requested) {
@@ -190,7 +190,7 @@ const ExchangeController = {
   async acceptConnect(req, res) {
     const { deviceToken, deviceType } = await User.findById(req.body.requester);
     const requested = await User.findById(req.body.requested);
-    const message = `${requested.firstName} ${requested.lastName} has accepted the invitation to exchange money`;
+    const message = `${requested.firstName} ${requested.lastName} has accepted your exchange, please touch to connect`;
     const exchangeMatch = await ExchangeMatch.findOne({
       $and: [
         { requester: req.body.requester },
