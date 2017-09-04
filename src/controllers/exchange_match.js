@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-// import { APIError } from '../helpers/errors';
+import { APIError } from '../helpers/errors';
 
 import ExchangeMatch from '../models/exchange_match';
 
@@ -76,6 +76,7 @@ const exchangeMatchController = {
 *       204:
 *         description: Arrived or not to Exchange Place
 */
+
   async arrivedPlace(req, res) {
     const coord = [req.query.longitude, req.query.latitude];
     const maxDistance = 100;
@@ -115,6 +116,68 @@ const exchangeMatchController = {
     await exchangeUser.save();
     console.info(exchangeUser);
     res.status(httpStatus.CREATED).json(exchangeUser);
+  },
+
+/**
+* @swagger
+* /exchange-match/invites/{id}:
+*   get:
+*     tags:
+*      - ExchangeMatch
+*     description: find all the invites received to exchange
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: id
+*         description: exchange id of user
+*         in: path
+*         required: true
+*         type: string
+*       - name: Authorization
+*         description: auth token.
+*         in: header
+*         required: true
+*         type: string
+*     responses:
+*       200:
+*         description: Successfully
+*/
+
+  async invites(req, res) {
+    const exchange = await ExchangeMatch.find({ requested: req.path.id, status: "invited" });
+    if (!exchange) throw new APIError('exchange Match not found', httpStatus.NOT_FOUND);
+    res.status(httpStatus.OK).json(exchange);
+  },
+
+/**
+* @swagger
+* /exchange-match/{id}:
+*   get:
+*     tags:
+*      - ExchangeMatch
+*     description: find  exchange match by id
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: id
+*         description: exchange match id.
+*         in: path
+*         required: true
+*         type: string
+*       - name: Authorization
+*         description: auth token.
+*         in: header
+*         required: true
+*         type: string
+*     responses:
+*       200:
+*         description: Successfully
+*/
+
+  async find(req, res) {
+    const exchange = await ExchangeMatch.findById(req.params.id);
+    if (!exchange) throw new APIError('exchange match not found', httpStatus.NOT_FOUND);
+    res.status(httpStatus.OK).json(exchange);
   },
 };
 

@@ -31,7 +31,7 @@ const ExchangeController = {
 *         in: body
 *         required: true
 *         schema:
-*           $ref: '#/definitions/ExchangeMatch'
+*           $ref: '#/definitions/Exchange'
 *     responses:
 *       200:
 *         description: Successfully created Exchange

@@ -123,7 +123,7 @@ const CurrencyController = {
       },
     });
     if (!response.data.success) {
-      throw new APIError(httpStatus.BAD_REQUEST, 'Error getting currencies');
+      throw new APIError('Error getting currencies', httpStatus.BAD_REQUEST);
     }
     res.status(httpStatus.OK).json(response.data.quotes);
   },
