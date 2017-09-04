@@ -246,6 +246,9 @@ const ExchangeController = {
           $maxDistance: distances.findExchanges,
         },
       },
+      'haveCurrencies.currencyKey': {
+        $in: exchange.wantCurrencies,
+      },
     })
     .populate('user');
     res.status(httpStatus.OK).json(matches);
