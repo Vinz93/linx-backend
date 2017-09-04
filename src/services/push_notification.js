@@ -22,7 +22,6 @@ export async function contact(pushData, requestedToken, deviceRequested, message
   });
   if (deviceRequested === "ios") {
     const apnpush = await apnProvider.send(note, requestedToken);
-    console.info(apnpush);
     return apnpush;
   }
   const gcmpush = await sender.send(gcmmessage, { registrationTokens: requestedToken });
