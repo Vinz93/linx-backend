@@ -232,6 +232,7 @@ const ExchangeController = {
   async findByDistance(req, res) {
     const exchange = await Exchange.findById(req.params.id);
     if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
+    const haveCurrencies = exchange.haveCurrencies.map(e => e.currencyKey);
     const matches = await Exchange.find({
       _id: {
         $ne: exchange.id,
@@ -248,6 +249,9 @@ const ExchangeController = {
       },
       'haveCurrencies.currencyKey': {
         $in: exchange.wantCurrencies,
+      },
+      wantCurrencies: {
+        $in: haveCurrencies,
       },
     })
     .populate('user');
