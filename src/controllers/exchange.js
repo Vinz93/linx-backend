@@ -170,7 +170,7 @@ const ExchangeController = {
  *         in: header
  *         required: true
  *         type: string
- *       - name: exchance match
+ *       - name: exchange match
  *         description: Exchange id of requester and requested
  *         in: body
  *         required: true
