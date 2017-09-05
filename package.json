@@ -58,6 +58,7 @@
     "express-session": "^1.15.3",
     "express-validation": "^1.0.1",
     "http-status": "^0.2.3",
+    "inquirer": "^3.2.3",
     "joi": "^9.2.0",
     "joi-objectid": "^2.0.0",
     "jsonwebtoken": "^7.3.0",
