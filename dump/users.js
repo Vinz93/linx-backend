@@ -89,8 +89,8 @@ const users = [
   },
   {
     _id: '59a0a5e0c87352a0a08210de',
-    firstName: 'Patricia',
-    lastName: 'Zambrano',
+    firstName: 'Rachel',
+    lastName: 'McAdams',
     email: 'pzambrano@solsteace.com',
     password: 'Pz1234',
     location: {
@@ -100,8 +100,8 @@ const users = [
   },
   {
     _id: '59a0a5e5c87352a0a08210df',
-    firstName: 'Patricia',
-    lastName: 'Zambrano',
+    firstName: 'Amanda',
+    lastName: 'Seyfried',
     email: 'pzambrano1@solsteace.com',
     password: 'Pz1234',
     location: {
