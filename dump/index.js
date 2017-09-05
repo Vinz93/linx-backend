@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Promise from 'bluebird';
+import inquirer from 'inquirer';
 
 import config from '../src/config/env';
 import Currency from '../src/models/currency';
@@ -8,7 +9,6 @@ import User from '../src/models/user';
 import usersData from './users';
 import Exchange from '../src/models/exchange';
 import exchangeData from './exchanges';
-import inquirer from 'inquirer';
 
 const prompt = inquirer.createPromptModule();
 
