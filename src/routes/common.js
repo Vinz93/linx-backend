@@ -74,7 +74,10 @@ router.route('/exchanges/contact')
   .post(validate(exchangeValidator.contact), requireAuth, catchErrors(Exchange.contact));
 
 router.route('/exchanges/accept-contact')
-  .post(validate(exchangeValidator.acceptConnect), requireAuth, catchErrors(Exchange.acceptConnect));
+  .post(validate(exchangeValidator.acceptContact), requireAuth, catchErrors(Exchange.acceptContact));
+
+router.route('/exchanges/reject-contact')
+  .put(validate(exchangeValidator.rejectContact), requireAuth, catchErrors(Exchange.rejectContact));
 
 router.route('/exchanges/:id')
   .get(validate(exchangeValidator.find), requireAuth, catchErrors(Exchange.find))

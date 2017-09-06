@@ -148,10 +148,10 @@ const ExchangeController = {
     const message = `${requester.firstName} ${requester.lastName} has invited you to exchange, please touch to connect`;
     const { deviceType, deviceToken } = requested;
     if (requester && requested) {
-      const { failed, sent } = await contact({ selectedCurrencies, requester }, deviceToken, deviceType, message);
-      if (failed.length > 0) throw new APIError('Couldnt Notify', httpStatus.NOT_FOUND);
+      const pushed = await contact({ selectedCurrencies, requester }, deviceToken, deviceType, message);
       const newMatch = await ExchangeMatch.create(req.body);
-      res.status(httpStatus.OK).json({ newMatch, sent });
+      if (pushed && pushed.failed.length > 0) res.status(httpStatus.OK).json({ newMatch, sent: false });
+      res.status(httpStatus.OK).json({ newMatch, sent: true });
     }
   },
 
@@ -186,7 +186,7 @@ const ExchangeController = {
  *         description: Exchange Match object'
  */
 
-  async acceptConnect(req, res) {
+  async acceptContact(req, res) {
     const { deviceToken, deviceType } = await User.findById(req.body.requester);
     const requested = await User.findById(req.body.requested);
     const message = `${requested.firstName} ${requested.lastName} has accepted your exchange, please touch to connect`;
@@ -198,8 +198,55 @@ const ExchangeController = {
     if (exchangeMatch) {
       exchangeMatch.status = "active";
       await exchangeMatch.save();
-      const { sent } = await contact({ requested }, deviceToken, deviceType, message);
-      res.status(httpStatus.CREATED).json(exchangeMatch, sent);
+      const pushed = await contact({ requested }, deviceToken, deviceType, message);
+      if (pushed.sent) {
+        res.status(httpStatus.CREATED).json({ exchangeMatch, sent: true });
+      }
+      res.status(httpStatus.CREATED).json({ exchangeMatch, sent: false });
+    }
+  },
+
+/**
+ * @swagger
+ * /exchanges/reject-contact:
+ *   put:
+ *     tags:
+ *      - Exchange
+ *     description: Reject Invitation to exchange money
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: Authorization
+ *         description: format 'JWT <your-token>'.
+ *         in: header
+ *         required: true
+ *         type: string
+ *       - name: exchange match
+ *         description: Exchange id of requester and requested
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             requester:
+ *               type: string
+ *             requested:
+ *               type: string
+ *     responses:
+ *       200:
+ *         description: Exchange Match object'
+ */
+
+  async rejectContact(req, res) {
+    const exchangeMatch = await ExchangeMatch.findOne({
+      $and: [
+        { requester: req.body.requester },
+        { requested: req.body.requested },
+      ] });
+    if (exchangeMatch) {
+      exchangeMatch.status = "rejected";
+      await exchangeMatch.save();
+      res.status(httpStatus.CREATED).json(exchangeMatch);
     }
   },
 

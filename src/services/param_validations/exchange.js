@@ -69,7 +69,18 @@ export default {
     },
   },
 
-  acceptConnect: {
+  acceptContact: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+    body: {
+      exchangeConnect: {
+        requester: Joi.string().required(),
+        requested: Joi.string().required(),
+      },
+    },
+  },
+  rejectContact: {
     headers: {
       authorization: Joi.string().required(),
     },
