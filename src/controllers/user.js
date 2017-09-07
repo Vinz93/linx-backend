@@ -184,7 +184,7 @@ const UserController = {
   async signin(req, res) {
     const user = await User.findOne({ email: req.body.email });
     user.deviceType = req.body.deviceType;
-    user.deviceToken = req.body.deviceToken;
+    if (req.body.deviceToken) user.deviceToken = removeSpaces(req.body.deviceToken);
     await user.save();
     res.json({ jwt: createJwt(req.user), profile: user });
   },
