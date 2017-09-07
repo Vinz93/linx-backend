@@ -142,12 +142,12 @@ const ExchangeController = {
  */
 
   async contact(req, res) {
-    const { user: requester } = await Exchange.findById(req.body.requester).populate('user');
+    const requester = await Exchange.findById(req.body.requester).populate('user');
     const { user: requested } = await Exchange.findById(req.body.requested).populate('user');
     const selectedCurrencies = req.body.selectedCurrencies;
-    const message = `${requester.firstName} ${requester.lastName} has invited you to exchange, please touch to connect`;
     const { deviceType, deviceToken } = requested;
     if (requester && requested) {
+      const message = `${requester.user.firstName} ${requester.user.lastName} has invited you to exchange, please touch to connect`;
       const pushed = await contact({ selectedCurrencies, requester }, deviceToken, deviceType, message);
       const newMatch = await ExchangeMatch.create(req.body);
       if (pushed && pushed.failed.length > 0) res.status(httpStatus.OK).json({ newMatch, sent: false });

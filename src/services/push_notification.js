@@ -21,7 +21,7 @@ export async function contact(pushData, requestedToken, deviceRequested, message
     },
   });
   if (deviceRequested === "ios") {
-    console.info(note, requestedToken);
+    console.info(requestedToken, note);
     const apnpush = await apnProvider.send(note, requestedToken);
     return apnpush;
   }
