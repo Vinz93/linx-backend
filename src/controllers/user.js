@@ -346,8 +346,8 @@ const UserController = {
       ],
     });
     if (zone) {
-      const { name, terminals } = zone;
-      return res.json({ name, terminals, isAt: true });
+      const { id, name, terminals } = zone;
+      return res.json({ id, name, terminals, isAt: true });
     }
     return res.json({ isAt: false });
   },
