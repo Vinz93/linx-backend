@@ -36,6 +36,7 @@ app.disable('x-powered-by');
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 if (appConfig.env === 'development' || appConfig.env === 'qa' || appConfig.env === 'integration') {
+  app.use(express.static(path.join(__dirname, '../../chat_client')));
   app.use(morgan('dev'));
   app.use(bodyParser.urlencoded({
     extended: true,

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Linx-chat</title>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <style>
+    input {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Linx Chat</h1>
+  <form name="form">
+    <h2>Configuration</h2>
+    <label for="server">Server:</label>
+    <input type="text" id="server" placeholder="http://127.0.0.1:3003" value="http://127.0.0.1:3003">
+    <br>
+    <label for="userId">User ID:</label>
+    <input type="text" id="userId" value="59b184599c99402df8b90959">
+    <br>    
+    <label for="exchangeMatchId">Exchange Match ID:</label>
+    <input type="text" id="exchangeMatchId" value="59b185ac9bad9d31484e1744">
+    <br>
+    <br>  
+    <input type="button" value="Save" onclick="setup()">
+    <div id="chat">
+      <h2>Chat:</h2>
+      <ul id="messages">
+      </ul>
+      <input type="text" id="message">
+      <input type="button" value="Save" onclick="send()">
+    </div>
+  </form>
+  <script type="text/javascript">
+    var socket;
+    var userId;
+
+    function validate(server, userId, exchangeMatchId) {
+      if (!server) {
+        return alert('required Server');
+      }
+      if (!userId) {
+        return alert('required User ID');
+      }
+      if (!exchangeMatchId) {
+        return alert('required Exchange Match ID');
+      }
+    }
+
+    function addMessage(user, msg) {
+      var nick = user.nick;
+      if(user.id == userId || !nick) {
+        nick = 'yo';
+      }
+      var ul = document.getElementById("messages");
+      var li = document.createElement("li");
+      li.textContent = nick + ': ' + msg;
+      ul.appendChild(li);
+    }
+
+    function setup() {
+      var server = document.getElementById("server").value;
+      userId = document.getElementById("userId").value;
+      var exchangeMatchId = document.getElementById("exchangeMatchId").value;
+      validate(server, userId, exchangeMatchId);
+      socket = io.connect(server);
+      socket.emit('join', {
+        room: 'chat-' + exchangeMatchId,
+        userId: userId
+      });
+      socket.on('join:done', () => {
+        document.getElementById('chat').style.display = 'block';
+      })
+      socket.on('message', function (msg) {
+        addMessage(msg.user, msg.message);
+      })
+      socket.on('error', function (err) {
+        alert('[error] ' + err);
+      })
+    }
+
+    function send() {
+      var msg = document.getElementById('message').value;
+      socket.emit('message', msg);
+      addMessage('yo', msg)
+      document.getElementById('message').value = "";
+    }
+
+    document.getElementById('chat').style.display = 'none';
+  </script>
+</body>
+
+</html>

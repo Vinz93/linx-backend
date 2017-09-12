@@ -4,7 +4,7 @@
   "description": "template for Node, Mongo, React, Redux apps",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/index.js",
+    "dev": "DEBUG=linx:* nodemon --exec babel-node src/index.js",
     "build": "rm -rf dist && babel src --out-dir dist --copy-files",
     "start": "NODE_ENV=production PORT=3333cs pm2 start dist/index.js",
     "test": "mocha  src/tests/**/*.js  --timeout 10000 -c --compilers js:babel-core/register || true",
@@ -54,6 +54,7 @@
     "compression": "^1.6.2",
     "cors": "^2.7.1",
     "crypto": "0.0.3",
+    "debug": "^3.0.1",
     "express": "^4.13.4",
     "express-session": "^1.15.3",
     "express-validation": "^1.0.1",
@@ -82,6 +83,7 @@
     "passport-jwt": "^2.2.1",
     "passport-linkedin": "^1.0.0",
     "passport-local": "^1.0.0",
+    "socket.io": "^2.0.3",
     "swagger-jsdoc": "^1.9.4",
     "swagger-tools": "^0.10.1"
   }

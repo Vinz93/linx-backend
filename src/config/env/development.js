@@ -17,6 +17,10 @@ export const appConfig = {
   root: path.join(__dirname, '../../../'),
 };
 
+export const websocket = {
+  port: 3003,
+};
+
 export const mailer = {
   key: 'PjJCch7xJK75lDaJMqVcoQ',
   from: {
