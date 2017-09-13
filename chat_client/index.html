@@ -21,11 +21,11 @@
     <label for="server">Server:</label>
     <input type="text" id="server" placeholder="http://127.0.0.1:3003" value="http://127.0.0.1:3003">
     <br>
-    <label for="userId">User ID:</label>
-    <input type="text" id="userId" value="59b184599c99402df8b90959">
+    <label for="token">Token:</label>
+    <input type="text" id="token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5YTBhNWUwYzg3MzUyYTBhMDgyMTBkZSIsImlhdCI6MTUwNTMxNTcwNDU2N30.JYF688Wkew5L-c30EJOxFg3tMrTOOuIbIpQPiKCzBZ8">
     <br>    
     <label for="exchangeMatchId">Exchange Match ID:</label>
-    <input type="text" id="exchangeMatchId" value="59b185ac9bad9d31484e1744">
+    <input type="text" id="exchangeMatchId" value="59b87abaa21bb21b95a788ba">
     <br>
     <br>  
     <input type="button" value="Save" onclick="setup()">
@@ -39,13 +39,13 @@
   </form>
   <script type="text/javascript">
     var socket;
-    var userId;
+    var token;
 
-    function validate(server, userId, exchangeMatchId) {
+    function validate(server, token, exchangeMatchId) {
       if (!server) {
         return alert('required Server');
       }
-      if (!userId) {
+      if (!token) {
         return alert('required User ID');
       }
       if (!exchangeMatchId) {
@@ -54,8 +54,8 @@
     }
 
     function addMessage(user, msg) {
-      var nick = user.nick;
-      if(user.id == userId || !nick) {
+      var nick = user.firstName;
+      if(!nick) {
         nick = 'yo';
       }
       var ul = document.getElementById("messages");
@@ -66,29 +66,33 @@
 
     function setup() {
       var server = document.getElementById("server").value;
-      userId = document.getElementById("userId").value;
+      token = document.getElementById("token").value;
       var exchangeMatchId = document.getElementById("exchangeMatchId").value;
-      validate(server, userId, exchangeMatchId);
+      validate(server, token, exchangeMatchId);
       socket = io.connect(server);
-      socket.emit('join', {
-        room: 'chat-' + exchangeMatchId,
-        userId: userId
+      socket.emit('join/chat', {
+        room: exchangeMatchId,
+        token: token
       });
       socket.on('join:done', () => {
         document.getElementById('chat').style.display = 'block';
       })
       socket.on('message', function (msg) {
-        addMessage(msg.user, msg.message);
+        addMessage(msg.user, msg.message.text);
       })
-      socket.on('error', function (err) {
-        alert('[error] ' + err);
+      socket.on('chat/error', function (err) {
+        return alert('[error] ' + err);
       })
     }
 
     function send() {
       var msg = document.getElementById('message').value;
-      socket.emit('message', msg);
-      addMessage('yo', msg)
+      var message = {
+        text: msg,
+        type: 'text'
+      }
+      socket.emit('message', message);
+      addMessage({firstName: 'yo'}, msg)
       document.getElementById('message').value = "";
     }
 
