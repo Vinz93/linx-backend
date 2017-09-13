@@ -148,6 +148,7 @@ const ExchangeController = {
     const { deviceType, deviceToken } = requested;
     if (requester && requested) {
       const message = `${requester.user.firstName} ${requester.user.lastName} has invited you to exchange, please touch to connect`;
+      delete selectedCurrencies.compiled;
       const pushed = await contact({ selectedCurrencies, requester }, deviceToken, deviceType, message);
       const newMatch = await ExchangeMatch.create(req.body);
       if (pushed && pushed.failed.length > 0) res.status(httpStatus.OK).json({ newMatch, sent: false });
@@ -206,7 +207,7 @@ const ExchangeController = {
     exchangeMatch.status = "active";
     await exchangeMatch.save();
     const message = `${requested.firstName} ${requested.lastName} has accepted your request`;
-    const pushed = await contact({ exchangeRequester }, deviceToken, deviceType, message);
+    const pushed = await contact({ exchangeRequested }, deviceToken, deviceType, message);
     if (pushed.sent) {
       res.status(httpStatus.CREATED).json({ exchangeMatch, sent: true });
     }
