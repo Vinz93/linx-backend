@@ -30,8 +30,8 @@ export const mailer = {
 
 export const passport = {
   linkedin: {
-    apiKey: '78adk076r633k1',
-    secretKey: 'n5rsDNshjjhObhDs',
+    apiKey: '789awosmu35s9f',
+    secretKey: 'C3v0LqKIL47EjPrO',
   },
   facebook: {
     apiKey: '280634502343234',
