@@ -11,72 +11,72 @@ const { distances } = config.constants;
 
 
 const ExchangeController = {
-/**
-* @swagger
-* /exchanges:
-*   post:
-*     tags:
-*      - Exchange
-*     description: This endpoint put you in a currency search
-*     produces:
-*       - application/json
-*     parameters:
-*       - name: Authorization
-*         description: auth token format= JWT your-token.
-*         in: header
-*         required: true
-*         type: string
-*       - name: exchange
-*         description: Examples currencyKey= CAD, coinType= coin or bill, currencyRateKey=CADUSD, user is not necessary
-*         in: body
-*         required: true
-*         schema:
-*           $ref: '#/definitions/Exchange'
-*     responses:
-*       200:
-*         description: Successfully created Exchange
-*         schema:
-*           allOf:
-*              - $ref: '#/definitions/Exchange'
-*              - properties:
-*                  id:
-*                    type: string
-*                  createdAt:
-*                    type: string
-*                    format: date-time
-*                  updatedAt:
-*                    type: string
-*                    format: date-time
-*/
+  /**
+  * @swagger
+  * /exchanges:
+  *   post:
+  *     tags:
+  *      - Exchange
+  *     description: This endpoint put you in a currency search
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - name: Authorization
+  *         description: auth token format= JWT your-token.
+  *         in: header
+  *         required: true
+  *         type: string
+  *       - name: exchange
+  *         description: Examples currencyKey= CAD, coinType= coin or bill, currencyRateKey=CADUSD, user is not necessary
+  *         in: body
+  *         required: true
+  *         schema:
+  *           $ref: '#/definitions/Exchange'
+  *     responses:
+  *       200:
+  *         description: Successfully created Exchange
+  *         schema:
+  *           allOf:
+  *              - $ref: '#/definitions/Exchange'
+  *              - properties:
+  *                  id:
+  *                    type: string
+  *                  createdAt:
+  *                    type: string
+  *                    format: date-time
+  *                  updatedAt:
+  *                    type: string
+  *                    format: date-time
+  */
   async create(req, res) {
     const newExchange = await Exchange.create({ user: req.user.id, ...req.body });
     return res.status(httpStatus.CREATED).json(newExchange);
   },
 
-/**
-* @swagger
-* /exchanges/{id}:
-*   delete:
-*     tags:
-*      - Exchange
-*     description: delete exchange
-*     produces:
-*       - application/json
-*     parameters:
-*       - name: id
-*         description: exchange id.
-*         in: path
-*         required: true
-*         type: string
-*       - name: Authorization
-*         description: auth token.
-*         in: header
-*         required: true
-*         type: string
-*     responses:
-*       204:
-*         description: Successfully deleted
-*/
+  /**
+  * @swagger
+  * /exchanges/{id}:
+  *   delete:
+  *     tags:
+  *      - Exchange
+  *     description: delete exchange
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - name: id
+  *         description: exchange id.
+  *         in: path
+  *         required: true
+  *         type: string
+  *       - name: Authorization
+  *         description: auth token.
+  *         in: header
+  *         required: true
+  *         type: string
+  *     responses:
+  *       204:
+  *         description: Successfully deleted
+  */
 
   async delete(req, res) {
     const exchange = await Exchange.findById(req.params.id);
@@ -84,30 +84,30 @@ const ExchangeController = {
     await exchange.remove();
     res.status(httpStatus.NO_CONTENT).end();
   },
-/**
-* @swagger
-* /exchanges/{id}:
-*   get:
-*     tags:
-*      - Exchange
-*     description: find  exchange by id
-*     produces:
-*       - application/json
-*     parameters:
-*       - name: id
-*         description: exchange id.
-*         in: path
-*         required: true
-*         type: string
-*       - name: Authorization
-*         description: auth token.
-*         in: header
-*         required: true
-*         type: string
-*     responses:
-*       200:
-*         description: Successfully
-*/
+  /**
+  * @swagger
+  * /exchanges/{id}:
+  *   get:
+  *     tags:
+  *      - Exchange
+  *     description: find  exchange by id
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - name: id
+  *         description: exchange id.
+  *         in: path
+  *         required: true
+  *         type: string
+  *       - name: Authorization
+  *         description: auth token.
+  *         in: header
+  *         required: true
+  *         type: string
+  *     responses:
+  *       200:
+  *         description: Successfully
+  */
 
   async find(req, res) {
     const exchange = await Exchange.findById(req.params.id);
@@ -115,31 +115,31 @@ const ExchangeController = {
     res.status(httpStatus.OK).json(exchange);
   },
 
-/**
- * @swagger
- * /exchanges/contact:
- *   post:
- *     tags:
- *      - Exchange
- *     description: Sends Push notification to a exchanger to invite him to exchange
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: Authorization
- *         description: format 'JWT <your-token>'.
- *         in: header
- *         required: true
- *         type: string
- *       - name: connectExchange
- *         description: selected currencies, requester exchangeID and requested exchangeID
- *         in: body
- *         required: true
- *         schema:
- *           $ref: '#/definitions/ExchangeConnect'
- *     responses:
- *       200:
- *         description: Exchanger object'
- */
+  /**
+   * @swagger
+   * /exchanges/contact:
+   *   post:
+   *     tags:
+   *      - Exchange
+   *     description: Sends Push notification to a exchanger to invite him to exchange
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: Authorization
+   *         description: format 'JWT <your-token>'.
+   *         in: header
+   *         required: true
+   *         type: string
+   *       - name: connectExchange
+   *         description: selected currencies, requester exchangeID and requested exchangeID
+   *         in: body
+   *         required: true
+   *         schema:
+   *           $ref: '#/definitions/ExchangeConnect'
+   *     responses:
+   *       200:
+   *         description: Exchanger object'
+   */
 
   async contact(req, res) {
     const requester = await Exchange.findById(req.body.requester).populate('user');
@@ -155,94 +155,102 @@ const ExchangeController = {
     }
   },
 
-/**
- * @swagger
- * /exchanges/accept-contact:
- *   post:
- *     tags:
- *      - Exchange
- *     description: Accept Invitation to exchange money
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: Authorization
- *         description: format 'JWT <your-token>'.
- *         in: header
- *         required: true
- *         type: string
- *       - name: exchange match
- *         description: Exchange id of requester and requested
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             requester:
- *               type: string
- *             requested:
- *               type: string
- *     responses:
- *       200:
- *         description: Exchange Match object'
- */
+  /**
+   * @swagger
+   * /exchanges/accept-contact:
+   *   post:
+   *     tags:
+   *      - Exchange
+   *     description: Accept Invitation to exchange money
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: Authorization
+   *         description: format 'JWT <your-token>'.
+   *         in: header
+   *         required: true
+   *         type: string
+   *       - name: exchange match
+   *         description: Exchange id of requester and requested
+   *         in: body
+   *         required: true
+   *         schema:
+   *           type: object
+   *           properties:
+   *             requester:
+   *               type: string
+   *             requested:
+   *               type: string
+   *     responses:
+   *       200:
+   *         description: Exchange Match object'
+   */
 
   async acceptContact(req, res) {
-    const { deviceToken, deviceType } = await User.findById(req.body.requester);
-    const requested = await User.findById(req.body.requested);
-    const message = `${requested.firstName} ${requested.lastName} has accepted your exchange, please touch to connect`;
+    const { requester: exchangeRequesterId, requested: exchangeRequestedId } = req.body;
+
+    const exchangeRequester = await Exchange.findById(exchangeRequesterId).populate('user');
+    const exchangeRequested = await Exchange.findById(exchangeRequestedId).populate('user');
+
+    const { deviceToken, deviceType } = exchangeRequester.user;
+    const { user: requested } = exchangeRequested;
     const exchangeMatch = await ExchangeMatch.findOne({
       $and: [
-        { requester: req.body.requester },
-        { requested: req.body.requested },
-      ] });
-    if (exchangeMatch) {
-      exchangeMatch.status = "active";
-      await exchangeMatch.save();
-      const pushed = await contact({ requested }, deviceToken, deviceType, message);
-      if (pushed.sent) {
-        res.status(httpStatus.CREATED).json({ exchangeMatch, sent: true });
-      }
-      res.status(httpStatus.CREATED).json({ exchangeMatch, sent: false });
+        { requester: exchangeRequesterId },
+        { requested: exchangeRequestedId },
+      ],
+    });
+    if (!exchangeMatch) {
+      throw new APIError('exchange match not found', httpStatus.NOT_FOUND);
     }
+    exchangeMatch.status = "active";
+    await exchangeMatch.save();
+    const message = `${requested.firstName} ${requested.lastName} has accepted your request`;
+    const pushed = await contact({ exchangeRequested }, deviceToken, deviceType, message);
+    if (pushed.sent) {
+      res.status(httpStatus.CREATED).json({ exchangeMatch, sent: true });
+    }
+    res.status(httpStatus.CREATED).json({ exchangeMatch, sent: false });
   },
 
-/**
- * @swagger
- * /exchanges/reject-contact:
- *   put:
- *     tags:
- *      - Exchange
- *     description: Reject Invitation to exchange money
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: Authorization
- *         description: format 'JWT <your-token>'.
- *         in: header
- *         required: true
- *         type: string
- *       - name: exchange match
- *         description: Exchange id of requester and requested
- *         in: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             requester:
- *               type: string
- *             requested:
- *               type: string
- *     responses:
- *       200:
- *         description: Exchange Match object'
- */
+  /**
+   * @swagger
+   * /exchanges/reject-contact:
+   *   put:
+   *     tags:
+   *      - Exchange
+   *     description: Reject Invitation to exchange money
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: Authorization
+   *         description: format 'JWT <your-token>'.
+   *         in: header
+   *         required: true
+   *         type: string
+   *       - name: exchange match
+   *         description: Exchange id of requester and requested
+   *         in: body
+   *         required: true
+   *         schema:
+   *           type: object
+   *           properties:
+   *             requester:
+   *               type: string
+   *             requested:
+   *               type: string
+   *     responses:
+   *       200:
+   *         description: Exchange Match object'
+   */
 
   async rejectContact(req, res) {
     const exchangeMatch = await ExchangeMatch.findOne({
       $and: [
         { requester: req.body.requester },
         { requested: req.body.requested },
-      ] });
+      ],
+    });
     if (exchangeMatch) {
       exchangeMatch.status = "rejected";
       await exchangeMatch.save();
@@ -250,30 +258,30 @@ const ExchangeController = {
     }
   },
 
-/**
-* @swagger
-* /exchanges/{id}/find-by-distance:
-*   get:
-*     tags:
-*      - Exchange
-*     description: Find users who wants to change money near you
-*     produces:
-*       - application/json
-*     parameters:
-*       - name: id
-*         description: exchange id.
-*         in: path
-*         required: true
-*         type: string
-*       - name: Authorization
-*         description: auth token.
-*         in: header
-*         required: true
-*         type: string
-*     responses:
-*       200:
-*         description: An a array of users exchanges
-*/
+  /**
+  * @swagger
+  * /exchanges/{id}/find-by-distance:
+  *   get:
+  *     tags:
+  *      - Exchange
+  *     description: Find users who wants to change money near you
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - name: id
+  *         description: exchange id.
+  *         in: path
+  *         required: true
+  *         type: string
+  *       - name: Authorization
+  *         description: auth token.
+  *         in: header
+  *         required: true
+  *         type: string
+  *     responses:
+  *       200:
+  *         description: An a array of users exchanges
+  */
 
   async findByDistance(req, res) {
     const exchange = await Exchange.findById(req.params.id);
@@ -300,7 +308,7 @@ const ExchangeController = {
         $in: haveCurrencies,
       },
     })
-    .populate('user');
+      .populate('user');
     res.status(httpStatus.OK).json(matches);
   },
 

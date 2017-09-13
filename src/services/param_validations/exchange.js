@@ -22,16 +22,16 @@ export default {
                   value: Joi.number(),
                   quantity: Joi.number(),
                 })
-              ),
+            ),
             currencyRates: Joi.array().items(
               Joi.object()
                 .keys({
                   currencyRateKey: Joi.string(),
                   value: Joi.number(),
                 })
-              ),
+            ),
           })
-        ).required(),
+      ).required(),
       wantCurrencies: Joi.array().items(Joi.string()).required(),
       location: Joi.object()
         .keys({
@@ -74,10 +74,8 @@ export default {
       authorization: Joi.string().required(),
     },
     body: {
-      exchangeConnect: {
-        requester: Joi.string().required(),
-        requested: Joi.string().required(),
-      },
+      requester: Joi.string().required(),
+      requested: Joi.string().required(),
     },
   },
   rejectContact: {
@@ -85,10 +83,8 @@ export default {
       authorization: Joi.string().required(),
     },
     body: {
-      exchangeConnect: {
-        requester: Joi.string().required(),
-        requested: Joi.string().required(),
-      },
+      requester: Joi.string().required(),
+      requested: Joi.string().required(),
     },
   },
   findByDistance: {
