@@ -206,7 +206,7 @@ const ExchangeController = {
     exchangeMatch.status = "active";
     await exchangeMatch.save();
     const message = `${requested.firstName} ${requested.lastName} has accepted your request`;
-    const pushed = await contact({ exchangeRequested }, deviceToken, deviceType, message);
+    const pushed = await contact({ exchangeRequester }, deviceToken, deviceType, message);
     if (pushed.sent) {
       res.status(httpStatus.CREATED).json({ exchangeMatch, sent: true });
     }
