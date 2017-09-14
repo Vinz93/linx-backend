@@ -7,12 +7,12 @@ const sender = new GCM.Sender(gcmconfig);
 const apnProvider = new apn.Provider(apnconfig);
 const note = new apn.Notification();
 
-export async function contact(pushData, requestedToken, deviceRequested, message) {
+export async function contact(pushData, requestedToken, deviceRequested, message, pushType) {
   // APN CONFIG
   note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
   note.sound = 'ping.aiff';
   note.alert = message;
-  note.payload = pushData;
+  note.payload = { ...pushData, pushType };
   // END APN CONFIG
   const gcmmessage = new GCM.Message({
     data: {
