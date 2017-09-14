@@ -206,7 +206,21 @@ const ExchangeController = {
     exchangeMatch.status = "active";
     await exchangeMatch.save();
     const message = `${requested.firstName} ${requested.lastName} has accepted your request`;
-    const pushed = await contact({ requested: exchangeRequested }, deviceToken, deviceType, message, 'accept');
+    const { id: userId, firstName, lastName, socialNetworks } = exchangeRequested.user;
+    const pushData = {
+      exchangeMatch: {
+        id: exchangeMatch.id,
+      },
+      request: {
+        user: {
+          id: userId,
+          firstName,
+          lastName,
+          socialNetworks,
+        },
+      },
+    };
+    const pushed = await contact(pushData, deviceToken, deviceType, message, 'accept');
     if (pushed.sent) {
       return res.json({ exchangeMatch, sent: true });
     }
