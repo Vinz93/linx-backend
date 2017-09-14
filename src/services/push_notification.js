@@ -14,17 +14,17 @@ export async function contact(pushData, requestedToken, deviceRequested, message
   note.alert = message;
   note.payload = { ...pushData, pushType };
   // END APN CONFIG
+  if (deviceRequested === "ios") {
+    console.info('requestedToken: ', requestedToken, note);
+    const apnpush = await apnProvider.send(note, requestedToken);
+    return apnpush;
+  }
   const gcmmessage = new GCM.Message({
     data: {
       message,
       pushData,
     },
   });
-  if (deviceRequested === "ios") {
-    console.info(requestedToken, note);
-    const apnpush = await apnProvider.send(note, requestedToken);
-    return apnpush;
-  }
   const gcmpush = await sender.send(gcmmessage, { registrationTokens: requestedToken });
   return gcmpush;
 }
