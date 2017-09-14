@@ -265,11 +265,12 @@ const ExchangeController = {
         { requested: req.body.requested },
       ],
     });
-    if (exchangeMatch) {
-      exchangeMatch.status = "rejected";
-      await exchangeMatch.save();
-      res.status(httpStatus.CREATED).json(exchangeMatch);
+    if (!exchangeMatch) {
+      throw new APIError('exchange match not found', httpStatus.NOT_FOUND);
     }
+    exchangeMatch.status = "rejected";
+    await exchangeMatch.save();
+    res.status(httpStatus.CREATED).json(exchangeMatch);
   },
 
   /**
