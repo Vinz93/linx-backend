@@ -206,7 +206,7 @@ const ExchangeController = {
     exchangeMatch.status = "active";
     await exchangeMatch.save();
     const message = `${requested.firstName} ${requested.lastName} has accepted your request`;
-    const { id: userId, firstName, lastName, socialNetworks } = exchangeRequested.user;
+    const { id: userId, firstName, lastName, socialNetworks, pictureUrl } = exchangeRequested.user;
     const pushData = {
       exchangeMatch: {
         id: exchangeMatch.id,
@@ -217,6 +217,7 @@ const ExchangeController = {
           firstName,
           lastName,
           socialNetworks,
+          pictureUrl,
         },
       },
     };
