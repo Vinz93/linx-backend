@@ -1,6 +1,7 @@
 import express from 'express';
 
 import common from './common';
+import chat from './chat';
 
 
 const router = express.Router();  // eslint-disable-line new-cap
@@ -30,5 +31,6 @@ router.get('/time', (req, res) => {
 });
 
 router.use(common);
+router.use(chat);
 
 export default router;

@@ -4,7 +4,7 @@ import paginate from 'mongoose-paginate';
 import uniqueValidator from 'mongoose-unique-validator';
 import crypto from 'crypto';
 
-import { average } from '../helpers/utils';
+// import { average } from '../helpers/utils';
 import config from '../config/env';
 
 const Schema = mongoose.Schema;

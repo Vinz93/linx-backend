@@ -2,7 +2,9 @@ import socketio from 'socket.io';
 import http from 'http';
 import { verifyJwt } from './jwt';
 
-import ExchangeMatch from '../models/exchange_match';
+import { validatioUserParticipation as validatioUserParticipationChat } from './exchange_match';
+
+import Message from '../models/message';
 import User from '../models/user';
 
 const debug = require('debug')('linx:chat');
@@ -14,36 +16,6 @@ function setup(app, config) {
     console.log(` websocket listening on port ${port}`);
   });
   return io;
-}
-
-async function validateChat(chatId, userId) {
-  const exchangeMatch = await ExchangeMatch.findOne({
-    _id: chatId,
-  }).populate({
-    path: 'requester',
-    select: 'user',
-    populate: {
-      path: 'user',
-      select: 'id',
-    },
-  })
-    .populate({
-      path: 'requested',
-      select: 'user',
-      populate: {
-        path: 'user',
-        select: 'id',
-      },
-    });
-  if (!exchangeMatch) {
-    throw new Error('Invalid chat id');
-  }
-  const { requester, requested } = exchangeMatch;
-
-  if (!requester.user._id.equals(userId) && !requested.user._id.equals(userId)) {
-    throw new Error('Not authorized');
-  }
-  return;
 }
 
 function sendError(socket, msg) {
@@ -65,7 +37,7 @@ function chatService(app, config) {
       try {
         const user = await verifyJwt(token);
         const { id: userId, firstName, lastName, pictureUrl } = await User.findOne({ _id: user.id });
-        await validateChat(room, userId);
+        await validatioUserParticipationChat(room, userId);
 
         debug(`User ${userId} joined to ${room}`);
         socket.room = room;
@@ -82,20 +54,28 @@ function chatService(app, config) {
       }
     });
 
-    socket.on('message', message => {
+    socket.on('message', async message => {
       if (!socket.room) {
         return sendError(socket, 'should join a chat');
       }
       debug(`Send message to ${socket.room}`);
-      const { text, type } = message;
-      socket.broadcast.to(socket.room).emit('message', {
-        user: socket.user,
-        message: {
-          text,
-          createdAt: new Date(),
-          type: 'text',
-        },
-      });
+      const { value, type } = message;
+      try {
+        const persistentMessage = new Message({ value, type, chat: socket.room, createdBy: socket.user.id });
+        await persistentMessage.save();
+        const { id, createdAt } = persistentMessage;
+        socket.broadcast.to(socket.room).emit('message', {
+          user: socket.user,
+          message: {
+            value,
+            type,
+            id,
+            createdAt,
+          },
+        });
+      } catch (err) {
+        return sendError(socket, err.message);
+      }
     });
 
     socket.on('disconnect', () => {

@@ -24,10 +24,10 @@
     <input type="text" id="server" placeholder="http://127.0.0.1:3003" value="http://127.0.0.1:3003">
     <br>
     <label for="token">Token:</label>
-    <input type="text" id="token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5YTBhNWUwYzg3MzUyYTBhMDgyMTBkZSIsImlhdCI6MTUwNTMxNTcwNDU2N30.JYF688Wkew5L-c30EJOxFg3tMrTOOuIbIpQPiKCzBZ8">
+    <input type="text" id="token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5YTBhNWU1Yzg3MzUyYTBhMDgyMTBkZiIsImlhdCI6MTUwNTM5NjEzMTg2N30.bE2mMd3XDY5806vuo9FVYG-IFK7VPSAeEI9GvSJmGks">
     <br>    
     <label for="exchangeMatchId">Exchange Match ID:</label>
-    <input type="text" id="exchangeMatchId" value="59b87abaa21bb21b95a788ba">
+    <input type="text" id="exchangeMatchId" value="59b99c2ce8c6a047414f66b1">
     <br>
     <br>  
     <input type="button" value="Save" onclick="setup()">
@@ -80,7 +80,7 @@
         document.getElementById('chat').style.display = 'block';
       })
       socket.on('message', function (msg) {
-        addMessage(msg.user, msg.message.text);
+        addMessage(msg.user, msg.message.value);
       })
       socket.on('chat/error', function (err) {
         return alert('[error] ' + err);
@@ -90,7 +90,7 @@
     function send() {
       var msg = document.getElementById('message').value;
       var message = {
-        text: msg,
+        value: msg,
         type: 'text'
       }
       socket.emit('message', message);

@@ -2,7 +2,6 @@ import httpStatus from 'http-status';
 
 import Exchange from '../models/exchange';
 import ExchangeMatch from '../models/exchange_match';
-import User from '../models/user';
 import config from '../config/env';
 import { APIError } from '../helpers/errors';
 import { contact } from '../services/push_notification';
