@@ -35,8 +35,9 @@ function chatService(app, config) {
         return sendError(socket, 'token and room fields are require');
       }
       try {
-        const user = await verifyJwt(token);
-        const { id: userId, firstName, lastName, pictureUrl } = await User.findOne({ _id: user.id });
+        const { id: userId } = await verifyJwt(token);
+        const user = await User.findOne({ _id: userId });
+        const { firstName, lastName, pictureUrl } = user;
         await validatioUserParticipationChat(room, userId);
 
         debug(`User ${userId} joined to ${room}`);
