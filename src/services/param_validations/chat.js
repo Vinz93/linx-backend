@@ -8,6 +8,17 @@ export default {
     headers: {
       authorization: Joi.string().required(),
     },
+    query: {
+      page: Joi.number(),
+      limit: Joi.number(),
+      select: Joi.string(),
+      sort: Joi.string(),
+    },
+  },
+  listMessages: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
     path: {
       id: Joi.objectId().required(),
     },

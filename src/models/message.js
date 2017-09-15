@@ -26,6 +26,26 @@ const Schema = mongoose.Schema;
  *     properties:
  *       id:
  *         type: string
+ *   Chat:
+ *     type: object
+ *     properties:
+ *       id:
+ *         type: string
+ *       user:
+ *         type: object
+ *         properties:
+ *          id:
+ *            type: string
+ *          firstName:
+ *            type: string
+ *          lastName:
+ *            type: string
+ *          pictureUrl:
+ *            type: string
+ *          SocialNetworks:
+ *            type: array
+ *            items:
+ *              $ref: '#/definitions/SocialNetwork'
  */
 const MessageSchema = new Schema({
   value: {

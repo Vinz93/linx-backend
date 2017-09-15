@@ -5,7 +5,93 @@ import { paginate } from '../helpers/utils';
 
 import { validatioUserParticipation as validatioUserParticipationChat } from '../services/exchange_match';
 
+import ExchangeMatch from '../models/exchange_match';
+import Exchange from '../models/exchange';
+
 const MessageController = {
+
+  /**
+ * @swagger
+ * /chats:
+ *   get:
+ *     tags:
+ *      - Chat
+ *     description: Chats list
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: Authorization
+ *         description: format 'JWT your-token'.
+ *         in: header
+ *         required: true
+ *         type: string
+ *       - name: page
+ *         description: Page number
+ *         in: query
+ *         required: false
+ *         type: integer
+ *       - name: limit
+ *         description: Maximum number of objects per page
+ *         in: query
+ *         required: false
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: list of chats
+ *         schema:
+ *          type: object
+ *          properties:
+ *            docs:
+ *             type: array
+ *             items:
+ *              $ref: '#/definitions/Chat'
+ */
+  async find(req, res) {
+    const { id: userId } = req.user;
+    const exchanges = await Exchange.find({ user: userId, isActive: true });
+    const exchangesId = exchanges.map(e => e.id);
+    const find = {
+      status: 'active',
+      $or: [
+        { requested: { $in: exchangesId } },
+        { requester: { $in: exchangesId } },
+      ],
+    };
+    const options = {
+      populate: [{
+        path: 'requester',
+        select: 'user',
+        populate: {
+          path: 'user',
+        },
+      }, {
+        path: 'requested',
+        select: 'user',
+        populate: {
+          path: 'user',
+        },
+      }],
+    };
+    const exchangesMatch = await ExchangeMatch.paginate(find, options);
+    exchangesMatch.docs = exchangesMatch.docs.map(e => {
+      const { id, createdAt, updatedAt, requested, requester, status } = e;
+      const result = {
+        id,
+        createdAt,
+        updatedAt,
+        status,
+      };
+      const requestedUser = requested.user;
+      const requesterUser = requester.user;
+      if (requestedUser.id !== userId) {
+        result.user = requestedUser;
+      } else {
+        result.user = requesterUser;
+      }
+      return result;
+    });
+    return res.json(exchangesMatch);
+  },
 
   /**
    * @swagger
@@ -13,7 +99,7 @@ const MessageController = {
    *   get:
    *     tags:
    *      - Chat
-   *     description: Chat message list
+   *     description: Chat messages list
    *     produces:
    *       - application/json
    *     parameters:
@@ -48,7 +134,7 @@ const MessageController = {
    *             items:
    *              $ref: '#/definitions/ReqMessage'
    */
-  async find(req, res) {
+  async findMessage(req, res) {
     const { id: chatId } = req.params;
     const { page, limit } = req.query;
     await validatioUserParticipationChat(chatId, req.user.id);

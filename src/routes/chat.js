@@ -11,6 +11,8 @@ import Chat from '../controllers/chat';
 const requireAuth = passport.authenticate('jwt', { session: true });
 const router = express.Router(); // eslint-disable-line new-cap
 
-router.route('/chats/:id/message').get(validate(chatValidator.list), requireAuth, catchErrors(Chat.find));
+
+router.route('/chats').get(validate(chatValidator.list), requireAuth, catchErrors(Chat.find));
+router.route('/chats/:id/message').get(validate(chatValidator.listMessages), requireAuth, catchErrors(Chat.findMessage));
 
 export default router;
