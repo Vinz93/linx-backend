@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import paginate from 'mongoose-paginate';
 import fieldRemover from 'mongoose-field-remover';
 
+import Denomination from './denomination';
+
 const Schema = mongoose.Schema;
 
 /**
@@ -100,13 +102,7 @@ const ExchangeSchema = new Schema({
     {
       currencyKey: String,
       totalAmount: Number,
-      denominations: [
-        {
-          coinType: String,
-          value: Number,
-          quantity: Number,
-        },
-      ],
+      denominations: [Denomination],
       currencyRates: [
         {
           currencyRateKey: String,

@@ -231,22 +231,27 @@ const currencies = [
       {
         coinType: "bill",
         value: 100,
+        pictureName: "aud-bill-100.png",
       },
       {
         coinType: "bill",
         value: 50,
+        pictureName: "aud-bill-50.png",
       },
       {
         coinType: "bill",
         value: 20,
+        pictureName: "aud-bill-20.png",
       },
       {
         coinType: "bill",
         value: 10,
+        pictureName: "aud-bill-10.png",
       },
       {
         coinType: "bill",
         value: 5,
+        pictureName: "aud-bill-5.png",
       },
       {
         coinType: "coin",
