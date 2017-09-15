@@ -298,7 +298,12 @@ const UserSchema = new Schema({
     type: String,
     default: 'da907sdc-999-ghtyty',
   },
-
+  connected: {
+    websocket: {
+      type: Boolean,
+      default: false,
+    },
+  },
 }, {
   timestamps: true,
   toObject: { virtuals: true },
