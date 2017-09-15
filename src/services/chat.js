@@ -6,8 +6,33 @@ import { validatioUserParticipation as validatioUserParticipationChat } from './
 
 import Message from '../models/message';
 import User from '../models/user';
+import ExchangeMatch from '../models/exchange_match';
+
+import { contact } from './push_notification';
 
 const debug = require('debug')('linx:chat');
+
+function getMessage(message) {
+  const { value, type, id, createdAt } = message;
+  return {
+    value,
+    type,
+    id,
+    createdAt,
+  };
+}
+
+function getUser(user) {
+  const { id, firstName, lastName, pictureUrl, socialNetworks } = user;
+  return {
+    id,
+    firstName,
+    lastName,
+    pictureUrl,
+    socialNetworks,
+  };
+}
+
 function setup(app, config) {
   const { port } = config;
   const server = http.createServer(app);
@@ -24,30 +49,68 @@ function sendError(socket, msg) {
   socket.emit('chat/error', error);
 }
 
+async function sendPushNotification(user, message, chatId) {
+  if (!user.connected || !user.connected.websocket) {
+    const { id: userId, deviceToken, deviceType, firstName, lastName } = user;
+    const msg = `Has a new message of ${firstName} ${lastName}`;
+    const pushData = {
+      exchangeMatch: {
+        id: chatId,
+      },
+      user: getUser(user),
+      message: getMessage(message),
+    };
+    const pushed = await contact(pushData, deviceToken, deviceType, msg, 'chat');
+    if (pushed.sent) {
+      debug(`Send push notification to "${userId}" user with devicetoken "${deviceToken}"`);
+    } else {
+      debug(`[error] Not sent push notification`);
+    }
+  }
+}
+
+async function pushNotificationsToUnconnectedUsers(chatId, message) {
+  const { requester: requesterExchange, requested: requestedExchange } = await ExchangeMatch.findOne({
+    _id: chatId,
+  }).populate({
+    path: 'requester',
+    select: 'user',
+    populate: {
+      path: 'user',
+    },
+  })
+    .populate({
+      path: 'requested',
+      select: 'user',
+      populate: {
+        path: 'user',
+      },
+    });
+
+  sendPushNotification(requesterExchange.user, message, chatId);
+  sendPushNotification(requestedExchange.user, message, chatId);
+}
+
 function chatService(app, config) {
   const io = setup(app, config);
   io.on('connection', (socket) => {
     debug(`Connected ${socket.id}`);
-
     socket.on('join/chat', async req => {
       const { room, token } = req;
       if (!room || !token) {
         return sendError(socket, 'token and room fields are require');
       }
       try {
-        const user = await verifyJwt(token);
-        const { id: userId, firstName, lastName, pictureUrl } = await User.findOne({ _id: user.id });
+        const { id: userId } = await verifyJwt(token);
+        const user = await User.findOne({ _id: userId });
         await validatioUserParticipationChat(room, userId);
 
         debug(`User ${userId} joined to ${room}`);
         socket.room = room;
-        socket.user = {
-          id: userId,
-          firstName,
-          lastName,
-          pictureUrl,
-        };
+        socket.user = user;
         socket.join(room);
+        user.connected.websocket = true;
+        user.save();
         socket.emit('join:done');
       } catch (err) {
         return sendError(socket, err.message);
@@ -55,23 +118,19 @@ function chatService(app, config) {
     });
 
     socket.on('message', async message => {
-      if (!socket.room) {
+      const { room: chatId } = socket;
+      if (!chatId) {
         return sendError(socket, 'should join a chat');
       }
-      debug(`Send message to ${socket.room}`);
+      debug(`Send message to ${chatId}`);
       const { value, type } = message;
       try {
-        const persistentMessage = new Message({ value, type, chat: socket.room, createdBy: socket.user.id });
+        const persistentMessage = new Message({ value, type, chat: chatId, createdBy: socket.user.id });
         await persistentMessage.save();
-        const { id, createdAt } = persistentMessage;
-        socket.broadcast.to(socket.room).emit('message', {
-          user: socket.user,
-          message: {
-            value,
-            type,
-            id,
-            createdAt,
-          },
+        pushNotificationsToUnconnectedUsers(chatId, persistentMessage);
+        socket.broadcast.to(chatId).emit('message', {
+          user: getUser(socket.user),
+          message: getMessage(persistentMessage),
         });
       } catch (err) {
         return sendError(socket, err.message);
@@ -79,6 +138,9 @@ function chatService(app, config) {
     });
 
     socket.on('disconnect', () => {
+      const user = socket.user;
+      user.connected.websocket = false;
+      user.save();
       debug(`disconnect ${socket.id}`);
     });
   });
