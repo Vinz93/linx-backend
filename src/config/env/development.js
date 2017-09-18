@@ -61,7 +61,7 @@ export const roles = {
 export const currency = {
   currencyLayer: {
     apiUrl: 'http://apilayer.net/api',
-    accessKey: 'db711ea12fbe3e5f97f2a05ed470ad45',
+    accessKey: '44591cd335a267beb4a7d361ca0ee1c5',
   },
 };
 
