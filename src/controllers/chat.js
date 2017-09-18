@@ -82,7 +82,7 @@ const MessageController = {
         createdAt,
         updatedAt,
         status,
-        lastMessage: lastMessage[0].createdAt,
+        lastMessage: lastMessage.length > 0 ? lastMessage[0].createdAt : undefined,
       };
       const requestedUser = requested.user;
       const requesterUser = requester.user;
