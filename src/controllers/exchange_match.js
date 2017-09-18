@@ -207,7 +207,10 @@ const exchangeMatchController = {
     const { user } = req;
     const exchange = await Exchange.find({ user: user.id });
     const exchangeIds = exchange.map(e => e.id);
-    const exchangeMatch = await ExchangeMatch.find({ requested: { $in: exchangeIds } }).populate('requester');
+    const exchangeMatch = await ExchangeMatch.find({
+      requested: { $in: exchangeIds },
+      status: 'invited',
+    }).populate('requester');
     res.json(exchangeMatch);
   },
 };
