@@ -303,9 +303,22 @@ const ExchangeController = {
     const exchange = await Exchange.findById(req.params.id);
     if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
     const haveCurrencies = exchange.haveCurrencies.map(e => e.currencyKey);
+    const exchangeMatches = await ExchangeMatch.find({
+      $or: [
+        { requester: exchange.id },
+        { requested: exchange.id },
+      ],
+    });
+    const contactIds = exchangeMatches.map(e => {
+      if (!e.requester.equals(exchange.id)) {
+        return e.requester;
+      }
+      return e.requested;
+    });
+    contactIds.push(exchange.id);
     const matches = await Exchange.find({
       _id: {
-        $ne: exchange.id,
+        $nin: contactIds,
       },
       isActive: true,
       location: {
