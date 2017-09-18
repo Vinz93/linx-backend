@@ -70,7 +70,7 @@ const exchanges = [
             coinType: 'bill',
             value: 50,
             quantity: 4,
-            pictureName: "aud-bill-50.png",
+            pictureNames: "aud-bill-50.png",
           },
         ],
         currencyRates: [
