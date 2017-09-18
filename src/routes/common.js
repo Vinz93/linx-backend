@@ -86,6 +86,10 @@ router.route('/exchanges/:id')
 router.route('/exchanges/:id/find-by-distance')
 .get(validate(exchangeValidator.findByDistance), requireAuth, catchErrors(Exchange.findByDistance));
 
+
+router.route('/exchanges/:id/find-by-terminal')
+.get(requireAuth, catchErrors(Exchange.findByTerminal));
+
 router.route('/exchange-match')
   .post(validate(ExchangeMatchValidator.create), requireAuth, catchErrors(ExchangeMatch.create));
 
