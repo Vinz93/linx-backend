@@ -30,7 +30,7 @@ const DenominationSchema = new Schema({
     enum: ['coin', 'bill'],
   },
   value: Number,
-  pictureName: String,
+  pictureNames: [String],
   quantity: Number,
 },
   {
@@ -40,14 +40,15 @@ const DenominationSchema = new Schema({
   });
 
 
-DenominationSchema.virtual('pictureUrl').get(function () {
-  if (!this.pictureName) {
+DenominationSchema.virtual('picturesUrl').get(function () {
+  if (!this.pictureNames || this.pictureNames.length === 0) {
     return undefined;
   }
   const repository = 'https://s3.amazonaws.com/linx-currencies';
-  return `${repository}/${this.pictureName}`;
+  const results = this.pictureNames.map(picture => `${repository}/${picture}`);
+  return results;
 });
 
-DenominationSchema.plugin(fieldRemover, 'pictureName');
+DenominationSchema.plugin(fieldRemover, 'pictureNames');
 
 export default DenominationSchema;
