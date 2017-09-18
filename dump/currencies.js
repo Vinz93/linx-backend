@@ -6,14 +6,17 @@ const currencies = [
       {
         coinType: "bill",
         value: 1,
+        pictureNames: "usd-bill-1.png",
       },
       {
         coinType: "bill",
         value: 2,
+        pictureNames: "usd-bill-2.png",
       },
       {
         coinType: "bill",
         value: 5,
+        pictureNames: "usd-bill-5.png",
       },
       {
         coinType: "bill",
