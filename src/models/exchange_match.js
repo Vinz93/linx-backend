@@ -53,11 +53,14 @@ const ExchangeMatchSchema = new Schema({
     type: String,
     default: "invited",
   },
-}, {
-  timestamps: true,
-  toObject: { virtuals: true },
-  toJSON: { virtuals: true },
-});
+},
+  {
+    timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true },
+  });
+
+ExchangeMatchSchema.index({ requester: 1, requested: 1 }, { unique: true });
 
 ExchangeMatchSchema.plugin(paginate);
 ExchangeMatchSchema.plugin(fieldRemover, '__v');

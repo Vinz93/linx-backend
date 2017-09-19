@@ -30,3 +30,20 @@ export async function validatioUserParticipation(exchangeMatchId, userId) {
   }
   return;
 }
+
+export async function getIdsExchangesMatchParticipationByExchangeId(exchangeId) {
+  const exchangeMatches = await ExchangeMatch.find({
+    $or: [
+      { requester: exchangeId },
+      { requested: exchangeId },
+    ],
+  });
+  const contactIds = exchangeMatches.map(e => {
+    if (!e.requester.equals(exchangeId)) {
+      return e.requester;
+    }
+    return e.requested;
+  });
+  contactIds.push(exchangeId);
+  return contactIds;
+}

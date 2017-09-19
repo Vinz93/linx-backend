@@ -5,6 +5,7 @@ import ExchangeMatch from '../models/exchange_match';
 import config from '../config/env';
 import { APIError } from '../helpers/errors';
 import { contact } from '../services/push_notification';
+import { getIdsExchangesMatchParticipationByExchangeId } from '../services/exchange_match'
 
 const { distances } = config.constants;
 
@@ -304,9 +305,10 @@ const ExchangeController = {
     const exchange = await Exchange.findById(req.params.id);
     if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
     const haveCurrencies = exchange.haveCurrencies.map(e => e.currencyKey);
+    const contactIds = await getIdsExchangesMatchParticipationByExchangeId(exchange.id);
     const matches = await Exchange.find({
       _id: {
-        $ne: exchange.id,
+        $nin: contactIds,
       },
       isActive: true,
       location: {
@@ -318,6 +320,65 @@ const ExchangeController = {
           $maxDistance: distances.findExchanges,
         },
       },
+      'haveCurrencies.currencyKey': {
+        $in: exchange.wantCurrencies,
+      },
+      wantCurrencies: {
+        $in: haveCurrencies,
+      },
+    })
+      .populate('user');
+    res.status(httpStatus.OK).json(matches);
+  },
+
+  /**
+  * @swagger
+  * /exchanges/{id}/find-by-terminal:
+  *   get:
+  *     tags:
+  *      - Exchange
+  *     description: Find users who wants to change money near you
+  *     produces:
+  *       - application/json
+  *     parameters:
+  *       - name: Authorization
+  *         description: auth token.
+  *         in: header
+  *         required: true
+  *         type: string
+  *       - name: id
+  *         description: exchange id.
+  *         in: path
+  *         required: true
+  *         type: string
+  *       - name: zoneId
+  *         description: zone id.
+  *         in: query
+  *         required: true
+  *         type: string
+  *       - name: terminalName
+  *         description: termanal name.
+  *         in: query
+  *         required: true
+  *         type: string
+  *     responses:
+  *       200:
+  *         description: An a array of users exchanges
+  */
+
+  async findByTerminal(req, res) {
+    const exchange = await Exchange.findById(req.params.id);
+    if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
+    const haveCurrencies = exchange.haveCurrencies.map(e => e.currencyKey);
+    const contactIds = await getIdsExchangesMatchParticipationByExchangeId(exchange.id);
+    const { zoneId, terminalName } = req.query;
+    const matches = await Exchange.find({
+      _id: {
+        $nin: contactIds,
+      },
+      isActive: true,
+      zoneId,
+      terminal: terminalName,
       'haveCurrencies.currencyKey': {
         $in: exchange.wantCurrencies,
       },
