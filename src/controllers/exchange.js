@@ -194,7 +194,7 @@ const ExchangeController = {
     const exchangeRequested = await Exchange.findById(exchangeRequestedId).populate('user');
 
     const { deviceToken, deviceType } = exchangeRequester.user;
-    const { user: requested } = exchangeRequested;
+    const { user: requested, haveCurrencies: haveCurrenciesRequested } = exchangeRequested;
     const exchangeMatch = await ExchangeMatch.findOne({
       $and: [
         { requester: exchangeRequesterId },
@@ -206,8 +206,8 @@ const ExchangeController = {
     }
     exchangeMatch.status = "active";
     await exchangeMatch.save();
-    const message = `${requested.firstName} ${requested.lastName} has accepted your request`;
-    const { id: userId, firstName, lastName, socialNetworks, pictureUrl } = exchangeRequested.user;
+    const { id: userId, firstName, lastName, socialNetworks, pictureUrl } = requested;
+    const message = `${firstName} ${lastName} has accepted your request`;
     const pushData = {
       exchangeMatch: {
         id: exchangeMatch.id,
@@ -220,6 +220,7 @@ const ExchangeController = {
           socialNetworks,
           pictureUrl,
         },
+        haveCurrencies: haveCurrenciesRequested,
       },
     };
     const pushed = await contact(pushData, deviceToken, deviceType, message, 'accept');

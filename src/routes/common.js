@@ -49,10 +49,10 @@ router.route('/users/change-password')
 router.post('/users/upload-picture', requireAuth, fileCtrl.uploadS3, fileCtrl.deleteS3);
 
 router.route('/users/me')
-.get(requireAuth, User.readByMe);
+  .get(requireAuth, User.readByMe);
 
 router.route('/users/at-airport')
-.get(requireAuth, User.atAirport);
+  .get(requireAuth, User.atAirport);
 
 router.route('/users/linkedin')
   .get(requireAuth, linkedinOAuth);
@@ -84,7 +84,7 @@ router.route('/exchanges/:id')
   .delete(validate(exchangeValidator.delete), requireAuth, catchErrors(Exchange.delete));
 
 router.route('/exchanges/:id/find-by-distance')
-.get(validate(exchangeValidator.findByDistance), requireAuth, catchErrors(Exchange.findByDistance));
+  .get(validate(exchangeValidator.findByDistance), requireAuth, catchErrors(Exchange.findByDistance));
 
 
 router.route('/exchanges/:id/find-by-terminal')
@@ -102,6 +102,9 @@ router.route('/exchange-match/invites/:id')
 
 router.route('/exchange-match/:id')
   .post(validate(ExchangeMatchValidator.find), requireAuth, catchErrors(ExchangeMatch.find));
+
+router.route('/exchange-match/new-request')
+  .get(requireAuth, catchErrors(ExchangeMatch.findNewRequest));
 
 router.route('/auth/facebook/callback')
   .get(facebookOAuth, User.facebook);

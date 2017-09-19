@@ -1,5 +1,5 @@
 // import { APIError } from '../helpers/errors';
-import Message from '../models/message';
+import Promise from 'bluebird';
 
 import { paginate } from '../helpers/utils';
 
@@ -7,6 +7,7 @@ import { validatioUserParticipation as validatioUserParticipationChat } from '..
 
 import ExchangeMatch from '../models/exchange_match';
 import Exchange from '../models/exchange';
+import Message from '../models/message';
 
 const MessageController = {
 
@@ -73,13 +74,15 @@ const MessageController = {
       }],
     };
     const exchangesMatch = await ExchangeMatch.paginate(find, options);
-    exchangesMatch.docs = exchangesMatch.docs.map(e => {
+    exchangesMatch.docs = await Promise.map(exchangesMatch.docs, async e => {
       const { id, createdAt, updatedAt, requested, requester, status } = e;
+      const lastMessage = await Message.find({ chat: id }).sort('-createdAt');
       const result = {
         id,
         createdAt,
         updatedAt,
         status,
+        lastMessage: lastMessage.length > 0 ? lastMessage[0].createdAt : undefined,
       };
       const requestedUser = requested.user;
       const requesterUser = requester.user;
@@ -143,6 +146,7 @@ const MessageController = {
     };
     const options = {
       sort: { createdAt: -1 },
+      populate: ['createdBy'],
     };
     if (page || limit) {
       options.page = paginate.offset(page);
