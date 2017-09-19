@@ -28,6 +28,7 @@ export default {
                 .keys({
                   currencyRateKey: Joi.string(),
                   value: Joi.number(),
+                  forexValue: Joi.number(),
                 })
             ),
           })
