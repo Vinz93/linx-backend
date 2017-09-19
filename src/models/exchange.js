@@ -46,6 +46,8 @@ const Schema = mongoose.Schema;
  *        type: string
  *      value:
  *        type: number
+ *      forexValue:
+ *        type: number
  *   haveCurrencies:
  *     type: object
  *     properties:
@@ -107,6 +109,7 @@ const ExchangeSchema = new Schema({
         {
           currencyRateKey: String,
           value: Number,
+          forexValue: Number,
         },
       ],
     },
@@ -133,11 +136,12 @@ const ExchangeSchema = new Schema({
     ref: 'Zone',
   },
   terminal: String,
-}, {
-  timestamps: true,
-  toObject: { virtuals: true },
-  toJSON: { virtuals: true },
-});
+},
+  {
+    timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true },
+  });
 
 ExchangeSchema.plugin(paginate);
 ExchangeSchema.plugin(fieldRemover, '__v');
