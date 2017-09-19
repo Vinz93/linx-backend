@@ -147,6 +147,7 @@ const ExchangeController = {
     const { user: requesterUser } = requester;
     const { user: requestedUser } = requested;
     const selectedCurrencies = req.body.selectedCurrencies;
+    delete selectedCurrencies.compiled;
     const { deviceType: deviceTypeRequested, deviceToken: deviceTokenRequested } = requestedUser;
     if (requester && requested) {
       const message = `${requesterUser.firstName} ${requesterUser.lastName} has invited you to exchange, please touch to connect`;
