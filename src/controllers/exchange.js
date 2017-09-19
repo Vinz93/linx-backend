@@ -196,7 +196,7 @@ const ExchangeController = {
     const exchangeRequester = await Exchange.findById(exchangeRequesterId).populate('user');
     const exchangeRequested = await Exchange.findById(exchangeRequestedId).populate('user');
 
-    const { deviceToken, deviceType } = exchangeRequester.user;
+    const { deviceToken: deviceTokenRequester, deviceType: deviceTypeRequester } = exchangeRequester.user;
     const { user: requested, haveCurrencies: haveCurrenciesRequested } = exchangeRequested;
     const exchangeMatch = await ExchangeMatch.findOne({
       $and: [
@@ -226,7 +226,7 @@ const ExchangeController = {
         haveCurrencies: haveCurrenciesRequested,
       },
     };
-    const pushed = await contact(pushData, deviceToken, deviceType, message, 'accept');
+    const pushed = await contact(pushData, deviceTokenRequester, deviceTypeRequester, message, 'accept');
     if (pushed.sent) {
       return res.json({ exchangeMatch, sent: true });
     }
@@ -313,6 +313,7 @@ const ExchangeController = {
       _id: {
         $nin: contactIds,
       },
+      user: { $ne: req.user.id },
       isActive: true,
       location: {
         $nearSphere: {
@@ -379,6 +380,7 @@ const ExchangeController = {
       _id: {
         $nin: contactIds,
       },
+      user: { $ne: req.user.id },
       isActive: true,
       zoneId,
       terminal: terminalName,

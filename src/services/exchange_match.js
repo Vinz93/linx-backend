@@ -44,6 +44,5 @@ export async function getIdsExchangesMatchParticipationByExchangeId(exchangeId) 
     }
     return e.requested;
   });
-  contactIds.push(exchangeId);
   return contactIds;
 }
