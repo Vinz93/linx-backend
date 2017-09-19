@@ -149,8 +149,8 @@ const ExchangeController = {
     if (requester && requested) {
       const message = `${requester.user.firstName} ${requester.user.lastName} has invited you to exchange, please touch to connect`;
       delete selectedCurrencies.compiled;
-      const pushed = await contact({ selectedCurrencies, requester }, deviceToken, deviceType, message, 'contact');
       const newMatch = await ExchangeMatch.create(req.body);
+      const pushed = await contact({ selectedCurrencies, requester }, deviceToken, deviceType, message, 'contact');
       if (pushed && pushed.failed.length > 0) res.status(httpStatus.OK).json({ newMatch, sent: false });
       res.status(httpStatus.OK).json({ newMatch, sent: true });
     }
