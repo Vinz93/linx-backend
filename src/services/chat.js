@@ -49,7 +49,8 @@ function sendError(socket, msg) {
   socket.emit('chat/error', error);
 }
 
-async function sendPushNotification(user, message, chatId) {
+async function sendPushNotification(exchange, message, chatId) {
+  const { user, haveCurrencies } = exchange;
   if (!user.connected || !user.connected.websocket) {
     const { id: userId, deviceToken, deviceType, firstName, lastName } = user;
     const msg = `Has a new message of ${firstName} ${lastName}`;
@@ -57,6 +58,7 @@ async function sendPushNotification(user, message, chatId) {
       exchangeMatch: {
         id: chatId,
       },
+      haveCurrencies,
       user: getUser(user),
       message: getMessage(message),
     };
@@ -87,8 +89,8 @@ async function pushNotificationsToUnconnectedUsers(chatId, message) {
       },
     });
 
-  sendPushNotification(requesterExchange.user, message, chatId);
-  sendPushNotification(requestedExchange.user, message, chatId);
+  sendPushNotification(requesterExchange, message, chatId);
+  sendPushNotification(requestedExchange, message, chatId);
 }
 
 function chatService(app, config) {

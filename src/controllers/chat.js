@@ -146,6 +146,7 @@ const MessageController = {
     };
     const options = {
       sort: { createdAt: -1 },
+      populate: ['createdBy'],
     };
     if (page || limit) {
       options.page = paginate.offset(page);
