@@ -5,7 +5,7 @@ import ExchangeMatch from '../models/exchange_match';
 import config from '../config/env';
 import { APIError } from '../helpers/errors';
 import { contact } from '../services/push_notification';
-import { getIdsExchangesMatchParticipationByExchangeId } from '../services/exchange_match'
+import { getIdsExchangesMatchParticipationByExchangeId } from '../services/exchange_match';
 
 const { distances } = config.constants;
 
@@ -143,17 +143,19 @@ const ExchangeController = {
 
   async contact(req, res) {
     const requester = await Exchange.findById(req.body.requester).populate('user');
-    const { user: requested } = await Exchange.findById(req.body.requested).populate('user');
+    const requested = await Exchange.findById(req.body.requested).populate('user');
+    const { user: requesterUser } = requester;
+    const { user: requestedUser } = requested;
     const selectedCurrencies = req.body.selectedCurrencies;
-    const { deviceType, deviceToken } = requested;
+    const { deviceType: deviceTypeRequested, deviceToken: deviceTokenRequested } = requestedUser;
     if (requester && requested) {
-      const message = `${requester.user.firstName} ${requester.user.lastName} has invited you to exchange, please touch to connect`;
-      delete selectedCurrencies.compiled;
+      const message = `${requesterUser.firstName} ${requesterUser.lastName} has invited you to exchange, please touch to connect`;
       const newMatch = await ExchangeMatch.create(req.body);
-      const pushed = await contact({ selectedCurrencies, requester }, deviceToken, deviceType, message, 'contact');
+      const pushed = await contact({ selectedCurrencies, requester }, deviceTokenRequested, deviceTypeRequested, message, 'contact');
       if (pushed && pushed.failed.length > 0) res.status(httpStatus.OK).json({ newMatch, sent: false });
-      res.status(httpStatus.OK).json({ newMatch, sent: true });
+      return res.status(httpStatus.OK).json({ newMatch, sent: true });
     }
+    throw new APIError('exchange match', httpStatus.NOT_FOUND);
   },
 
   /**
