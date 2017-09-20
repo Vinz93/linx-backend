@@ -142,6 +142,7 @@ const ExchangeController = {
    */
 
   async contact(req, res) {
+    console.log('contact ---->', req.body);
     const requester = await Exchange.findById(req.body.requester).populate('user');
     const requested = await Exchange.findById(req.body.requested).populate('user');
     const { user: requesterUser } = requester;
