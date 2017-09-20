@@ -7,6 +7,8 @@ import { APIError } from '../helpers/errors';
 import { contact } from '../services/push_notification';
 import { getIdsExchangesMatchParticipationByExchangeId } from '../services/exchange_match';
 
+const debug = require('debug')('linx:exchange');
+
 const { distances } = config.constants;
 
 
@@ -142,7 +144,6 @@ const ExchangeController = {
    */
 
   async contact(req, res) {
-    console.log('contact ---->', req.body);
     const requester = await Exchange.findById(req.body.requester).populate('user');
     const requested = await Exchange.findById(req.body.requested).populate('user');
     const { user: requesterUser } = requester;
@@ -154,7 +155,10 @@ const ExchangeController = {
       const message = `${requesterUser.firstName} ${requesterUser.lastName} has invited you to exchange, please touch to connect`;
       const newMatch = await ExchangeMatch.create(req.body);
       const pushed = await contact({ selectedCurrencies, requester }, deviceTokenRequested, deviceTypeRequested, message, 'contact');
-      if (pushed && pushed.failed.length > 0) res.status(httpStatus.OK).json({ newMatch, sent: false });
+      if (pushed && pushed.failed.length > 0) {
+        debug(`[ERROR] push notifiaction: ${JSON.stringify(pushed.failed)}`);
+        return res.status(httpStatus.OK).json({ newMatch, sent: false });
+      }
       return res.status(httpStatus.OK).json({ newMatch, sent: true });
     }
     throw new APIError('exchange match', httpStatus.NOT_FOUND);
