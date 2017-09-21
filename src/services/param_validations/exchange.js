@@ -94,7 +94,9 @@ export default {
     },
     path: {
       id: Joi.objectId().required(),
-
+    },
+    query: {
+      sort: Joi.string(),
     },
   },
 };

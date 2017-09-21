@@ -61,13 +61,13 @@ const MessageController = {
     const options = {
       populate: [{
         path: 'requester',
-        select: 'user',
+        select: 'user haveCurrencies',
         populate: {
           path: 'user',
         },
       }, {
         path: 'requested',
-        select: 'user',
+        select: 'user haveCurrencies',
         populate: {
           path: 'user',
         },
@@ -84,12 +84,10 @@ const MessageController = {
         status,
         lastMessage: lastMessage.length > 0 ? lastMessage[0].createdAt : undefined,
       };
-      const requestedUser = requested.user;
-      const requesterUser = requester.user;
-      if (requestedUser.id !== userId) {
-        result.user = requestedUser;
+      if (requested.user.id !== userId) {
+        result.exchange = requested;
       } else {
-        result.user = requesterUser;
+        result.exchange = requester;
       }
       return result;
     });
