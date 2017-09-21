@@ -63,14 +63,14 @@ export const currency = {
 };
 function readFile(filename) {
   return fs.readFileSync(
-     path.resolve(__dirname, '../credentials', filename),
-     'UTF-8'
- );
+    path.resolve(__dirname, '../credentials', filename),
+    'UTF-8'
+  );
 }
 export const pushnotifications = {
   apnconfig: {
     key: readFile('apns_key_cert.pem'),
-    cert: readFile('apns_cert.pem'),
+    cert: readFile('apns_dev_cert.pem'),
   },
   gcmconfig: {
     token: {

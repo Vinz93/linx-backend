@@ -74,7 +74,7 @@ function readFile(filename) {
 export const pushnotifications = {
   apnconfig: {
     key: readFile('apns_key_cert.pem'),
-    cert: readFile('apns_cert.pem'),
+    cert: readFile('apns_dev_cert.pem'),
   },
   gcmconfig: {
     token: {
