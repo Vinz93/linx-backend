@@ -10,7 +10,7 @@
     "test": "mocha  src/tests/**/*.js  --timeout 10000 -c --compilers js:babel-core/register || true",
     "test:nyan": "mocha src/tests/**/*.js  --timeout 10000 -c -R nyan --compilers js:babel-core/register || true",
     "lint": "eslint src",
-    "seed-local": "mongoimport --drop  --host=127.0.0.1 --file dump/airports.json -c zones -d linx",
+    "seed-local": "mongoimport --drop --host=127.0.0.1 --file dump/airports.json -c zones -d linx",
     "seed-dev": "mongoimport --drop  --host=aws-us-east-1-portal.5.dblayer.com --port 20919 --file dump/airports.json -c zones -d linx-dev --username linx --password solsteace11 --ssl",
     "seed-qa": "mongoimport --drop --host=aws-us-east-1-portal.5.dblayer.com --port 20919 --file dump/airports.json -c zones -d linx-qa --username linx --password solsteace11 --ssl",
     "seed2-local": "babel-node dump/index.js",
