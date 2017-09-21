@@ -13,7 +13,7 @@ import userValidator from '../services/param_validations/user';
 import Exchange from '../controllers/exchange';
 import exchangeValidator from '../services/param_validations/exchange';
 import Zone from '../controllers/zone';
-import SafePlace from '../controllers/safe_place';
+
 import ExchangeMatch from '../controllers/exchange_match';
 import zoneValidator from '../services/param_validations/zone';
 import fileCtrl from '../controllers/file';
@@ -134,8 +134,5 @@ router.route('/currencies/:id/add-denomination')
 
 router.route('/currencies/:id/remove-denomination')
   .delete(validate(currencyValidator.removeDenomination), catchErrors(Currency.removeDenomination));
-
-router.route('/safe-place')
-  .post(catchErrors(SafePlace.create));
 
 export default router;
