@@ -294,15 +294,20 @@ const ExchangeController = {
   *     produces:
   *       - application/json
   *     parameters:
+  *       - name: Authorization
+  *         description: auth token.
+  *         in: header
+  *         required: true
+  *         type: string
   *       - name: id
   *         description: exchange id.
   *         in: path
   *         required: true
   *         type: string
-  *       - name: Authorization
-  *         description: auth token.
-  *         in: header
-  *         required: true
+  *       - name: sort
+  *         description: 'parameter for system default is ascending for example: saving'
+  *         in: query
+  *         required: false
   *         type: string
   *     responses:
   *       200:
@@ -310,10 +315,15 @@ const ExchangeController = {
   */
 
   async findByDistance(req, res) {
-    const exchange = await Exchange.findById(req.params.id);
+    const { sort } = req.query;
+    const exchange = await Exchange.findOne({ _id: req.params.id, user: req.user.id });
     if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
     const haveCurrencies = exchange.haveCurrencies.map(e => e.currencyKey);
     const contactIds = await getIdsExchangesMatchParticipationByExchangeId(exchange.id);
+    const sorts = {};
+    if (sort === 'saving') {
+      sorts['haveCurrencies.currencyRates.value'] = 1;
+    }
     const matches = await Exchange.find({
       _id: {
         $nin: contactIds,
@@ -336,6 +346,7 @@ const ExchangeController = {
         $in: haveCurrencies,
       },
     })
+      .sort(sorts)
       .populate('user');
     res.status(httpStatus.OK).json(matches);
   },
@@ -370,17 +381,27 @@ const ExchangeController = {
   *         in: query
   *         required: true
   *         type: string
+  *       - name: sort
+  *         description: 'parameter for system default is ascending for example: saving'
+  *         in: query
+  *         required: false
+  *         type: string
   *     responses:
   *       200:
   *         description: An a array of users exchanges
   */
 
   async findByTerminal(req, res) {
-    const exchange = await Exchange.findById(req.params.id);
+    const { sort } = req.query;
+    const exchange = await Exchange.findOne({ _id: req.params.id, user: req.user.id });
     if (!exchange) throw new APIError('exchange not found', httpStatus.NOT_FOUND);
     const haveCurrencies = exchange.haveCurrencies.map(e => e.currencyKey);
     const contactIds = await getIdsExchangesMatchParticipationByExchangeId(exchange.id);
     const { zoneId, terminalName } = req.query;
+    const sorts = {};
+    if (sort === 'saving') {
+      sorts['haveCurrencies.currencyRates.value'] = 1;
+    }
     const matches = await Exchange.find({
       _id: {
         $nin: contactIds,
@@ -396,6 +417,7 @@ const ExchangeController = {
         $in: haveCurrencies,
       },
     })
+      .sort(sorts)
       .populate('user');
     res.status(httpStatus.OK).json(matches);
   },
