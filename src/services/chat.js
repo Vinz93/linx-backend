@@ -143,10 +143,12 @@ function chatService(app, config) {
 
     socket.on('disconnect', () => {
       const user = socket.user;
-      if (user.connected) {
-        user.connected.websocket = false;
+      if (user) {
+        if (user.connected) {
+          user.connected.websocket = false;
+        }
+        user.save();
       }
-      user.save();
       debug(`disconnect ${socket.id}`);
     });
   });
