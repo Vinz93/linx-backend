@@ -85,7 +85,7 @@ const exchangeMatchController = {
       $or: [
         { requester: req.user.id },
         { requested: req.user.id },
-      ]
+      ],
     })
       .populate('meetAt', null, {
         location: {
@@ -112,7 +112,7 @@ const exchangeMatchController = {
         $or: [
           { requester: req.user.id },
           { requested: req.user.id },
-        ]
+        ],
       });
       exchangeUser.meetAt = meetAt;
     }
@@ -210,7 +210,12 @@ const exchangeMatchController = {
     const exchangeMatch = await ExchangeMatch.find({
       requested: { $in: exchangeIds },
       status: 'invited',
-    }).populate('requester');
+    }).populate({
+      path: 'requester',
+      populate: {
+        path: 'user',
+      },
+    });
     res.json(exchangeMatch);
   },
 };
