@@ -68,7 +68,9 @@ async function sendPushNotification(exchange, message, chatId) {
     } else {
       debug(`[error] Not sent push notification`);
     }
+    return;
   }
+  return;
 }
 
 async function pushNotificationsToUnconnectedUsers(chatId, message) {
@@ -111,7 +113,7 @@ function chatService(app, config) {
         socket.room = room;
         socket.user = user;
         socket.join(room);
-        user.connected.websocket = true;
+        user['connected.websocket'] = true;
         user.save();
         socket.emit('join:done');
       } catch (err) {
