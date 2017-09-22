@@ -13,6 +13,8 @@ export async function contact(pushData, requestedToken, deviceRequested, message
   note.sound = 'ping.aiff';
   note.alert = message;
   note.payload = { ...pushData, pushType };
+  note.topic = "com.solsteace.linxios";
+
   // END APN CONFIG
   if (deviceRequested === "ios") {
     console.info('requestedToken: ', requestedToken, note);
