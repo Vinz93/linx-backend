@@ -16,10 +16,12 @@ const exchanges = [
           {
             currencyRateKey: 'USDCAD',
             value: 1.2,
+            forexValue: 1.0,
           },
           {
             currencyRateKey: 'USDAUD',
             value: 1.1,
+            forexValue: 0.9,
           },
         ],
       },
@@ -46,10 +48,12 @@ const exchanges = [
           {
             currencyRateKey: 'CADUSD',
             value: 0.9,
+            forexValue: 0.8,
           },
           {
             currencyRateKey: 'CADAUD',
             value: 1.01,
+            forexValue: 1.01,
           },
         ],
       },
@@ -77,10 +81,12 @@ const exchanges = [
           {
             currencyRateKey: 'AUDCAD',
             value: 0.9,
+            forexValue: 1.0,
           },
           {
             currencyRateKey: 'AUDUSD',
             value: 0.9,
+            forexValue: 1.0,
           },
         ],
       },
@@ -108,10 +114,12 @@ const exchanges = [
           {
             currencyRateKey: 'USDCAD',
             value: 1.2,
+            forexValue: 1.4,
           },
           {
             currencyRateKey: 'USDAUD',
             value: 1.1,
+            forexValue: 1.2,
           },
         ],
       },
@@ -143,10 +151,12 @@ const exchanges = [
           {
             currencyRateKey: 'CADUSD',
             value: 0.9,
+            forexValue: 0.9,
           },
           {
             currencyRateKey: 'CADAUD',
             value: 1.01,
+            forexValue: 1.01,
           },
         ],
       },
@@ -183,10 +193,12 @@ const exchanges = [
           {
             currencyRateKey: 'CADUSD',
             value: 0.9,
+            forexValue: 1.0,
           },
           {
             currencyRateKey: 'CADAUD',
             value: 1.01,
+            forexValue: 1.0,
           },
         ],
       },
@@ -218,10 +230,12 @@ const exchanges = [
           {
             currencyRateKey: 'SEKCAD',
             value: 0.9,
+            forexValue: 1.3,
           },
           {
             currencyRateKey: 'SEKGBP',
             value: 1.01,
+            forexValue: 1.2,
           },
         ],
       },
@@ -253,10 +267,12 @@ const exchanges = [
           {
             currencyRateKey: 'SEKCAD',
             value: 0.9,
+            forexValue: 0.7,
           },
           {
             currencyRateKey: 'SEKGBP',
             value: 1.01,
+            forexValue: 0.8,
           },
         ],
       },
@@ -283,10 +299,12 @@ const exchanges = [
           {
             currencyRateKey: 'GBPSEK',
             value: 0.9,
+            forexValue: 0.9,
           },
           {
             currencyRateKey: 'GBPCAD',
             value: 1.01,
+            forexValue: 1.01,
           },
         ],
       },
@@ -313,10 +331,12 @@ const exchanges = [
           {
             currencyRateKey: 'GBPSEK',
             value: 0.9,
+            forexValue: 1.0,
           },
           {
             currencyRateKey: 'GBPCAD',
             value: 1.01,
+            forexValue: 1.0,
           },
         ],
       },
@@ -343,10 +363,12 @@ const exchanges = [
           {
             currencyRateKey: 'EURSEK',
             value: 0.9,
+            forexValue: 0.9,
           },
           {
             currencyRateKey: 'EURCAD',
             value: 1.01,
+            forexValue: 1.01,
           },
         ],
       },
@@ -373,10 +395,12 @@ const exchanges = [
           {
             currencyRateKey: 'EURSEK',
             value: 0.9,
+            forexValue: 1.0,
           },
           {
             currencyRateKey: 'EURCAD',
             value: 1.01,
+            forexValue: 1.0,
           },
         ],
       },

@@ -9,6 +9,10 @@ import User from '../src/models/user';
 import usersData from './users';
 import Exchange from '../src/models/exchange';
 import exchangeData from './exchanges';
+import Zone from '../src/models/zone';
+import airportsData from './airports';
+import SafePlace from '../src/models/safe_place';
+import safePlaceData from './safe_place';
 
 const prompt = inquirer.createPromptModule();
 
@@ -40,6 +44,10 @@ async function loadData() {
     await User.create(usersData);
     await Exchange.remove({});
     await Exchange.create(exchangeData);
+    await Zone.remove({});
+    await Zone.create(airportsData[0]);
+    await SafePlace.remove({});
+    await SafePlace.create(safePlaceData);
     mongoose.connection.close();
     console.log(`The process finished 🌻 🌻 🌻`);
     process.exit(0);
