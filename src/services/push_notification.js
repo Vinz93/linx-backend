@@ -17,7 +17,7 @@ export async function contact(pushData, requestedToken, deviceRequested, message
 
   // END APN CONFIG
   if (deviceRequested === "ios") {
-    console.info('requestedToken: ', requestedToken, note);
+    console.info('requestedToken: ', requestedToken, JSON.stringify(note));
     const apnpush = await apnProvider.send(note, requestedToken);
     return apnpush;
   }
