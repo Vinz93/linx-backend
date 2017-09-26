@@ -200,7 +200,9 @@ const ExchangeController = {
 
     const exchangeRequester = await Exchange.findById(exchangeRequesterId).populate('user');
     const exchangeRequested = await Exchange.findById(exchangeRequestedId).populate('user');
-
+    if (!exchangeRequester || !exchangeRequested) {
+      throw new APIError('exchange not found', httpStatus.NOT_FOUND);
+    }
     const { deviceToken: deviceTokenRequester, deviceType: deviceTypeRequester } = exchangeRequester.user;
     const { user: requested, haveCurrencies: haveCurrenciesRequested } = exchangeRequested;
     const exchangeMatch = await ExchangeMatch.findOne({
@@ -232,7 +234,8 @@ const ExchangeController = {
       },
     };
     const pushed = await contact(pushData, deviceTokenRequester, deviceTypeRequester, message, 'accept');
-    if (pushed.sent) {
+    console.log('push --->', pushed);
+    if (pushed && pushed.sent) {
       return res.json({ exchangeMatch, sent: true });
     }
     return res.json({ exchangeMatch, sent: false });
