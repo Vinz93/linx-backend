@@ -16,8 +16,8 @@
     "seed2-local": "babel-node dump/index.js",
     "seed2-dev": "NODE_ENV=integration babel-node dump/index.js",
     "seed2-qa": "NODE_ENV=qa babel-node dump/index.js",
-    "deploy": "cd ./deployment && sh ./deploy.sh ubuntu linx-dev.solsteace.ca",
-    "deploy-qa": "cd ./deployment && sh ./deploy.sh ubuntu ec2-34-228-145-63.compute-1.amazonaws.com"
+    "deploy": "cd ./deployment && sh ./deploy.sh ubuntu ec2-34-228-145-63.compute-1.amazonaws.com",
+    "deploy-qa": "cd ./deployment && sh ./deploy.sh ubuntu linx-qa.solsteace.ca"
   },
   "keywords": [
     "Express"
