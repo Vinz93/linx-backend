@@ -34,6 +34,7 @@ const CurrencySchema = new Schema({
     uppercase: true,
     index: true,
     trim: true,
+    unique: true,
   },
   name: {
     type: String,

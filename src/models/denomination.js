@@ -9,6 +9,10 @@ const Schema = mongoose.Schema;
  *   Denomination:
  *     type: object
  *     properties:
+ *       label:
+ *          type: string
+ *       symbol:
+ *          type: string
  *       coinType:
  *          type: string
  *       value:
@@ -29,6 +33,8 @@ const DenominationSchema = new Schema({
     type: String,
     enum: ['coin', 'bill'],
   },
+  label: String,
+  symbol: String,
   value: Number,
   pictureNames: [String],
   quantity: Number,

@@ -51,15 +51,16 @@ function sendError(socket, msg) {
 
 async function sendPushNotification(exchange, message, chatId) {
   const { user, haveCurrencies } = exchange;
+  const { createdBy } = message;
   if (!user.connected || !user.connected.websocket) {
-    const { id: userId, deviceToken, deviceType, firstName, lastName } = user;
-    const msg = `Has a new message of ${firstName} ${lastName}`;
+    const { id: userId, deviceToken, deviceType } = user;
+    const msg = `Has a new message of ${createdBy.firstName} ${createdBy.lastName}`;
     const pushData = {
       exchangeMatch: {
         id: chatId,
       },
       haveCurrencies,
-      user: getUser(user),
+      user: getUser(createdBy),
       message: getMessage(message),
     };
     const pushed = await contact(pushData, deviceToken, deviceType, msg, 'chat');
@@ -129,7 +130,7 @@ function chatService(app, config) {
       debug(`Send message to ${chatId}`);
       const { value, type } = message;
       try {
-        const persistentMessage = new Message({ value, type, chat: chatId, createdBy: socket.user.id });
+        const persistentMessage = new Message({ value, type, chat: chatId, createdBy: socket.user });
         await persistentMessage.save();
         pushNotificationsToUnconnectedUsers(chatId, persistentMessage);
         socket.broadcast.to(chatId).emit('message', {
@@ -141,13 +142,13 @@ function chatService(app, config) {
       }
     });
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', async () => {
       const user = socket.user;
       if (user) {
         if (user.connected) {
           user.connected.websocket = false;
         }
-        user.save();
+        await user.save();
       }
       debug(`disconnect ${socket.id}`);
     });

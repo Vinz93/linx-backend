@@ -143,7 +143,7 @@ const MessageController = {
       chat: chatId,
     };
     const options = {
-      sort: { createdAt: -1 },
+      sort: { createdAt: +1 },
       populate: ['createdBy'],
     };
     if (page || limit) {

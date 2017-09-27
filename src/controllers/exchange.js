@@ -234,7 +234,6 @@ const ExchangeController = {
       },
     };
     const pushed = await contact(pushData, deviceTokenRequester, deviceTypeRequester, message, 'accept');
-    console.log('push --->', pushed);
     if (pushed && pushed.sent) {
       return res.json({ exchangeMatch, sent: true });
     }
