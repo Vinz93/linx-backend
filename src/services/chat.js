@@ -11,6 +11,37 @@ import ExchangeMatch from '../models/exchange_match';
 import { contact } from './push_notification';
 
 const debug = require('debug')('linx:chat');
+const rooms = new Map();
+
+// Implement redis
+function addUserToRoom(user, room) {
+  if (!user || !room) {
+    return false;
+  }
+  const { id: userId } = user;
+  const users = rooms.get(room) || [];
+  const index = users.indexOf(userId);
+  if (index === -1) {
+    users.push(userId);
+    rooms.set(room, users);
+    return true;
+  }
+  return false;
+}
+
+function deleteUserToRoom(user, room) {
+  if (!user || !room) {
+    return false;
+  }
+  const { id: userId } = user;
+  const users = rooms.get(room) || [];
+  const index = users.indexOf(userId);
+  if (index !== -1) {
+    rooms.set(room, users.splice(index, 1));
+    return true;
+  }
+  return false;
+}
 
 function getMessage(message) {
   const { value, type, id, createdAt } = message;
@@ -49,10 +80,11 @@ function sendError(socket, msg) {
   socket.emit('chat/error', error);
 }
 
-async function sendPushNotification(exchange, message, chatId) {
+async function sendPushNotification(exchange, message, chatId, usersOnline) {
   const { user, haveCurrencies } = exchange;
   const { createdBy } = message;
-  if (!user.connected || !user.connected.websocket) {
+  const isOnline = usersOnline.indexOf(user.id);
+  if (isOnline === -1) {
     const { id: userId, deviceToken, deviceType } = user;
     const msg = `Has a new message of ${createdBy.firstName} ${createdBy.lastName}`;
     const pushData = {
@@ -74,7 +106,7 @@ async function sendPushNotification(exchange, message, chatId) {
   return;
 }
 
-async function pushNotificationsToUnconnectedUsers(chatId, message) {
+async function pushNotificationsToUnconnectedUsers(chatId, message, usersOnline) {
   const { requester: requesterExchange, requested: requestedExchange } = await ExchangeMatch.findOne({
     _id: chatId,
   }).populate({
@@ -92,8 +124,8 @@ async function pushNotificationsToUnconnectedUsers(chatId, message) {
       },
     });
 
-  sendPushNotification(requesterExchange, message, chatId);
-  sendPushNotification(requestedExchange, message, chatId);
+  sendPushNotification(requesterExchange, message, chatId, usersOnline);
+  sendPushNotification(requestedExchange, message, chatId, usersOnline);
 }
 
 function chatService(app, config) {
@@ -101,6 +133,9 @@ function chatService(app, config) {
   io.on('connection', (socket) => {
     debug(`Connected ${socket.id}`);
     socket.on('join/chat', async req => {
+      if (socket.room) {
+        socket.leave(socket.room);
+      }
       const { room, token } = req;
       if (!room || !token) {
         return sendError(socket, 'token and room fields are require');
@@ -109,13 +144,11 @@ function chatService(app, config) {
         const { id: userId } = await verifyJwt(token);
         const user = await User.findOne({ _id: userId });
         await validatioUserParticipationChat(room, userId);
-
         debug(`User ${userId} joined to ${room}`);
         socket.room = room;
         socket.user = user;
+        addUserToRoom(user, room);
         socket.join(room);
-        user.connected.websocket = true;
-        user.save();
         socket.emit('join:done');
       } catch (err) {
         return sendError(socket, err.message);
@@ -132,8 +165,8 @@ function chatService(app, config) {
       try {
         const persistentMessage = new Message({ value, type, chat: chatId, createdBy: socket.user });
         await persistentMessage.save();
-        pushNotificationsToUnconnectedUsers(chatId, persistentMessage);
-        socket.broadcast.to(chatId).emit('message', {
+        pushNotificationsToUnconnectedUsers(chatId, persistentMessage, rooms.get(chatId));
+        return socket.to(chatId).emit('message', {
           user: getUser(socket.user),
           message: getMessage(persistentMessage),
         });
@@ -143,13 +176,9 @@ function chatService(app, config) {
     });
 
     socket.on('disconnect', async () => {
-      const user = socket.user;
-      if (user) {
-        if (user.connected) {
-          user.connected.websocket = false;
-        }
-        await user.save();
-      }
+      const { user, room } = socket;
+      socket.leave(room);
+      deleteUserToRoom(user, room);
       debug(`disconnect ${socket.id}`);
     });
   });
