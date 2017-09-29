@@ -114,7 +114,7 @@ router.route('/zones')
   .post(validate(zoneValidator.create), requireAuth, onlyAdmin, catchErrors(Zone.create));
 
 router.route('/zones/:id')
-  .get(validate(zoneValidator.read), requireAuth, onlyAdmin, catchErrors(Zone.read))
+  .get(validate(zoneValidator.read), requireAuth, catchErrors(Zone.read))
   .patch(validate(zoneValidator.update), requireAuth, onlyAdmin, catchErrors(Zone.update))
   .delete(validate(zoneValidator.delete), requireAuth, onlyAdmin, catchErrors(Zone.delete));
 

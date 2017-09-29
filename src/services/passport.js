@@ -98,6 +98,7 @@ const linkedinLogin = new LinkedInStrategy(linkedinOptions, async (req, token, t
         lastName: data.lastName,
         email: data.emailAddress,
         headline: data.headline,
+        bornAt: data.bornAt,
         experiences,
         location: {
           coordinates: [-79.390919, 43.723563],
