@@ -145,12 +145,13 @@ function chatService(app, config) {
         const user = await User.findOne({ _id: userId });
         await validatioUserParticipationChat(room, userId);
         debug(`User ${userId} joined to ${room}`);
-        socket.leave(socket.room);
-        addUserToRoom(user, room);
-        socket.room = room;
-        socket.user = user;
-        socket.join(room);
-        socket.emit('join/chat:done');
+        socket.leave(socket.room, () => {
+          addUserToRoom(user, room);
+          socket.room = room;
+          socket.user = user;
+          socket.join(room);
+          socket.emit('join/chat:done');
+        });
       } catch (err) {
         return sendError(socket, err.message);
       }
@@ -163,7 +164,6 @@ function chatService(app, config) {
         socket.leave(room, () => {
           deleteUserToRoom(user, room);
           socket.room = undefined;
-          console.log('test--->', Object.keys(socket.rooms));
           socket.emit('leave/chat:done');
         });
       }
@@ -193,7 +193,7 @@ function chatService(app, config) {
       const { user, room } = socket;
       socket.leave(room);
       deleteUserToRoom(user, room);
-      debug(`disconnect ${user.id}`);
+      debug(`disconnect ${user ? user.id : socket.id}`);
     });
   });
 }
