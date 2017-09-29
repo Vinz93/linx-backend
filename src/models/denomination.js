@@ -32,9 +32,16 @@ const DenominationSchema = new Schema({
   coinType: {
     type: String,
     enum: ['coin', 'bill'],
+    set: (val) => val && val.trim(),
   },
-  label: String,
-  symbol: String,
+  label: {
+    type: String,
+    set: (val) => val && val.trim(),
+  },
+  symbol: {
+    type: String,
+    set: (val) => val && val.trim(),
+  },
   value: Number,
   pictureNames: [String],
   quantity: Number,
