@@ -21,16 +21,19 @@
   <form name="form">
     <h2>Configuration</h2>
     <label for="server">Server:</label>
-    <input type="text" id="server" placeholder="http://127.0.0.1:3003" value="http://127.0.0.1:3003">
+    <input type="text" id="server" placeholder="http://127.0.0.1:3003" value="http://localhost:3003">
     <br>
     <label for="token">Token:</label>
-    <input type="text" id="token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5YTBhNWU1Yzg3MzUyYTBhMDgyMTBkZiIsImlhdCI6MTUwNTQxMzI1MDAyN30.hMZ4370TPtyVv1SS7CrDE2vAWnH83ItjXnJbH8ZVuUc">
+    <input type="text" id="token" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5Y2JiMjAwYTA1ZTQyNDY5N2QzOWZjZCIsImlhdCI6MTUwNjUyOTM3NjM1NX0.E9r3ocij1a_2pPsxGQkgU1y_IVjlMxl71Nt51kb_Gsc">
     <br>    
     <label for="exchangeMatchId">Exchange Match ID:</label>
-    <input type="text" id="exchangeMatchId" value="59bacfacccce017518fa396e">
+    <input type="text" id="exchangeMatchId" value="59cbc9cfa05e424697d39ff6">
     <br>
     <br>  
-    <input type="button" value="Save" onclick="setup()">
+    <input type="button" value="Connect" onclick="connect()">    
+    <input type="button" value="Join" onclick="setup()"> 
+    <input type="button" value="Leave" onclick="leave()"> 
+    <input type="button" value="Disconnect" onclick="disconnect()">
     <div id="chat">
       <h2>Chat:</h2>
       <ul id="messages">
@@ -66,25 +69,32 @@
       ul.appendChild(li);
     }
 
+    function connect() {
+      var server = document.getElementById("server").value;
+      socket = io.connect(server);
+    }
+
     function setup() {
       var server = document.getElementById("server").value;
       token = document.getElementById("token").value;
       var exchangeMatchId = document.getElementById("exchangeMatchId").value;
-      validate(server, token, exchangeMatchId);
-      socket = io.connect(server);
+      validate(server, token, exchangeMatchId);      
       socket.emit('join/chat', {
         room: exchangeMatchId,
         token: token
       });
-      socket.on('join:done', () => {
+      socket.on('join/chat:done', () => {
         document.getElementById('chat').style.display = 'block';
-      })
+      });
       socket.on('message', function (msg) {
         addMessage(msg.user, msg.message.value);
-      })
+      });
       socket.on('chat/error', function (err) {
         return alert('[error] ' + err);
-      })
+      });
+      socket.on('leave/chat:done', () => {
+        // document.getElementById('chat').style.display = 'none';
+      });
     }
 
     function send() {
@@ -93,9 +103,18 @@
         value: msg,
         type: 'text'
       }
-      socket.emit('message', message);
+      socket.emit('message/chat', message);
       addMessage({firstName: 'yo'}, msg)
       document.getElementById('message').value = "";
+    }
+
+    function disconnect() {
+      socket.disconnect();
+      document.getElementById('chat').style.display = 'none';
+    }
+
+    function leave() {
+      socket.emit('leave/chat', {});
     }
 
     document.getElementById('chat').style.display = 'none';

@@ -24,11 +24,11 @@ function addUserToRoom(user, room) {
   if (index === -1) {
     users.push(userId);
     rooms.set(room, users);
-    return true;
   }
-  return false;
+  return true;
 }
 
+// Implement redis
 function deleteUserToRoom(user, room) {
   if (!user || !room) {
     return false;
@@ -37,7 +37,8 @@ function deleteUserToRoom(user, room) {
   const users = rooms.get(room) || [];
   const index = users.indexOf(userId);
   if (index !== -1) {
-    rooms.set(room, users.splice(index, 1));
+    users.splice(index, 1);
+    rooms.set(room, users);
     return true;
   }
   return false;
@@ -84,7 +85,7 @@ async function sendPushNotification(exchange, message, chatId, usersOnline) {
   const { user, haveCurrencies } = exchange;
   const { createdBy } = message;
   const isOnline = usersOnline.indexOf(user.id);
-  if (isOnline === -1) {
+  if (isOnline === -1 && user.id !== createdBy.id) {
     const { id: userId, deviceToken, deviceType } = user;
     const msg = `Has a new message of ${createdBy.firstName} ${createdBy.lastName}`;
     const pushData = {
@@ -106,7 +107,9 @@ async function sendPushNotification(exchange, message, chatId, usersOnline) {
   return;
 }
 
-async function pushNotificationsToUnconnectedUsers(chatId, message, usersOnline) {
+async function pushNotificationsToUnconnectedUsers(chatId, message) {
+  const usersOnline = rooms.get(chatId);
+  debug(`[${usersOnline}], users in the room ${chatId}`);
   const { requester: requesterExchange, requested: requestedExchange } = await ExchangeMatch.findOne({
     _id: chatId,
   }).populate({
@@ -133,9 +136,6 @@ function chatService(app, config) {
   io.on('connection', (socket) => {
     debug(`Connected ${socket.id}`);
     socket.on('join/chat', async req => {
-      if (socket.room) {
-        socket.leave(socket.room);
-      }
       const { room, token } = req;
       if (!room || !token) {
         return sendError(socket, 'token and room fields are require');
@@ -145,17 +145,31 @@ function chatService(app, config) {
         const user = await User.findOne({ _id: userId });
         await validatioUserParticipationChat(room, userId);
         debug(`User ${userId} joined to ${room}`);
-        socket.room = room;
-        socket.user = user;
-        addUserToRoom(user, room);
-        socket.join(room);
-        socket.emit('join:done');
+        socket.leave(socket.room, () => {
+          addUserToRoom(user, room);
+          socket.room = room;
+          socket.user = user;
+          socket.join(room);
+          socket.emit('join/chat:done');
+        });
       } catch (err) {
         return sendError(socket, err.message);
       }
     });
 
-    socket.on('message', async message => {
+    socket.on('leave/chat', () => {
+      const { room, user } = socket;
+      if (room) {
+        debug(`User ${user.id} leave to ${room}`);
+        socket.leave(room, () => {
+          deleteUserToRoom(user, room);
+          socket.room = undefined;
+          socket.emit('leave/chat:done');
+        });
+      }
+    });
+
+    socket.on('message/chat', async message => {
       const { room: chatId } = socket;
       if (!chatId) {
         return sendError(socket, 'should join a chat');
@@ -165,8 +179,8 @@ function chatService(app, config) {
       try {
         const persistentMessage = new Message({ value, type, chat: chatId, createdBy: socket.user });
         await persistentMessage.save();
-        pushNotificationsToUnconnectedUsers(chatId, persistentMessage, rooms.get(chatId));
-        return socket.to(chatId).emit('message', {
+        pushNotificationsToUnconnectedUsers(chatId, persistentMessage);
+        return socket.broadcast.to(chatId).emit('message', {
           user: getUser(socket.user),
           message: getMessage(persistentMessage),
         });
@@ -179,7 +193,7 @@ function chatService(app, config) {
       const { user, room } = socket;
       socket.leave(room);
       deleteUserToRoom(user, room);
-      debug(`disconnect ${socket.id}`);
+      debug(`disconnect ${user ? user.id : socket.id}`);
     });
   });
 }
