@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import paginate from 'mongoose-paginate';
 import fieldRemover from 'mongoose-field-remover';
 
+import Terminal from './terminal';
+
 const Schema = mongoose.Schema;
 
 /**
@@ -15,11 +17,6 @@ const Schema = mongoose.Schema;
  *        items:
  *          type: number
  *          format: float
- *   Terminals:
- *     type: object
- *     properties:
- *       name:
- *         type: string
  *   Zone:
  *     type: object
  *     properties:
@@ -55,7 +52,7 @@ const ZoneSchema = new Schema({
   zoneType: {
     type: String,
   },
-  terminals: [String],
+  terminals: [Terminal],
   geometry: {
     type: {
       type: String,

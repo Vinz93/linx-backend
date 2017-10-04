@@ -110,7 +110,7 @@ router.route('/auth/facebook/callback')
   .get(facebookOAuth, User.facebook);
 
 router.route('/zones')
-  .get(validate(zoneValidator.readAll), requireAuth, onlyAdmin, catchErrors(Zone.readAll))
+  .get(validate(zoneValidator.readAll), requireAuth, catchErrors(Zone.readAll))
   .post(validate(zoneValidator.create), requireAuth, onlyAdmin, catchErrors(Zone.create));
 
 router.route('/zones/:id')
