@@ -1,5 +1,6 @@
 import httpStatus from 'http-status';
 import axios from 'axios';
+import Promise from 'bluebird';
 
 import config from '../config/env';
 import { APIError } from '../helpers/errors';
@@ -126,6 +127,48 @@ const CurrencyController = {
       throw new APIError('Error getting currencies', httpStatus.BAD_REQUEST);
     }
     res.status(httpStatus.OK).json(response.data.quotes);
+  },
+  /**
+   * @swagger
+   * /currencies/rates/all:
+   *   get:
+   *     tags:
+   *      - Currency
+   *     description: Returns the currencies rates
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: sources
+   *         description: the currency that you have ejm= 'USD,SEK'.
+   *         in: query
+   *         required: true
+   *         type: string
+   *       - name: currencies
+   *         description: the currencies that you want ejm= 'CAD,VEF'.
+   *         in: query
+   *         required: true
+   *         type: string
+   *     responses:
+   *       200:
+   *         description: return an array of exchange rates for a currency'
+   */
+
+  async allRates(req, res) {
+    const { currencies, sources } = req.query;
+    const haveCurrencies = sources.split(',');
+    const allCurrencies = await Promise
+      .map(haveCurrencies, async (source) => {
+        const response = await axios.get(`${apiUrl}/live`, {
+          params: {
+            access_key: accessKey,
+            source,
+            currencies,
+          },
+        });
+        return response.data.quotes;
+      })
+      .reduce((acum, value) => ({ ...acum, ...value }), {});
+    res.status(httpStatus.OK).json(allCurrencies);
   },
 
   /**

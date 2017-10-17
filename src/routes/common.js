@@ -126,6 +126,9 @@ router.route('/currencies')
 router.route('/currencies/rates')
   .get(validate(currencyValidator.rates), catchErrors(Currency.rates));
 
+router.route('/currencies/rates/all')
+  .get(validate(currencyValidator.allRates), catchErrors(Currency.allRates));
+
 router.route('/currencies/:id')
   .get(validate(currencyValidator.read), catchErrors(Currency.getCurrency));
 

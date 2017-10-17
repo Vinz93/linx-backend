@@ -20,6 +20,12 @@ export default {
       currencies: Joi.string().required(),
     },
   },
+  allRates: {
+    query: {
+      currencies: Joi.string().required(),
+      sources: Joi.string().required(),
+    },
+  },
   create: {
     body: {
       currencyKey: Joi.string().required(),

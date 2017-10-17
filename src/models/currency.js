@@ -14,6 +14,10 @@ const Schema = mongoose.Schema;
  *     type: array
  *     items:
  *       $ref: '#/definitions/Currency'
+ *   Sources:
+ *     type: array
+ *     items:
+ *       type: string
  *   Currency:
  *     type: object
  *     properties:
